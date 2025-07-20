@@ -206,10 +206,10 @@ body{
 /* section-4*/
 .sec-4{
   background: var(--background-quad);
-  height: 90vh;
+  height: 200vh;
 }
 .sec-4-1{
-  height: 90vh;
+  height: 200vh;
   display: flex;
   flex-direction: column;
   align-items: center;
