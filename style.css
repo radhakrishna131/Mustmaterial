@@ -922,8 +922,18 @@ body{
     transition: transform 0.3s ease;
   }
 }
-@media(max-width: 1200px){
-  .part-1,
+@media(min-width: 992px){
+  .part-1{
+    height: 200vh;
+  }
+  .part-1-1{
+    height: 200vh;
+  }
+}
+@media(min-width: 1200px){
+  .part-1{
+    height: 200vh;
+  }
   .part-1-1{
     height: 200vh;
   }
