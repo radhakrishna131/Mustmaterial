@@ -901,11 +901,13 @@ body{
 @media(min-width: 992px){
   .part-1-1,
   .part-1,
-  .sec-2-1,
   .sec-3,
   .sec-3-1,
   {
     height: 200vh;
+  }
+  .sec-2-1{
+    height: 175vh;
   }
   .sec-4,
   .sec-4-1{
@@ -915,10 +917,12 @@ body{
 @media(min-width: 1200px){
   .part-1-1,
   .part-1,
-  .sec-2-1,
   .sec-3,
   .sec-3-1{
     height: 200vh;
+  }
+  .sec-2-1{
+    height: 175vh;
   }
   .sec-4,
   .sec-4-1{
