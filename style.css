@@ -783,10 +783,10 @@ body{
 /*10th.html*/
 .part-1{
   background: var(--background-tertiary);
-  height: 90vh;
+  height: 200vh;
 }
 .part-1-1{
-  height: 90vh;
+  height: 200vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -861,7 +861,13 @@ body{
   font-size: 20px;
   text-align: center;
 }
-/* footer */
+
+@media(max-width: 1024px){
+  .part-1{
+    height: 90vh;
+  }
+  .part-1-1{
+    height: 90vh;
 @media(max-width: 767px){
   .part-1{
     background: var(--background-pent);
