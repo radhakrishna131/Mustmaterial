@@ -904,10 +904,13 @@ body{
   .sec-2-1,
   .sec-3,
   .sec-3-1,
-  .sec-4,
-  .sec-4-1{
+  {
     height: 200vh;
   }
+  .sec-4,
+  .sec-4-1{
+    height: 150vh;
+   }
 }
 @media(min-width: 1200px){
   .part-1-1,
