@@ -467,7 +467,7 @@ body{
   }
 
 }
-@media(max-width: 767px){
+@media(min-width: 600px){
   .nav-bar {
     width: 100%;
     height: 60px;
@@ -862,7 +862,7 @@ body{
   text-align: center;
 }
 /* footer */
-@media(max-width: 767px){
+@media(min-width: 600px){
   .part-1{
     background: var(--background-pent);
     height: 280vh;
