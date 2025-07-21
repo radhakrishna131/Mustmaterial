@@ -871,10 +871,10 @@ body{
 @media(max-width: 767px){
   .part-1{
     background: var(--background-pent);
-    height: 280vh;
+    height: 300vh;
   }
   .part-1-1{
-    height: 280vh;
+    height: 300vh;
     display: flex;
     flex-direction: column;
     align-items: center;
