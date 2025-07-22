@@ -461,7 +461,7 @@ body{
   }
   .sec-5 .sec-5-2{
     background: var(--footer-background);
-    height: 23vh;
+    height: auto;
     width: 100%;
     
   }
