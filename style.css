@@ -897,6 +897,11 @@ body{
     margin-top: 20   row-gap: 5px;
     transition: transform 0.3s ease;
   }
+  .part-1-1-2{
+  
+  grid-template-columns: auto;
+
+    }
 }
 @media(min-width: 992px){
   .part-1-1,
