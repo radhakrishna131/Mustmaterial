@@ -599,11 +599,11 @@ body{
   }
   .sec-3{
   background: var(--background-tertiary);
-  height: 290vh;
+  height: 295vh;
   
   }
   .sec-3-1{
-    height: 290vh;
+    height: 295vh;
     display: flex;
     flex-direction: column;
     align-items: center;
