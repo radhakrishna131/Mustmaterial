@@ -291,6 +291,9 @@ body{
   background: var(--footer-background);
   height: 70vh;
 }
+.sec-5-1{
+  height: 70vh;
+}
 .footer-abt{
   width: 90%;
   font-size: 10px;
