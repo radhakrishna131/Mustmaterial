@@ -912,32 +912,32 @@ body{
   .sec-3,
   .sec-3-1,
   {
-    height: 220vh;
+    height: 225vh;
   }
   .sec-2-1{
-    height: 175vh;
+    height: 185vh;
   }
   .sec-4,
   .sec-4-1{
     height: 150vh;
    }
   .sec-5{
-    height: 42vh;}
+    height: 46vh;}
 }
 @media(min-width: 1200px){
   .part-1-1,
   .part-1,
   .sec-3,
   .sec-3-1{
-    height: 220vh;
+    height: 225vh;
   }
   .sec-2-1{
-    height: 175vh;
+    height: 185vh;
   }
   .sec-4,
   .sec-4-1{
     height: 150vh;
   }
   .sec-5{
-    height: 42vh;}
+    height: 46vh;}
 }
