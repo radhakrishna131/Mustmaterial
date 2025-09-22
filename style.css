@@ -119,10 +119,10 @@ body{
 /* section-3*/
 .sec-3{
   background: var(--background-tertiary);
-  height: 220vh;
+  height: 235vh;
 }
 .sec-3-1{
-  height: 220vh;
+  height: 235vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -289,7 +289,7 @@ body{
 /* section-5 */
 .sec-5{
   background: var(--footer-background);
-  height: 55vh;
+  height: 70vh;
 }
 .footer-abt{
   width: 90%;
@@ -458,7 +458,7 @@ body{
     
   }
     .sec-5 {
-    height: 23vh;
+    height: 25vh;
   }
   .sec-5 .sec-5-2{
     background: var(--footer-background);
