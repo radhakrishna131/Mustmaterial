@@ -565,7 +565,12 @@ body{
     width: 150px;
   }
   .nav-btns button{
-    font-size: 40px;
+  font-size: 30px;
+  background: none;
+  color: var(--background-secondary);
+  top: 0;
+  right: 0;
+  padding: 10px;
   }
   .sec-2-1{
     height: 110vh;
