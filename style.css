@@ -554,7 +554,7 @@ body{
 @media(max-width: 767px){
   .nav-bar {
     width: 100%;
-    height: 60px;
+    height: 50px;
     background: var(--nav-color);
     display: flex;
     justify-content: space-between;
@@ -900,6 +900,9 @@ body{
   grid-template-columns: auto;
 
     }
+  .subject-btn{
+    padding: 60px 120px;
+  }
 }
 
 
