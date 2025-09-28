@@ -562,7 +562,7 @@ body{
   }
   .logo img{
     filter: var(--logo-color);
-    width: 250px;
+    width: 150px;
   }
   .nav-btns button{
     font-size: 40px;
