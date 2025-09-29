@@ -75,16 +75,16 @@ body{
 .logo img{
   filter: var(--logo-color);
   width: 300px;
-  background-color: var(--background-primary);
-  border-radius: 50%;
+  
 }
 .nav-btns button{
   font-size: 50px;
-  background: none;
+  background: var(--background-primary);
+  border-radius: 50%;
   color: var(--background-secondary);
   top: 0;
   right: 0;
-  padding: 10px;
+  padding: 8px;
 }
 /* section-2 */
 .sec-2-1{
