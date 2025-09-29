@@ -75,6 +75,8 @@ body{
 .logo img{
   filter: var(--logo-color);
   width: 300px;
+  background-color: var(--background-primary);
+  border-radius: 50%;
 }
 .nav-btns button{
   font-size: 50px;
