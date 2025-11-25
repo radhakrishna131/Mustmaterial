@@ -305,7 +305,8 @@ body{
 /* section-5 */
 .sec-5{
   background: var(--footer-background);
-  height: 40vh;
+  min-height: 40vh;
+  height: 100%;
 }
 
 .footer-abt{
@@ -462,6 +463,7 @@ body{
   justify-content: flex-start; /* start at top, not center */
   padding: 5rem 0; /* add breathing space */
   overflow: hidden;
+  height: 100%;
 }
 
 .part-1-1 {
@@ -557,15 +559,16 @@ body{
     height: 100%;
   }
   .sec-4-1{
-    height: 70vh;
+    min-height: 70vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    
+    height: 100%;
   }
     .sec-5 {
-    height: 25vh;
+    min-height: 25vh;
+      height: 100%;
   }
   .sec-5 .sec-5-2{
     background: var(--footer-background);
