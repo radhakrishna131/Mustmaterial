@@ -736,10 +736,12 @@ body{
   }
   .sec-3{
   background: var(--background-tertiary);
-  height: 295vh;
+  min-height: 295vh;
+  height: 100%;
   }
   .sec-3-1{
     min-height: 295vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
