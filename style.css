@@ -83,6 +83,8 @@ body{
 .nav-btns{
   display: flex;
   flex-direction: row-reverse;
+  column-gap: 10px;
+  margin-right: 10px;
 }
 .nav-btns button{
   font-size: 50px;
