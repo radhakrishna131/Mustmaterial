@@ -3,7 +3,6 @@
   border: 0;
   padding: 0;
 }
-
 .dark-theme{
   --background-primary: #182430;
   --background-secondary: #639AEF;
@@ -20,7 +19,6 @@
   --button-color: #202938;
   --box-shadow: rgba(99, 154, 239, 0.35) 0px 5px 15px;
   --border-color: #0F1511;
-  
 }
 .light-theme{
   --background-primary: #EBEDF1;
@@ -35,7 +33,7 @@
   --logo-color: invert(30%) sepia(65%) saturate(376%) hue-rotate(179deg) brightness(93%) contrast(91%);
   --nav-color: #fafafa;
   --primary-color: #0F1511;
-   --button-color: #FEFEFE;
+  --button-color: #FEFEFE;
   --box-shadow: rgba(63, 88, 129, 0.35) 0px 5px 15px;
   --border-color: #E8E9EB;
 }
@@ -67,7 +65,6 @@ body{
   background: var(--nav-color);
   display: flex;
   justify-content: space-between;
-
   align-items: center;
 }
 .logo{
@@ -77,7 +74,6 @@ body{
 .logo img{
   filter: var(--logo-color);
   width: 300px;
-  
 }
 .nav-btns{
   display: flex;
@@ -100,15 +96,20 @@ body{
   align-items: center;
 }
 /* section-2 */
+.sec-2{
+  min-height: 44vh;
+  height: 100%;
+}
 .sec-2-1{
   height: 100%;
-  min-height: 50vh;
+  min-height: 44vh;
+  margin-top: 3vh;
+  margin-bottom: 3vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background: var(--background-primary);
-  
 }
 .sec-2-1>:nth-child(1){
   color: var(--text-color);
@@ -118,7 +119,6 @@ body{
   font-size: 80px;
   color: var(--primary-color);
   margin-bottom: 30px;
-  
 }
 .about{
   width: 65%;
@@ -461,7 +461,6 @@ body{
   overflow: hidden;
   height: 100%;
 }
-
 .part-1-1 {
   width: 100%;
   display: flex;
@@ -469,7 +468,6 @@ body{
   align-items: center;
   gap: 3rem; /* space between inner sections */
 }
-
 .part-1-1-1-1{
   display: flex;
   flex-direction: row;
@@ -694,15 +692,19 @@ body{
       to   {opacity:1; transform: translateY(0);}
     }
 
-    @media (max-width:420px){
+  @media (max-width:420px){
       .card{padding:12px}
       .upload-box .material-symbols-outlined{ min-width: 270px; min-height: 180px; font-size:40px }
       #thankyouPopup{min-width:200px;padding:14px}
       #thankyouPopup .icon{width:40px;height:40px}
       }
 @media(max-width: 1024px){
+  .sec-2{
+    min-height: 44vh;
+    height: 100%;
+  }
   .sec-2-1{
-    min-height: 50vh;
+    min-height: 44vh;
     height: 100%;
   }
   .sec-3, .sec-3-1{
@@ -790,8 +792,6 @@ body{
 }
 .subject-btn{
   border: 1px solid var(--border-color);
-  
-  
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -835,7 +835,6 @@ body{
   text-align: center;
   text-wrap: nowrap;
   }
-
 }
 @media(max-width: 767px){
   .nav-bar {
@@ -860,14 +859,19 @@ body{
   right: 0;
   padding: 10px;
   }
-  .sec-2-1{
-    min-height: 110vh;
+  .sec-2{
+    min-height: 100vh;
     height: 100%;
+  }
+  .sec-2-1{
+    min-height: 100vh;
+    height: 100%;
+    margin-top: 4vh;
+    margin-bottom: 4vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-  
 }
 .sec-2-1>:nth-child(1){
   color: var(--text-color);
