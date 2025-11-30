@@ -103,8 +103,7 @@ body{
 .sec-2-1{
   height: 100%;
   min-height: 44vh;
-  margin-top: 3vh;
-  margin-bottom: 3vh;
+  padding: 3vh 0vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -384,6 +383,7 @@ body{
   display: flex;
   margin-left: 30px;
   margin-top: 10px;
+  margin-bottom: 10px;
   column-gap: 20px;
 }
 .social-btns button{
@@ -725,14 +725,13 @@ body{
     height: 100%;
   }
     .sec-5 {
-    min-height: 25vh;
+      min-height: 25vh;
       height: 100%;
   }
   .sec-5 .sec-5-2{
     background: var(--footer-background);
     height: auto;
     width: 100%;
-    
   }
   
 /*classes*/
@@ -866,8 +865,7 @@ body{
   .sec-2-1{
     min-height: 100vh;
     height: 100%;
-    margin-top: 4vh;
-    margin-bottom: 4vh;
+    padding: 4vh 0vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -993,7 +991,6 @@ body{
   }
   .about-btn:hover h1{
     color: var(--text-color);
-    
   }
   .about-btn>:nth-child(1){
     color: var(--text-color);
@@ -1085,6 +1082,7 @@ body{
     display: flex;
     margin-left: 24px;
     margin-top: 10px;
+    margin-bottom: 10px;
     column-gap: 10px;
   }
   .social-btns button{
@@ -1191,10 +1189,7 @@ body{
     transition: transform 0.3s ease;
   }
   .part-1-1-2{
-  
-  grid-template-columns: auto ;
-  
-
+    grid-template-columns: auto ;
     }
   .subject-btn{
     width: 250px;
