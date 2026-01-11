@@ -89,7 +89,7 @@ body{
   margin-right: 10px;
 }
 .nav-btns button{
-  font-size: 50px;
+  font-size: 35px;
   width: 70px;
   height: 70px;
   background: var(--background-primary);
