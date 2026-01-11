@@ -4,12 +4,12 @@
   padding: 0;
 }
 .dark-theme{
-  --background-primary: #0f172a;
+  --background-primary: ##0f172a;
   --background-secondary: #87ceeb;
-  --background-tertiary: #0f172a;
-  --background-quad: #0f172a;
-  --background-pent: #0f172a;
-  --background-hover: #0f172a;
+  --background-tertiary: ##0f172a;
+  --background-quad: ##0f172a;
+  --background-pent: ##0f172a;
+  --background-hover: ##0f172a;
   --footer-background: #212121;
   --text-color: #87ceeb;
   --text-secondary: #e5e7eb;
