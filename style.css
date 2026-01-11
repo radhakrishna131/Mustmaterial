@@ -102,20 +102,7 @@ body{
   justify-content: center;
   align-items: center;
 }
-.nav-btns button:hover{
-  animation: popanimation 0.3s ease-in;
-}
-@keyframes popanimation{
-  0%{
-   transform: scale(0, 0);
-  }
-  0%{
-    transform: scale(0.1, 0.1);
-  }
-  0%{
-   transform: scale(0, 0);
-  }
- }
+
 /* section-2 */
 .sec-2{
   min-height: 44vh;
