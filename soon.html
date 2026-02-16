@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+ <title>Must Material</title>
+ <link rel="icon" type="image/x-icon" href="/assets/icon.png" class="icon">
+   <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=handshake" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Caprasimo&family=Oleo+Script:wght@400;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sofia&display=swap" rel="stylesheet">
+<style>
+  
+.coming-soon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-top: 80px;
+  animation: floatUp 1.5s ease-in-out infinite alternate;
+  height: 80vh;
+}
+
+.coming-soon h2 {
+  font-size: 8pc;
+  color: var(--text-color);
+  font-weight: bold;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+.coming-soon p {
+  color: #ccc;
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+  }
+  to {
+    text-shadow: 0 0 25px rgba(0, 255, 255, 0.9);
+  }
+}
+
+@keyframes floatUp {
+  from {
+    transform: translateY(0px);
+  }
+  to {
+    transform: translateY(-10px);
+  }
+}
+
+/* Animated dots */
+.dots::after {
+  content: '';
+  animation: dots 1.5s infinite steps(4);
+}
+
+@keyframes dots {
+  0% { content: ''; }
+  25% { content: '.'; }
+  50% { content: '..'; }
+  75% { content: '...'; }
+}
+</style>
+</head>
+
+<body class="light-theme" >
+  <section class="sec1">
+          <nav class="nav-bar">
+      <button class="logo" onclick="history.back()" style="background: transparent;">
+        <img src="/assets/logo.png" alt="">
+      </button>
+      <div class="nav-btns">
+        <button onclick="switchTheme()"><i class="fa-solid fa-moon theme-icon"></i></button>
+        <button><a href="upload.html" class="theme-icon" style="color: var(--text-color);"><i class="fa-solid fa-add theme-icon"></i></a></button>
+      </div>
+    </nav>
+  </section>
+  <div class="coming-soon" height="90vh">
+  <h2>Coming Soon</h2>
+  <p>New materials are on the way<span class="dots"></span></p>
+</div>
+<!--sec-5||footer-->
+  <section class="sec-5" id="footer">
+  </section>
+  <script src="/main.js"></script>
+  <script src="/components/components.js"></script>
+  <script type="module" src="/script.js">
+    
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Must Material</title>
+
+  <!-- Material icons -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!--for sun moon icons-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <style>
+    
+    body{
+      
+      background: var(--background-tertiary);
+      
+      margin:0;
+    }
+
+    
+  </style>
+</head>
+
+<body class="light-theme">
+<section class="sec1">
+  <nav class="nav-bar">
+    <div class="logo">
+      <a onclick="history.back()"><img src="/assets/logo.png" alt=""></a>
+      
+      </div>
+      <div class="nav-btns">
+        <button onclick="switchTheme()"><i class="fa-solid fa-moon theme-icon"></i></button>
+      </div>
+    </nav>
+  </section>
+<section style="min-height: 90vh;
+height: 100%;">
+<div class="card">
+
+  <h1 >Upload PDF's Only</h1>
+  <p class="hint">Choose one or more PDF files and click Upload. Uploaded files will be added to the public bucket.</p>
+
+  <!-- Upload box -->
+  <div class="box">
+    <label for="fileInput" class="upload-box" title="Click to choose files">
+      <div class="upload-inside">
+         <span class="material-symbols-outlined">upload</span>
+         <div style="font-size:14px;color: var(--text-secondary)">Click to select PDFs</div>
+      </div>
+    </label>
+  </div>
+
+  <!-- Hidden file input (PDFs only) -->
+  <input id="fileInput" type="file" accept="application/pdf" multiple style="display:none" />
+
+  <!-- Pending selection file list -->
+  <div class="file-list" id="fileList"></div>
+
+  <!-- Upload button -->
+  <button id="uploadBtn" disabled>Upload</button>
+
+  <!-- Status text -->
+  <div id="status" aria-live="polite"></div>
+
+  <!-- Uploaded files (history) -->
+  <div id="uploadedSection">
+    <h3 style="font-size:15px; margin:14px 0 8px 0;">Uploaded files</h3>
+    <ul id="filesList" aria-live="polite"></ul>
+  </div>
+
+</div>
+
+<!-- Thank You Popup -->
+<div id="thankyouPopup" role="status" aria-hidden="true">
+  <div class="icon" aria-hidden="true">
+    <!-- checkmark icon -->
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M9.000 16.2l-4.2-4.2-1.4 1.4L9 19 20.6 7.4 19.2 6z" />
+    </svg>
+  </div>
+  <div class="content">
+    <div class="title">Thank you!</div>
+    <div class="subtitle" id="thankSubtitle">Your file(s) were uploaded successfully.</div>
+  </div>
+</div>
+</section>
+ <footer class="sec-5" id="footer"></footer>
+<!-- Script (module) -->
+<script type="module" src="/Upload/upload.js"></script>
+<script src="/components/components.js"></script>
+<script src="/main.js"></script>
+
+</body>
+</html>
