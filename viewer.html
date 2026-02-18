@@ -125,9 +125,9 @@ iframe {
     
   </section>
   <script>
-  const link=window.location.href;
-    const urlParams = new URLSearchParams(link);
-    const pdfUrl = urlParams.get('file');
+ 
+    const urlParams = new URLSearchParams(window.location.href);
+    const pdfUrl = urlParams.get('File');
 
     document.getElementById('pdfFrame').src = pdfUrl;
     //document.getElementById('pdfFrame').data = pdfUrl;
@@ -135,7 +135,7 @@ document.getElementById("shareBtn").addEventListener("click", async () => {
   const shareData = {
     title: "Must Material - PDF",
     text: "Check out this material!          ",
-    url: link //window.location.href  // or your PDF link
+    url: window.location.href  // or your PDF link
   };
 
   if (navigator.share) {
