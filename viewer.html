@@ -38,6 +38,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="style.css"/>
 <!-- Basic SEO -->
 <title>Must Material</title>
 <meta name="description" content="Must Material offers high-quality study notes,  PDF downloads, and educational resources for students – all in one place.">
@@ -108,12 +109,10 @@ iframe {
     <section class="sec1">
           <nav class="nav-bar">
       <div class="logo">
-        <img src="/assets/logo.png" alt="">
+        <img src="/assets/logo.png" alt="Must Material">
       </div>
       <div class="nav-btns">
-        
         <button onclick="switchTheme()"><i class="fa-solid fa-moon theme-icon"></i></button>
-        <button><a href="/Upload/upload.html" class="theme-icon" style="color: var(--text-color);"><i class="fa-solid fa-add theme-icon"></i></a></button>
       </div>
     </nav>
   </section>
@@ -131,13 +130,12 @@ iframe {
     const pdfUrl = urlParams.get('file');
 
     document.getElementById('pdfFrame').src = pdfUrl;
-    document.getElementById('pdfFrame').href = pdfUrl;
     //document.getElementById('pdfFrame').data = pdfUrl;
 document.getElementById("shareBtn").addEventListener("click", async () => {
   const shareData = {
     title: "Must Material - PDF",
     text: "Check out this material!          ",
-    url: link//window.location.href  // or your PDF link
+    url: link //window.location.href  // or your PDF link
   };
 
   if (navigator.share) {
