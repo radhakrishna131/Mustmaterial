@@ -23,7 +23,7 @@ import { orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-fire
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDRxsKc-WGHdJdOrXfaWkMQjHuDBn9DL2Y",
+  apiKey: "AIzaSyDp0vrSx0IE0pezVUkzSNgxOT7mV8X6N98",
   authDomain: "sample-firebase-ai-app-50121.firebaseapp.com",
   projectId: "sample-firebase-ai-app-50121",
   storageBucket: "sample-firebase-ai-app-50121.firebasestorage.app",
