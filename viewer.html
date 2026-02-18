@@ -129,7 +129,7 @@ iframe {
     const urlParams = new URLSearchParams(window.location.href);
     const pdfUrl = urlParams.get('File');
 
-    document.getElementById('pdfFrame').src = `https://drive.google.com/file/d/${pdfUrl}/preview?`;
+    document.getElementById('pdfFrame').src =`https://drive.google.com/file/d/${pdfUrl}/preview`;
     //document.getElementById('pdfFrame').data = pdfUrl;
 document.getElementById("shareBtn").addEventListener("click", async () => {
   const shareData = {
