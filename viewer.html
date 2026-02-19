@@ -109,7 +109,9 @@ iframe {
     <section class="sec1">
           <nav class="nav-bar">
       <div class="logo">
+       <a href="https://mustmaterial.vercel.app/">
         <img src="/assets/logo.png" alt="Must Material">
+       </a>
       </div>
       <div class="nav-btns">
         <button onclick="switchTheme()"><i class="fa-solid fa-moon theme-icon"></i></button>
@@ -129,7 +131,7 @@ iframe {
     const urlParams = new URLSearchParams(window.location.search);
     const pdfUrl = urlParams.get('File');
 
-    document.getElementById('pdfFrame').src =`https://drive.google.com/file/d/${pdfUrl}/preview`;
+    document.getElementById('pdfFrame').src =pdfUrl;
     //document.getElementById('pdfFrame').data = pdfUrl;
 document.getElementById("shareBtn").addEventListener("click", async () => {
   const shareData = {
