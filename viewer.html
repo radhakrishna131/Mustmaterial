@@ -126,7 +126,7 @@ iframe {
   </section>
   <script>
  
-    const urlParams = new URLSearchParams(window.location.href);
+    const urlParams = new URLSearchParams(window.location.search);
     const pdfUrl = urlParams.get('File');
 
     document.getElementById('pdfFrame').src =`https://drive.google.com/file/d/${pdfUrl}/preview`;
