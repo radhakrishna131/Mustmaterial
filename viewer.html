@@ -39,6 +39,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
  <link rel="stylesheet" href="style.css"/>
+ <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=download" />
 <!-- Basic SEO -->
 <title>Must Material</title>
 <meta name="description" content="Must Material offers high-quality study notes,  PDF downloads, and educational resources for students – all in one place.">
@@ -61,82 +62,51 @@
 
 <!-- Mobile & Responsive Support -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-#shareBtn{
-  margin-top: 15px;
-}
-#shareBtn ,#shareBtn button{
-  background: var(--text-color);
-  color: var(--background-primary);
-  border: none;
-  padding: 10px 18px;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-#shareBtn:hover {
-  opacity: 0.8;
-}
-iframe {
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  width: 100%;
-  height: 70vh;
-  border: 2px solid var(--border-color);
-  border-radius: 12px;
-  background: var(--background-tertiary);
-}
-.iframe-container {
-  width: 90%;
-  height: 100%;
-  max-width: 800px;
-  max-height: 90vh;
-  
-  /* Adjust as needed */
-  aspect-ratio: 1 / 1.414; /* Standard A4 paper ratio */
-  margin: 0 auto;
-  overflow: hidden;
-}
-.iframe-container iframe {
-  width: 100%;
-  height: 100%;
-  height: 80vh;
-  border: none;
-}
-</style>
 </head>
 <body class="light-theme">
     <section class="sec1">
           <nav class="nav-bar">
       <div class="logo">
-       <a href="https://mustmaterial.vercel.app/">
         <img src="/assets/logo.png" alt="Must Material">
-       </a>
       </div>
       <div class="nav-btns">
         <button onclick="switchTheme()"><i class="fa-solid fa-moon theme-icon"></i></button>
       </div>
     </nav>
   </section>
+  <div class="v-btns">
+    <div class="left">
+      <button class="norm" onclick="window.history.back()"><img src="/assets/back.svg" alt="back"></button>
+    </div>
+    <div class="right">
+      <a id="shareBtn"><button class="norm"><img src="/assets/share.svg" alt="share"></button></a>
+      <a id="download" target="_blank"><button class="spl"><img src="/assets/download.svg" alt="download"></button></a>
+      <a id="expand">
+      <button class="norm" ><img src="/assets/expand.svg" alt="zoom"></button></a>
+    </div>
+  </div>
   <div class="part-1 iframe-container">
     <iframe id="pdfFrame" width="100%" height="100%" style="position: relative;"></iframe>
-    <a id="shareBtn"><button class="share">share</button></a>
   </div>
   
   <section class="sec-5" id="footer">
     
   </section>
   <script>
- 
     const urlParams = new URLSearchParams(window.location.search);
     const pdfUrl = urlParams.get('File');
-
+    const start = pdfUrl.indexOf("/d/") + 3;
+    const end = pdfUrl.indexOf("/preview");
+    const id = pdfUrl.substring(start, end);
+    const link=`https://drive.google.com/uc?export=download&id=${id}`;
+    document.getElementById('download').href=link;
+    document.getElementById('expand').href=pdfUrl;
     document.getElementById('pdfFrame').src =pdfUrl;
     //document.getElementById('pdfFrame').data = pdfUrl;
 document.getElementById("shareBtn").addEventListener("click", async () => {
   const shareData = {
     title: "Must Material - PDF",
-    text: "Check out this material!          ",
+    text: "Check out this material\n",
     url: window.location.href  // or your PDF link
   };
 
