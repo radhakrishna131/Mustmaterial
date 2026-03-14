@@ -753,79 +753,7 @@ body{
   0% { left: -150px; }
   100% { left: 100%; }
 }
-/* -------------view.html-------*/
-iframe {
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  width: 100%;
-  aspect-ratio: 1 / 1.414;
-  border: 2px solid var(--border-color);
-  border-radius: 12px;
-  background: var(--background-tertiary);
-  overflow-x: hidden;
-}
-.iframe-mid{
-  display: flex;
-  justify-content: center;
-  height: 100%;
-  max-height: 90vh;
-  padding: 50px 0 300px 0;
-}
-.iframe-container {
-  width: 90%;
-  height: 100%;
-  max-width: 900px;
-  max-height: 300vh;
-  /* Adjust as needed */
-  aspect-ratio: 1 / 1.414; /* Standard A4 paper ratio */
-  margin: 0 0;
-  
-}
-.iframe-container iframe {
-  width: 100%;
-  height: 100%;
-  height: 80vh;
-  border: 2px solid var(--border-color);
-  background: var(--background-primary);
-  filter: var(--pdf);
-}
 
-.v-btns{
-  display: flex;
-  justify-content: space-between;
-  margin: 5px 15px;
-}
-.left button,.right button{
-  font-weight: 800;
-  padding: 10px 20px;
-  background: var(--background-primary);
-  color: var(--background-tertiary);
-  border: 1px solid var(--text-secondary);
-  border-radius: 5px;
-  cursor: pointer;
-}
-.right .spl{
-  color: var(--text-color);
-  background: var(--background-tertiary);
-  margin: 0px 5px;
-  
-}
-
-#shareBtn:hover {
-  opacity: 0.8;
-}
-#download button:hover{
-  background: var(--text-color);
-}
-#download button:hover img{
-  filter: var(--svg);
-}
-.norm img{
-  filter: var(--text-primary);
-}
-.right .spl img{
-  font-weight: 800;
-  filter: var(--logo-color);
-}
 @media (max-width:420px){
       .card{padding:12px}
       .upload-box .material-symbols-outlined{ min-width: 270px; min-height: 180px; font-size:40px }
@@ -967,6 +895,79 @@ iframe {
   font-size: 20px;
   text-align: center;
   text-wrap: nowrap;
+  }
+  /* -------------view.html-------*/
+iframe {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  aspect-ratio: 1 / 1.414;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--background-tertiary);
+  overflow-x: hidden;
+}
+.iframe-mid{
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  max-height: 90vh;
+  padding: 50px 0 300px 0;
+}
+.iframe-container {
+  width: 90%;
+  height: 100%;
+  max-width: 900px;
+  max-height: 300vh;
+  /* Adjust as needed */
+  aspect-ratio: 1 / 1.414; /* Standard A4 paper ratio */
+  margin: 0 0;
+  
+}
+.iframe-container iframe {
+  width: 100%;
+  height: 100%;
+  height: 80vh;
+  border: 2px solid var(--border-color);
+  background: var(--background-primary);
+  filter: var(--pdf);
+}
+
+.v-btns{
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 15px;
+}
+.left button,.right button{
+  font-weight: 800;
+  padding: 10px 20px;
+  background: var(--background-primary);
+  color: var(--background-tertiary);
+  border: 1px solid var(--text-secondary);
+  border-radius: 5px;
+  cursor: pointer;
+}
+.right .spl{
+  color: var(--text-color);
+  background: var(--background-tertiary);
+  margin: 0px 5px;
+  
+}
+
+#shareBtn:hover {
+  opacity: 0.8;
+}
+#download button:hover{
+  background: var(--text-color);
+}
+#download button:hover img{
+  filter: var(--svg);
+}
+.norm img{
+  filter: var(--text-primary);
+}
+.right .spl img{
+  font-weight: 800;
+  filter: var(--logo-color);
   }
 }
 @media(max-width: 767px){
@@ -1380,6 +1381,15 @@ iframe {
     min-height: 62vh;
     height: 100%;
   }
+  .iframe-container,.iframe{
+    min-height: 500vh;
+    height: 100%;
+    aspect-ratio: 1.414/1;
+  }
+  .iframe-mid{
+    max-height: 900vh;
+    height: 100%;
+  }
 }
 @media(min-width: 1200px){
   .part-1-1,
@@ -1401,5 +1411,13 @@ iframe {
   .sec-5{
     min-height: 62vh;
     height: 100%;
+  }
+   .iframe-container,.iframe{
+    min-height: 200vh;
+    aspect-ratio: 1.414/1;
+  }
+  .iframe-mid{
+    max-height: 500vh;
+    
   }
 }
