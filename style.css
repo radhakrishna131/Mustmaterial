@@ -930,7 +930,6 @@ iframe {
   height: 80vh;
   border: 2px solid var(--border-color);
   background: var(--background-primary);
-  filter: var(--pdf);
   overflow: hidden;
 }
 
