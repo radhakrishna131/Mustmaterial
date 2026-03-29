@@ -985,15 +985,14 @@ iframe {
     width: 150px;
   }
   .nav-btns button{
-  font-size: 25px;
+  font-size: 20px;
   width: 40px;
   height: 40px;
-  background: none;
-  color: var(--background-secondary);
   top: 0;
   right: 0;
   padding: 10px;
   }
+  .nav-btns
   .sec-2{
     min-height: 100vh;
     height: 100%;
@@ -1006,13 +1005,13 @@ iframe {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    line-height: 1.1;
 }
 .sec-2-1>:nth-child(1){
   color: var(--text-color);
-  font-size: 24px;
+  font-size: 28px;
   text-shadow: var(--box-shadow);
   font-weight: 800;
-  
 }
 .sec-2-1>:nth-child(2){
   font-size: 30px;
@@ -1100,9 +1099,11 @@ iframe {
   }
   .sec-4-1-1-1>:nth-child(1){
     color: var(--primary-color);
+    font-size: 35px;
   }
   .sec-4-1-1-1>:nth-child(2){
     color: var(--text-color);
+    font-size: 35px;
   }
   .sec-4-1-2{
     display: grid;
@@ -1113,9 +1114,7 @@ iframe {
   .about-btn{
     width: 300px;
     height: 150px;
-    padding: 20px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 30px 10px;
   }
   .about-btn:hover{
     border: 1px solid var(--text-color);
