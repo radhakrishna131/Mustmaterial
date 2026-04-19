@@ -67,7 +67,7 @@ uploadForm.addEventListener('submit', async (e) => {
         const formData = new FormData();
         formData.append("file", file);
         formData.append("upload_preset", "ml_default"); // <-- Your Cloudinary preset
-
+        formData.append("resource_type", "raw");
         const cloudinaryUrl = "https://api.cloudinary.com/v1_1/dhtqftaoh/auto/upload"; // <-- Your Cloud name
 
         const response = await fetch(cloudinaryUrl, {
@@ -75,13 +75,17 @@ uploadForm.addEventListener('submit', async (e) => {
             body: formData
         });
         
-        const cloudData = await response.json();
+                const cloudData = await response.json();
         
+        // --- CHANGE THIS IF STATEMENT ---
         if (!cloudData.secure_url) {
-            throw new Error("File upload failed.");
+            // This will print the exact error message Cloudinary sent back!
+            throw new Error(`Cloudinary says: ${JSON.stringify(cloudData)}`);
         }
+        // --------------------------------
 
         const downloadURL = cloudData.secure_url;
+
 
         // Step B: Save Text & Link to Firebase Database
         submitBtn.innerText = "Saving to Database...";
@@ -109,12 +113,17 @@ uploadForm.addEventListener('submit', async (e) => {
         }, 4000); 
 
     } catch (error) {
+        // 1. Force a popup so the mobile console can't hide it
+        alert(`CRASH REASON:\nName: ${error.name}\nMessage: ${error.message}`);
+        
         console.error("Error uploading: ", error);
-        alert("Error uploading resource. Check console.");
+        
+        // 2. Reset the button
         submitBtn.innerText = "Submit Resource";
         submitBtn.disabled = false;
         submitBtn.style.opacity = "1";
     }
+
 });
 
 // ---------------------------------------------------------
@@ -162,7 +171,7 @@ function loadMaterials() {
                 </div>
                 
                 
-                <a href="../viewer.html?File=${data.fileUrl}/preview" style="background: var(--text-color); color: white; padding: 10px 16px; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: bold; transition: 0.3s;">
+                <a href="../CommunityView.html?File=${data.fileUrl}" style="background: var(--text-color); color: white; padding: 10px 16px; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: bold; transition: 0.3s;">
                     View PDF
                 </a>
             `;
