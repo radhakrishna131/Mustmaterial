@@ -39,13 +39,24 @@
           <h1>[A.P]</h1>
         </div>
       </div>
-      <div class="part-1-1-2" id="materialsContainer"></div>
+      <div class="filter-container" >
+  <button onclick="applyFilter('All')">All</button>
+  <button onclick="applyFilter('Notes')">Notes</button>
+  <button onclick="applyFilter('Material')">Material</button>
+  <button onclick="applyFilter('Manual')">Manual</button>
+  <button onclick="applyFilter('Syllabus')">Syllabus</button>
+</div>
+
+
+      <div class="materials-grid" id="materialsContainer">
+        
+      </div>
     </div>
   </section>
     <!--sec-5||footer-->
   <section class="sec-5" id="footer"></section>
   <script src="../main.js"></script>
-  <script type="module" src="../script.js"></script>
+  <script type="module" src="../filter.js"></script>
   <script src="../components/components.js"></script>
 </body>
 </html>

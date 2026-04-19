@@ -1,179 +1,175 @@
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+// 1. Import Firebase Firestore (No Supabase!)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } 
+    from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  // ==== Your Supabase values (kept from your original post) ====
-  const SUPABASE_URL = "https://oqqfziqhaabzfplaiuak.supabase.co";
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9xcWZ6aXFoYWFiemZwbGFpdWFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQyMjc1MjAsImV4cCI6MjA3OTgwMzUyMH0.GBMwXVQyqHuCVXn69b3kkVyGkxAtFjXb_Pj4FZPe_Ts";
-  const BUCKET_NAME = "Store";
-  // ============================================================
+// 2. Your Firebase Configuration
+const firebaseConfig = {
+    authDomain: "sample-firebase-ai-app-50121.firebaseapp.com",
+  projectId: "sample-firebase-ai-app-50121",
+  storageBucket: "sample-firebase-ai-app-50121.firebasestorage.app",
+  messagingSenderId: "195200221378",
+  appId: "1:195200221378:web:de5386da40036c6806fb5b"
+};
 
-  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// 3. Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-  // DOM elements
-  const fileInput = document.getElementById('fileInput');
-  const uploadBtn = document.getElementById('uploadBtn');
-  const status = document.getElementById('status');
-  const fileList = document.getElementById('fileList');     // pending selection UI
-  const filesList = document.getElementById('filesList');   // uploaded files history
-  const thankyouPopup = document.getElementById('thankyouPopup');
-  const thankSubtitle = document.getElementById('thankSubtitle');
+// DOM Elements
+const uploadForm = document.getElementById('upload-form');
+const titleInput = document.getElementById('up-subject');
+const detailsInput = document.getElementById('up-detail');
+const typeSelect = document.getElementById('up-type');
+const fileInput = document.getElementById('fileInput');
+const submitBtn = document.querySelector('.cta-primary');
+const popup = document.getElementById('thankyouPopup');
 
-  let selectedFiles = [];
+// ---------------------------------------------------------
+// UI UPDATE: Show selected file name in your custom box
+// ---------------------------------------------------------
+const uploadBoxText = document.querySelector('.upload-inside div');
+const defaultUploadText = uploadBoxText.innerText;
 
-  // When files are selected (use selectedFiles so we can delete before upload)
-  fileInput.addEventListener("change", () => {
-    const newFiles = Array.from(fileInput.files || []);
-    selectedFiles.push(...newFiles);
-    renderFiles();
-  });
-
-  // Show file list (pending selection)
-  function renderFiles(){
-    fileList.innerHTML = "";
-
-    selectedFiles.forEach((file, index) => {
-      const item = document.createElement("div");
-      item.className = "file-item";
-
-      item.innerHTML = `
-        <span class="filename" title="${file.name}">${file.name}</span>
-        <button class="delete-btn" data-index="${index}" title="Remove">
-            <span class="material-symbols-outlined" style="font-size:18px;color:white">delete</span>
-        </button>
-      `;
-
-      fileList.appendChild(item);
-    });
-
-    uploadBtn.disabled = selectedFiles.length === 0;
-
-    attachDeleteEvents();
-  }
-
-  // Delete file
-  function attachDeleteEvents(){
-    document.querySelectorAll(".delete-btn").forEach(btn => {
-      btn.onclick = () => {
-        const index = parseInt(btn.getAttribute("data-index"), 10);
-        if (!Number.isNaN(index)) {
-          selectedFiles.splice(index, 1);
-          renderFiles();
-        }
-      }
-    });
-  }
-
-  // Utility: append a single file entry to uploaded UI
-  function appendFileToList(name, url) {
-    filesList.style.display = '';
-    const li = document.createElement('li');
-    li.innerHTML = `<span class="filename" title="${name}">${name}</span>
-                    <span>
-                      <a class="btn" href="${url}" target="_blank" rel="noopener">View</a>
-                      <a class="btn" href="${url}" download>Download</a>
-                    </span>`;
-    filesList.insertBefore(li, filesList.firstChild);
-  }
-
-  // Load list of files from bucket (initial load)
-  async function loadFiles() {
-    filesList.innerHTML = '<li class="meta">Loading...</li>';
-    try {
-      const { data, error } = await supabase.storage.from(BUCKET_NAME).list('', { limit: 500, sortBy: { column:'name', order:'desc' }});
-      if (error) {
-        console.error('list error:', error);
-        filesList.innerHTML = `<li class="meta">Error loading files — see console</li>`;
-        return;
-      }
-      filesList.innerHTML = '';
-      if (!data || data.length === 0) {
-        filesList.innerHTML = '<li class="meta">No files yet</li>';
-        return;
-      }
-      for (const item of data) {
-        const publicUrl = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET_NAME}/${encodeURIComponent(item.name)}`;
-        appendFileToList(item.name, publicUrl);
-      }
-    } catch (err) {
-      console.error('loadFiles exception:', err);
-      filesList.innerHTML = `<li class="meta">Error loading files — see console</li>`;
+fileInput.addEventListener('change', () => {
+    if (fileInput.files.length > 0) {
+        uploadBoxText.innerText = `Selected: ${fileInput.files[0].name}`;
+        uploadBoxText.style.color = "var(--text-secondary)"; 
+    } else {
+        uploadBoxText.innerText = defaultUploadText;
+        uploadBoxText.style.color = "var(--text-secondary)";
     }
-  }
+});
 
-  // === Thank You popup function ===
-  let popupTimeout = null;
-  function showThankYou({ title = 'Thank you!', subtitle = 'Your file(s) were uploaded successfully.', duration = 2500 } = {}) {
-    thankSubtitle.textContent = subtitle;
-    thankyouPopup.setAttribute('aria-hidden', 'false');
-    thankyouPopup.classList.add('show');
+// ---------------------------------------------------------
+// UPLOAD LOGIC: Cloudinary (File) + Firebase (Text Data)
+// ---------------------------------------------------------
+uploadForm.addEventListener('submit', async (e) => {
+    e.preventDefault(); 
 
-    if (popupTimeout) clearTimeout(popupTimeout);
-    popupTimeout = setTimeout(() => {
-      thankyouPopup.classList.remove('show');
-      thankyouPopup.setAttribute('aria-hidden', 'true');
-    }, duration);
-  }
+    const file = fileInput.files[0];
+    const title = titleInput.value.trim();
+    const details = detailsInput.value.trim();
+    const type = typeSelect.value;
 
-  // Upload using selectedFiles (not fileInput.files)
-  uploadBtn.onclick = async () => {
-    if (!selectedFiles || selectedFiles.length === 0) return alert('Choose file(s) first');
-    uploadBtn.disabled = true;
-    status.textContent = 'Uploading...';
-    let successCount = 0;
-    const uploadedNames = [];
+    if (!file) {
+        alert("Please select a PDF file.");
+        return;
+    }
 
     try {
-      for (const file of [...selectedFiles]) { // copy to avoid mutation issues
-        const filename = `${Date.now()}_${file.name.replace(/\\s+/g,'_')}`;
+        const originalBtnText = submitBtn.innerText;
+        submitBtn.innerText = "Uploading to Cloud...";
+        submitBtn.disabled = true;
+        submitBtn.style.opacity = "0.7";
 
-        const { data: uploadData, error: uploadError } = await supabase.storage.from(BUCKET_NAME).upload(filename, file, { cacheControl: '7200', upsert: false });
-        if (uploadError) {
-          console.error('Upload error for', file.name, uploadError);
-          status.textContent = `Upload failed for ${file.name} — see console.`;
-          continue;
+        // Step A: Upload File to Cloudinary
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "ml_default"); // <-- Your Cloudinary preset
+
+        const cloudinaryUrl = "https://api.cloudinary.com/v1_1/dhtqftaoh/auto/upload"; // <-- Your Cloud name
+
+        const response = await fetch(cloudinaryUrl, {
+            method: "POST",
+            body: formData
+        });
+        
+        const cloudData = await response.json();
+        
+        if (!cloudData.secure_url) {
+            throw new Error("File upload failed.");
         }
 
-        successCount++;
-        uploadedNames.push(file.name);
+        const downloadURL = cloudData.secure_url;
 
-        const publicUrl = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET_NAME}/${encodeURIComponent(filename)}`;
+        // Step B: Save Text & Link to Firebase Database
+        submitBtn.innerText = "Saving to Database...";
+        await addDoc(collection(db, "Browser"), {
+            title: title,
+            details: details,
+            type: type,
+            fileUrl: downloadURL,
+            fileName: file.name,
+            createdAt: serverTimestamp() 
+        });
 
-        appendFileToList(file.name, publicUrl);
+        // Step C: Reset Form and Show your custom Popup
+        uploadForm.reset();
+        uploadBoxText.innerText = defaultUploadText;
+        uploadBoxText.style.color = "var(--text-secondary)";
+        
+        submitBtn.innerText = originalBtnText;
+        submitBtn.disabled = false;
+        submitBtn.style.opacity = "1";
 
-        // Optional quick HEAD check (best-effort)
-        try {
-          const headRes = await fetch(publicUrl, { method: 'HEAD' });
-          if (!headRes.ok) {
-            console.warn('HEAD check failed for', publicUrl, headRes.status);
-          }
-        } catch (e) {
-          // ignore network HEAD errors
-        }
+        popup.style.display = "block";
+        setTimeout(() => {
+            popup.style.display = "none";
+        }, 4000); 
 
-        status.textContent = `Uploaded ${successCount} file(s)...`;
-      }
-
-      // clear selection after upload
-      selectedFiles = [];
-      fileInput.value = '';
-      renderFiles();
-
-      if (successCount > 0) {
-        const plural = successCount > 1 ? `${successCount} files` : '1 file';
-        showThankYou({ subtitle: `Uploaded ${plural} — ${uploadedNames.join(', ')}`.slice(0, 120) });
-        status.textContent = `Upload complete: ${successCount} ${successCount>1?'files':'file'}. Admin will verify and add it.`;
-      } else {
-        status.textContent = 'No files uploaded (see console for errors).';
-      }
-
-    } catch (err) {
-      console.error('Upload exception:', err);
-      status.textContent = 'Upload error — see console.';
-    } finally {
-      uploadBtn.disabled = false;
-      // refresh listing after a small delay so newly uploaded items become available
-      
+    } catch (error) {
+        console.error("Error uploading: ", error);
+        alert("Error uploading resource. Check console.");
+        submitBtn.innerText = "Submit Resource";
+        submitBtn.disabled = false;
+        submitBtn.style.opacity = "1";
     }
-  };
+});
 
-  // initial load
-  loadFiles();
+// ---------------------------------------------------------
+// FETCH LOGIC: Display resources instantly below the form
+// ---------------------------------------------------------
+// Note: Make sure you added <div id="materials-feed"><div id="materials-list"></div></div> below your form in the HTML!
+const materialsList = document.getElementById('materials-list');
+
+function loadMaterials() {
+    if (!materialsList) return; // Failsafe if the HTML container is missing
+
+    const q = query(collection(db, "Browser"), orderBy("createdAt", "desc"));
+
+    onSnapshot(q, (snapshot) => {
+        materialsList.innerHTML = ''; 
+
+        if (snapshot.empty) {
+            materialsList.innerHTML = '<p style="color:var(--text-secondary)">No resources uploaded yet. Be the first!</p>';
+            return;
+        }
+
+        snapshot.forEach((doc) => {
+            const data = doc.data();
+            
+            const card = document.createElement('div');
+            card.className=`resourse-card`
+            card.style.cssText = `
+                background: var(--c-glass); 
+                border: 1px solid var(--border-color); 
+                padding: 16px; 
+                border-radius: 8px; 
+                display: flex; 
+                justify-content: space-between; 
+                align-items: center;
+                
+                margin-bottom: 15px;
+            `;
+            
+            card.innerHTML = `
+                <div style="font-weight: 800;">
+                    <h4 style="margin: 0 0 4px 0; font-family:'Syne',sans-serif;color: var(--text-color);">${data.title}</h4>
+                    <p style="margin: 0 0 8px 0; font-size: 13px; color: var(--text-secondary);">${data.details}</p>
+                    <span class="data-type"style="">${data.type}</span>
+                
+                </div>
+                
+                
+                <a href="../viewer.html?File=${data.fileUrl}/preview" style="background: var(--text-color); color: white; padding: 10px 16px; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: bold; transition: 0.3s;">
+                    View PDF
+                </a>
+            `;
+            
+            materialsList.appendChild(card);
+        });
+    });
+}
+
+loadMaterials();
