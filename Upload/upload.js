@@ -131,24 +131,49 @@ uploadForm.addEventListener('submit', async (e) => {
 // ---------------------------------------------------------
 // Note: Make sure you added <div id="materials-feed"><div id="materials-list"></div></div> below your form in the HTML!
 const materialsList = document.getElementById('materials-list');
+let currentMaterials = []; 
+let currentFilter = 'All';
+function showSkeleton() {
+  const container = document.getElementById("materialsContainer");
+  if (!container) return; // Prevent errors if container doesn't exist
+  container.innerHTML = "";
 
-function loadMaterials() {
-    if (!materialsList) return; // Failsafe if the HTML container is missing
+  for (let i = 0; i < 6; i++) {
+    const skeleton = document.createElement("div");
+    skeleton.className = "skeleton-card";
 
-    const q = query(collection(db, "Browser"), orderBy("createdAt", "desc"));
+    skeleton.innerHTML = `
+      <div class="skeleton-line medium"></div>
+      <div class="skeleton-line short"></div>
+      <div class="shimmer"></div>
+    `;
 
-    onSnapshot(q, (snapshot) => {
-        materialsList.innerHTML = ''; 
+    container.appendChild(skeleton);
+  }
+}
+function renderMaterials() {
+  const container = materialsList;
+  if (!container) return;
 
-        if (snapshot.empty) {
-            materialsList.innerHTML = '<p style="color:var(--text-secondary)">No resources uploaded yet. Be the first!</p>';
-            return;
-        }
+  container.innerHTML = "";
 
-        snapshot.forEach((doc) => {
-            const data = doc.data();
-            
-            const card = document.createElement('div');
+  // Filter the locally stored array based on the selected button
+  const filteredData = currentMaterials.filter((data) => {
+    if (currentFilter === 'All') return true;
+    
+    // Checks the "Type" field in your Firestore document (e.g., Notes, Syllabus)
+    return data.type && data.type.toLowerCase() === currentFilter.toLowerCase();
+  });
+
+  // Handle empty state if no documents match the filter
+  if (filteredData.length === 0) {
+    container.innerHTML = "<p style='text-align: center; margin-top: 20px; color: var(--text-secondary)'>No materials found for this filter.</p>";
+    return;
+  }
+
+  // Render the filtered items to the screen
+  filteredData.forEach(data => {
+    const card = document.createElement('div');
             card.className=`resourse-card`
             card.style.cssText = `
                 background: var(--c-glass); 
@@ -175,10 +200,29 @@ function loadMaterials() {
                     View PDF
                 </a>
             `;
-            
-            materialsList.appendChild(card);
-        });
+
+    container.appendChild(card);
+  });
+}
+// 🔹 Expose filter function globally so HTML buttons can trigger it
+window.applyFilter = function(filterValue) {
+  currentFilter = filterValue;
+  renderMaterials(); // Instantly re-render the screen
+};
+function loadMaterials() {
+    if (!materialsList) return; // Failsafe if the HTML container is missing
+    showSkeleton();
+    const q = query(collection(db, "Browser"), orderBy("createdAt", "desc"));
+
+    onSnapshot(q, (snapshot) => {
+    currentMaterials = []; // Clear old data
+
+    snapshot.forEach(doc => {
+      currentMaterials.push(doc.data()); // Store data locally in the array
     });
+
+    renderMaterials(); // Pass control to the rendering function
+  });
 }
 
 loadMaterials();

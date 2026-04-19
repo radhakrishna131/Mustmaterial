@@ -111,10 +111,17 @@
   </div>
 
   <div id="tab-browse" style="display: none; max-width: 600px; margin: 0 auto;">
-    <h2 style="font-family:'Syne',sans-serif;font-weight:800;" class="mb-3 text-center text-xl text-[var(--text-color)]">Community Resources</h2>
-    <p style="font-size:14px;color:var(--text-secondary);margin-bottom:32px;text-align:center;">Find notes, syllabi, and PYQs uploaded by others.</p>
+    <h2 style="font-family:'Syne',sans-serif;font-weight:800;" class="mb-6 p-2 text-center text-4xl text-[var(--text-color)]">Community Resources</h2>
+    <p style="font-size:14px;color:var(--text-secondary);margin-bottom:32px;margin-top: 10px;text-align:center;">Find notes, syllabi, and PYQs uploaded by others.</p>
+    <div class="filter-container flex justify-center mb-xl" >
+  <button onclick="applyFilter('All')">All</button>
+  <button onclick="applyFilter('Notes')">Notes</button>
+  <button onclick="applyFilter('Material')">Material</button>
+  <button onclick="applyFilter('Manual')">Manual</button>
+  <button onclick="applyFilter('Syllabus')">Syllabus</button>
+</div>
     <div id="materials-feed">
-      <div id="materials-list" class="resource-grid" style="">
+      <div id="materials-list" class="resource-grid">
         </div>
     </div>
     
@@ -149,6 +156,7 @@
 <script type="module" src="upload.js"></script>
 <script src="../components/components.js"></script>
 <script src="../main.js"></script>
+
 
 </body>
 </html>
