@@ -44,12 +44,14 @@
       color: var(--text-color); /* Change this to match your theme's primary color */
       border-color:  var(--text-color);
     }
-    #up-detail{
+    #up-detail,#up-name{
       padding:12px;border-radius:8px;background:var(--c-glass);border:1px solid var(--border-color);color:var(--text-secondary);font-family:'DM Sans',sans-serif;
     }
     #up-subject:focus-within,#up-detail:focus-within { border-color: var(--text-color) }
     .data-type{
     background: var(--c-glass);color: var(--text-secondary);padding: 4px 8px; border-radius: 4px; font-size: 11px; text-transform: uppercase;}
+     .data-name{
+    background: var(--c-glass);color: var(--text-color);padding: 4px 8px; border-radius: 4px; font-size: 11px; text-transform: uppercase;}
     .item{
       color: var(--text-color);
     }
@@ -83,10 +85,10 @@
       
       <form id="upload-form" style="display:flex;flex-direction:column;gap:16px;text-align:left;">
           <input type="text" id="up-subject" placeholder="Resource Title (e.g., OS Notes)" required style="padding:12px;border-radius:8px;background:var(--c-glass);border:1px solid var(--border-color);color:var(--text-secondary);font-family:'DM Sans',sans-serif;">
-          
+          <input type="text" name="name" id="up-name" placeholder="Enter your short name...">
           <input type="text" id="up-detail" placeholder="Details (e.g., B.Tech · CSE · Sem 1)">
           
-          <select id="up-type" required style="padding:12px;border-radius:8px;background:#080c18;border:1px solid var(--c-glass-border);color:white;font-family:'DM Sans',sans-serif;">
+          <select id="up-type" required style="padding:12px;border-radius:8px;background:var(--c-glass);border:1px solid var(--border-color);color:white;font-family:'DM Sans',sans-serif;">
               <option value="Material">Material</option>
               <option value="Manual">Manual</option>
               <option value="syllabus">Syllabus</option>

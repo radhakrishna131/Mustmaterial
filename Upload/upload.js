@@ -21,6 +21,7 @@ const uploadForm = document.getElementById('upload-form');
 const titleInput = document.getElementById('up-subject');
 const detailsInput = document.getElementById('up-detail');
 const typeSelect = document.getElementById('up-type');
+const  userName = document.getElementById('up-name');
 const fileInput = document.getElementById('fileInput');
 const submitBtn = document.querySelector('.cta-primary');
 const popup = document.getElementById('thankyouPopup');
@@ -51,7 +52,7 @@ uploadForm.addEventListener('submit', async (e) => {
     const title = titleInput.value.trim();
     const details = detailsInput.value.trim();
     const type = typeSelect.value;
-
+    const name = userName.value.trim();
     if (!file) {
         alert("Please select a PDF file.");
         return;
@@ -95,6 +96,7 @@ uploadForm.addEventListener('submit', async (e) => {
             type: type,
             fileUrl: downloadURL,
             fileName: file.name,
+            name: name,
             createdAt: serverTimestamp() 
         });
 
@@ -191,8 +193,8 @@ function renderMaterials() {
                 <div style="font-weight: 800;">
                     <h4 style="margin: 0 0 4px 0; font-family:'Syne',sans-serif;color: var(--text-color);">${data.title}</h4>
                     <p style="margin: 0 0 8px 0; font-size: 13px; color: var(--text-secondary);">${data.details}</p>
-                    <span class="data-type"style="">${data.type}</span>
-                
+                    <span class="data-type"style="">${data.type}</span><br>
+                 <span class="data-name"style="">~${data.name}</span>
                 </div>
                 
                 
