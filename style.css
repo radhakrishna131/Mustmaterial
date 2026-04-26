@@ -882,7 +882,21 @@ body{
   );
   animation: shimmer 1.2s infinite;
 }
-
+.left button,.right button{
+  font-weight: 800;
+  padding: 10px 20px;
+  background: var(--background-primary);
+  color: var(--background-tertiary);
+  border: 1px solid var(--text-secondary);
+  border-radius: 5px;
+  cursor: pointer;
+}
+.right .spl{
+  color: var(--text-color);
+  background: var(--background-tertiary);
+  margin: 0px 5px;
+  
+}
 @keyframes shimmer {
   0% { left: -150px; }
   100% { left: 100%; }
@@ -1073,21 +1087,7 @@ iframe {
   justify-content: space-between;
   margin: 5px 15px;
 }
-.left button,.right button{
-  font-weight: 800;
-  padding: 10px 20px;
-  background: var(--background-primary);
-  color: var(--background-tertiary);
-  border: 1px solid var(--text-secondary);
-  border-radius: 5px;
-  cursor: pointer;
-}
-.right .spl{
-  color: var(--text-color);
-  background: var(--background-tertiary);
-  margin: 0px 5px;
-  
-}
+
 
 #shareBtn:hover {
   opacity: 0.8;

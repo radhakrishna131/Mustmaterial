@@ -1,0 +1,1989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Structures — Study Atlas · JNTUK R23</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & ROOT ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #09080d;
+  --bg2:      #100f16;
+  --bg3:      #16141f;
+  --surface:  #1c1a28;
+  --border:   #2a2738;
+  --muted:    #4a4760;
+  --text:     #e8e4f0;
+  --text2:    #a89ec0;
+  --text3:    #6b6585;
+
+  /* Accent palette */
+  --a1: #c8a96e;   /* gold — Unit I */
+  --a2: #6eb5c8;   /* cyan — Unit II */
+  --a3: #c86e8a;   /* rose — Unit III */
+  --a4: #8ac86e;   /* sage — Unit IV */
+  --a5: #9b6ec8;   /* violet — Unit V */
+
+  --radius: 10px;
+  --gap: 1.4rem;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 17px;
+  line-height: 1.7;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── NOISE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.6;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--muted); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text3); }
+
+/* ── CINEMATIC HEADER ── */
+.site-header {
+  position: relative;
+  padding: 5rem 2rem 4rem;
+  text-align: center;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, #0d0b14 0%, var(--bg) 100%);
+}
+
+.site-header::after {
+  content: 'DS';
+  position: absolute;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(10rem, 25vw, 22rem);
+  font-weight: 900;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(200,169,110,0.07);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.header-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--a1);
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+}
+
+.header-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.4rem, 6vw, 5rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+
+.header-title em {
+  font-style: italic;
+  color: var(--a1);
+}
+
+.header-subtitle {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.1rem;
+  color: var(--text2);
+  font-style: italic;
+  margin-bottom: 2rem;
+}
+
+.header-meta {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.meta-chip {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: var(--text3);
+  border: 1px solid var(--border);
+  padding: 0.3rem 0.8rem;
+  border-radius: 100px;
+  text-transform: uppercase;
+}
+
+/* ── STICKY NAV TABS ── */
+.tabs-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(9,8,13,0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 0 1rem;
+}
+.tabs-nav::-webkit-scrollbar { display: none; }
+
+.tab-btn {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text3);
+  border: none;
+  background: transparent;
+  padding: 1.1rem 1.4rem;
+  cursor: pointer;
+  white-space: nowrap;
+  position: relative;
+  transition: color 0.25s;
+  flex-shrink: 0;
+}
+
+.tab-btn::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  border-radius: 2px 2px 0 0;
+  background: currentColor;
+  transform: scaleX(0);
+  transition: transform 0.25s;
+}
+
+.tab-btn.active { color: var(--text); }
+.tab-btn.active::after { transform: scaleX(1); }
+
+.tab-btn[data-unit="1"] { --accent: var(--a1); }
+.tab-btn[data-unit="2"] { --accent: var(--a2); }
+.tab-btn[data-unit="3"] { --accent: var(--a3); }
+.tab-btn[data-unit="4"] { --accent: var(--a4); }
+.tab-btn[data-unit="5"] { --accent: var(--a5); }
+.tab-btn[data-unit="lab"] { --accent: #c8c86e; }
+
+.tab-btn.active { color: var(--accent, var(--text)); }
+
+/* ── PANELS ── */
+.tab-panel {
+  display: none;
+  animation: fadeIn 0.35s ease;
+  padding: 2.5rem 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.tab-panel.active { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── SECTION LABEL ── */
+.section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 2.5rem 0 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── GRID ── */
+.grid { display: grid; gap: var(--gap); }
+.grid-2 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+.grid-3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.grid-4 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.wide    { grid-column: 1 / -1; }
+
+/* ── CARD ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.6rem;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.25s, transform 0.2s;
+}
+.card:hover {
+  border-color: var(--accent, var(--a1));
+  transform: translateY(-2px);
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--accent, var(--a1));
+  opacity: 0.7;
+}
+
+.card-code {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent, var(--a1));
+  margin-bottom: 0.5rem;
+}
+
+.card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.9rem;
+  line-height: 1.2;
+}
+
+.card-def {
+  border-left: 2px solid var(--accent, var(--a1));
+  padding: 0.6rem 1rem;
+  margin-bottom: 1rem;
+  background: rgba(255,255,255,0.02);
+  border-radius: 0 6px 6px 0;
+  font-style: italic;
+  color: var(--text2);
+  font-size: 0.95rem;
+}
+
+.card ul {
+  padding-left: 1.1rem;
+  color: var(--text2);
+  font-size: 0.92rem;
+}
+.card ul li { margin-bottom: 0.3rem; }
+.card ul li b, .card ul li strong { color: var(--text); font-weight: 600; }
+
+/* ── TAGS ── */
+.tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+.tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 100px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  color: var(--text3);
+}
+
+/* ── TYPE GRID ── */
+.type-grid { display: grid; gap: 0.7rem; margin-top: 0.8rem; }
+.type-item {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent, var(--a1));
+  border-radius: 6px;
+  padding: 0.7rem 1rem;
+}
+.type-item-name {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--accent, var(--a1));
+  font-weight: 500;
+  margin-bottom: 0.2rem;
+}
+.type-item-desc { color: var(--text2); font-size: 0.88rem; }
+
+/* ── MINI TABLE ── */
+.mini-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.8rem;
+  font-size: 0.88rem;
+}
+.mini-table th {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent, var(--a1));
+  padding: 0.5rem 0.8rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.mini-table td {
+  padding: 0.5rem 0.8rem;
+  color: var(--text2);
+  border-bottom: 1px solid rgba(42,39,56,0.5);
+  vertical-align: top;
+}
+.mini-table td:first-child { color: var(--text); font-weight: 500; }
+.mini-table tr:last-child td { border-bottom: none; }
+
+/* ── TIMELINE ── */
+.timeline {
+  display: flex;
+  gap: 0;
+  margin-top: 1rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+.timeline-step {
+  flex: 1;
+  min-width: 110px;
+  position: relative;
+  padding: 0 1rem 0 0;
+}
+.timeline-step::after {
+  content: '→';
+  position: absolute;
+  right: 0; top: 0.6rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.timeline-step:last-child::after { display: none; }
+.step-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--accent, var(--a1));
+  display: block;
+  margin-bottom: 0.3rem;
+}
+.step-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text);
+  display: block;
+  margin-bottom: 0.2rem;
+}
+.step-desc { font-size: 0.78rem; color: var(--text3); line-height: 1.4; }
+
+/* ── COMPLEXITY TABLE ── */
+.complexity-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  display: inline-block;
+}
+.complexity-best  { background: rgba(138,200,110,0.15); color: var(--a4); }
+.complexity-avg   { background: rgba(200,169,110,0.15); color: var(--a1); }
+.complexity-worst { background: rgba(200,110,110,0.15); color: #c86e6e; }
+
+/* ── UNIT HERO STRIP ── */
+.unit-hero {
+  border-radius: var(--radius);
+  padding: 2.2rem 2rem;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.unit-hero::before {
+  content: attr(data-number);
+  position: absolute;
+  right: 1.5rem; top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Playfair Display', serif;
+  font-size: 7rem;
+  font-weight: 900;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255,255,255,0.04);
+  line-height: 1;
+}
+.unit-hero-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.unit-hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  font-weight: 700;
+  line-height: 1.1;
+}
+.unit-hero-desc {
+  margin-top: 0.6rem;
+  font-style: italic;
+  color: var(--text2);
+  font-size: 0.95rem;
+  max-width: 500px;
+}
+
+/* Unit hero bg tints */
+.u1 { background: linear-gradient(135deg, rgba(200,169,110,0.08) 0%, var(--surface) 60%); --accent: var(--a1); }
+.u2 { background: linear-gradient(135deg, rgba(110,181,200,0.08) 0%, var(--surface) 60%); --accent: var(--a2); }
+.u3 { background: linear-gradient(135deg, rgba(200,110,138,0.08) 0%, var(--surface) 60%); --accent: var(--a3); }
+.u4 { background: linear-gradient(135deg, rgba(138,200,110,0.08) 0%, var(--surface) 60%); --accent: var(--a4); }
+.u5 { background: linear-gradient(135deg, rgba(155,110,200,0.08) 0%, var(--surface) 60%); --accent: var(--a5); }
+.ulab { background: linear-gradient(135deg, rgba(200,200,110,0.08) 0%, var(--surface) 60%); --accent: #c8c86e; }
+
+.u1 .unit-hero-label, .u1 .unit-hero-title { color: var(--a1); }
+.u2 .unit-hero-label, .u2 .unit-hero-title { color: var(--a2); }
+.u3 .unit-hero-label, .u3 .unit-hero-title { color: var(--a3); }
+.u4 .unit-hero-label, .u4 .unit-hero-title { color: var(--a4); }
+.u5 .unit-hero-label, .u5 .unit-hero-title { color: var(--a5); }
+.ulab .unit-hero-label, .ulab .unit-hero-title { color: #c8c86e; }
+
+/* ── CARD ACCENTS PER UNIT ── */
+.u1 .card { --accent: var(--a1); }
+.u2 .card { --accent: var(--a2); }
+.u3 .card { --accent: var(--a3); }
+.u4 .card { --accent: var(--a4); }
+.u5 .card { --accent: var(--a5); }
+.ulab .card { --accent: #c8c86e; }
+
+/* ── CALLOUT BOX ── */
+.callout {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent, var(--a1));
+  border-radius: 6px;
+  padding: 0.8rem 1.1rem;
+  margin: 0.8rem 0;
+  font-size: 0.88rem;
+  color: var(--text2);
+}
+.callout-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent, var(--a1));
+  margin-bottom: 0.3rem;
+}
+
+/* ── CODE SNIPPET ── */
+.code-block {
+  background: #0d0c14;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.8rem 1rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.78rem;
+  color: #b8b0d0;
+  line-height: 1.6;
+  margin: 0.8rem 0;
+  overflow-x: auto;
+}
+.code-block .kw { color: var(--a3); }
+.code-block .fn { color: var(--a2); }
+.code-block .num { color: var(--a4); }
+.code-block .cm { color: var(--text3); font-style: italic; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .tab-panel { padding: 1.5rem 1rem; }
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .card { padding: 1.2rem; }
+  .unit-hero { padding: 1.5rem 1.2rem; }
+  .timeline { flex-direction: column; }
+  .timeline-step::after { content: '↓'; position: static; display: block; margin: 0.2rem 0; }
+}
+</style>
+</head>
+<body>
+<div>
+  <button style="background: var(--a1); color: var(--text);width: 50px;height: 30px;border: 1px solid var(--text);border-radius: 10px;margin: 5px; padding: 4px;text-align: center;font-weight: 800;font-size: 24px;" onclick="window.history.back()">←</button>
+</div>
+<!-- ═══ CINEMATIC HEADER ═══ -->
+<header class="site-header">
+  <p class="header-eyebrow">JNTUK R23 · CSE / IT &amp; Allied Branches · Professional Core</p>
+  <h1 class="header-title">Data <em>Structures</em></h1>
+  <p class="header-subtitle">A Complete Study Atlas — from Linear Lists to Hashing</p>
+  <div class="header-meta">
+    <span class="meta-chip">3 Credits</span>
+    <span class="meta-chip">L-T-P · 3-0-0</span>
+    <span class="meta-chip">5 Units</span>
+    <span class="meta-chip">+ Lab · 1.5 Credits</span>
+    <span class="meta-chip">JNTUK R23</span>
+  </div>
+</header>
+
+<!-- ═══ STICKY TAB NAV ═══ -->
+<nav class="tabs-nav" role="tablist">
+  <button class="tab-btn active" data-unit="1" data-target="unit1" role="tab">Unit I · Intro</button>
+  <button class="tab-btn" data-unit="2" data-target="unit2" role="tab">Unit II · Linked Lists</button>
+  <button class="tab-btn" data-unit="3" data-target="unit3" role="tab">Unit III · Stacks</button>
+  <button class="tab-btn" data-unit="4" data-target="unit4" role="tab">Unit IV · Queues</button>
+  <button class="tab-btn" data-unit="5" data-target="unit5" role="tab">Unit V · Trees &amp; Hash</button>
+  <button class="tab-btn" data-unit="lab" data-target="unitlab" role="tab">Lab</button>
+</nav>
+
+<!-- ═══════════════════════════ UNIT I ═══════════════════════════ -->
+<section class="tab-panel active u1" id="unit1" role="tabpanel">
+
+  <div class="unit-hero u1" data-number="I">
+    <div class="unit-hero-label">Unit I</div>
+    <div class="unit-hero-title">Introduction to Linear Data Structures</div>
+    <p class="unit-hero-desc">Foundations of data organisation — ADTs, complexity analysis, searching &amp; sorting algorithms.</p>
+  </div>
+
+  <!-- SECTION: FOUNDATIONS -->
+  <div class="section-label">Foundations</div>
+  <div class="grid grid-2">
+
+    <div class="card">
+      <div class="card-code">U1 · 01</div>
+      <div class="card-title">What is a Data Structure?</div>
+      <div class="card-def">A data structure is a systematic way of organising, storing, and managing data in a computer so that it can be accessed and modified efficiently.</div>
+      <ul>
+        <li><b>Data</b>: raw facts without context</li>
+        <li><b>Information</b>: processed, meaningful data</li>
+        <li><b>Organisation</b>: how elements are arranged and related</li>
+        <li><b>Operations</b>: insertion, deletion, traversal, search, sort, merge</li>
+        <li><b>Historical note</b>: The field formalised in the 1960s; Donald Knuth's <b>TAOCP</b> (1968) was foundational</li>
+      </ul>
+      <div class="tags"><span class="tag">Fundamental</span><span class="tag">TAOCP</span><span class="tag">Knuth</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U1 · 02</div>
+      <div class="card-title">Classification of Data Structures</div>
+      <div class="card-def">Data structures are broadly classified as <em>Primitive</em> (built-in) and <em>Non-Primitive</em> (user-defined), and further into Linear and Non-Linear.</div>
+      <div class="type-grid">
+        <div class="type-item">
+          <div class="type-item-name">Primitive</div>
+          <div class="type-item-desc">int, float, char, bool — directly operated on by machine instructions</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Linear</div>
+          <div class="type-item-desc">Elements in sequential order — Arrays, Linked Lists, Stacks, Queues</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Non-Linear</div>
+          <div class="type-item-desc">Hierarchical or network — Trees, Graphs, Heaps, Hash Tables</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Static vs Dynamic</div>
+          <div class="type-item-desc">Static (fixed-size at compile time, e.g. arrays) vs Dynamic (grow/shrink at runtime, e.g. linked lists)</div>
+        </div>
+      </div>
+      <div class="tags"><span class="tag">Classification</span><span class="tag">Linear</span><span class="tag">Non-Linear</span></div>
+    </div>
+
+    <div class="card wide">
+      <div class="card-code">U1 · 03</div>
+      <div class="card-title">Abstract Data Types (ADTs)</div>
+      <div class="card-def">An ADT is a mathematical model for a data type defined by its behaviour (semantics) from the user's perspective — specifying <em>what</em> operations do, not <em>how</em> they are implemented.</div>
+      <div class="grid grid-3" style="margin-top:1rem">
+        <div>
+          <div class="callout"><div class="callout-title">Components of an ADT</div>A set of values (domain) + a set of operations with defined behaviour + axioms/postconditions</div>
+        </div>
+        <div>
+          <div class="callout"><div class="callout-title">Why ADTs?</div>Abstraction separates interface from implementation — code can change internals without breaking callers (information hiding)</div>
+        </div>
+        <div>
+          <div class="callout"><div class="callout-title">Common ADTs</div>List ADT, Stack ADT (LIFO), Queue ADT (FIFO), Dictionary/Map ADT, Set ADT, Priority Queue ADT</div>
+        </div>
+      </div>
+      <table class="mini-table" style="margin-top:1rem">
+        <thead><tr><th>ADT</th><th>Core Operations</th><th>Common Implementation</th></tr></thead>
+        <tbody>
+          <tr><td>List</td><td>insert, delete, get, size</td><td>Array or Linked List</td></tr>
+          <tr><td>Stack</td><td>push, pop, peek, isEmpty</td><td>Array or Linked List</td></tr>
+          <tr><td>Queue</td><td>enqueue, dequeue, front</td><td>Array or Linked List</td></tr>
+          <tr><td>Dictionary</td><td>put, get, remove, containsKey</td><td>Hash Table or BST</td></tr>
+        </tbody>
+      </table>
+      <div class="tags"><span class="tag">ADT</span><span class="tag">Abstraction</span><span class="tag">Interface</span></div>
+    </div>
+
+  </div>
+
+  <!-- SECTION: COMPLEXITY -->
+  <div class="section-label">Time &amp; Space Complexity</div>
+  <div class="grid grid-2">
+
+    <div class="card">
+      <div class="card-code">U1 · 04</div>
+      <div class="card-title">Asymptotic Notation</div>
+      <div class="card-def">Asymptotic analysis describes the limiting behaviour of an algorithm's resource usage as input size <em>n</em> grows to infinity — independent of hardware constants.</div>
+      <div class="type-grid">
+        <div class="type-item">
+          <div class="type-item-name">O (Big-O) — Upper Bound</div>
+          <div class="type-item-desc">Worst-case guarantee. f(n) = O(g(n)) if ∃ c, n₀ such that f(n) ≤ c·g(n) ∀ n ≥ n₀</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Ω (Omega) — Lower Bound</div>
+          <div class="type-item-desc">Best-case guarantee. f(n) = Ω(g(n)) if ∃ c, n₀ such that f(n) ≥ c·g(n) ∀ n ≥ n₀</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Θ (Theta) — Tight Bound</div>
+          <div class="type-item-desc">Both O and Ω hold simultaneously — the algorithm is exactly that growth class</div>
+        </div>
+      </div>
+      <div class="tags"><span class="tag">Big-O</span><span class="tag">Analysis</span><span class="tag">Asymptotic</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U1 · 05</div>
+      <div class="card-title">Complexity Hierarchy</div>
+      <div class="card-def">Ordered from fastest (best) to slowest (worst) as n grows large:</div>
+      <table class="mini-table">
+        <thead><tr><th>Class</th><th>Name</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><span class="complexity-badge complexity-best">O(1)</span></td><td>Constant</td><td>Array index access</td></tr>
+          <tr><td><span class="complexity-badge complexity-best">O(log n)</span></td><td>Logarithmic</td><td>Binary search</td></tr>
+          <tr><td><span class="complexity-badge complexity-avg">O(n)</span></td><td>Linear</td><td>Linear search</td></tr>
+          <tr><td><span class="complexity-badge complexity-avg">O(n log n)</span></td><td>Linearithmic</td><td>Merge sort</td></tr>
+          <tr><td><span class="complexity-badge complexity-worst">O(n²)</span></td><td>Quadratic</td><td>Bubble / Insertion sort</td></tr>
+          <tr><td><span class="complexity-badge complexity-worst">O(2ⁿ)</span></td><td>Exponential</td><td>Recursive subsets</td></tr>
+        </tbody>
+      </table>
+      <div class="tags"><span class="tag">Complexity</span><span class="tag">Performance</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U1 · 06</div>
+      <div class="card-title">Space Complexity</div>
+      <div class="card-def">Space complexity measures the total memory an algorithm uses relative to input size — including <em>auxiliary space</em> (extra space beyond input storage).</div>
+      <ul>
+        <li><b>In-place algorithm</b>: O(1) auxiliary space (e.g. bubble sort)</li>
+        <li><b>Out-of-place</b>: O(n) auxiliary space (e.g. merge sort needing temp array)</li>
+        <li><b>Stack frames</b>: Recursive algorithms consume stack space proportional to recursion depth</li>
+        <li><b>Trade-off</b>: Time-space trade-off — faster algorithms often need more memory (e.g. hash tables)</li>
+      </ul>
+      <div class="tags"><span class="tag">Space</span><span class="tag">In-place</span><span class="tag">Trade-off</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U1 · 07</div>
+      <div class="card-title">Best, Average &amp; Worst Cases</div>
+      <div class="card-def">An algorithm's complexity is analysed across three scenarios that capture different input distributions.</div>
+      <div class="type-grid">
+        <div class="type-item">
+          <div class="type-item-name">Best Case</div>
+          <div class="type-item-desc">Minimum steps on the most favourable input (e.g. target is first element in search)</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Average Case</div>
+          <div class="type-item-desc">Expected steps over all possible inputs (often requires probabilistic analysis)</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Worst Case</div>
+          <div class="type-item-desc">Maximum steps on the most unfavourable input — the most commonly reported measure</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SECTION: SEARCHING -->
+  <div class="section-label">Searching Techniques</div>
+  <div class="grid grid-2">
+
+    <div class="card">
+      <div class="card-code">U1 · 08</div>
+      <div class="card-title">Linear Search</div>
+      <div class="card-def">Sequentially checks each element until the target is found or the list is exhausted. No pre-condition on data order.</div>
+      <ul>
+        <li><b>Algorithm</b>: Start at index 0, compare each element to target, return index if match or -1 if exhausted</li>
+        <li><b>Works on</b>: Sorted and unsorted arrays, linked lists</li>
+        <li><b>Best case</b>: O(1) — target at first position</li>
+        <li><b>Average case</b>: O(n/2) ≈ O(n)</li>
+        <li><b>Worst case</b>: O(n) — target at last or absent</li>
+        <li><b>Space</b>: O(1) — no extra memory</li>
+        <li><b>Limitation</b>: Inefficient for large datasets; O(n) even with sorted data</li>
+      </ul>
+      <div class="code-block"><span class="kw">for</span> i <span class="kw">in</span> range(len(arr)):<br>&nbsp; <span class="kw">if</span> arr[i] == target: <span class="kw">return</span> i<br><span class="kw">return</span> -<span class="num">1</span></div>
+      <div class="tags"><span class="tag">O(n)</span><span class="tag">Unsorted OK</span><span class="tag">Sequential</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U1 · 09</div>
+      <div class="card-title">Binary Search</div>
+      <div class="card-def">Efficiently searches a <em>sorted</em> array by repeatedly halving the search interval — comparing the target with the middle element and discarding half the range.</div>
+      <ul>
+        <li><b>Pre-condition</b>: Array <em>must</em> be sorted in ascending order</li>
+        <li><b>Best case</b>: O(1) — target is the middle element</li>
+        <li><b>Average &amp; Worst</b>: O(log₂ n) — each step halves the search space</li>
+        <li><b>Space</b>: O(1) iterative; O(log n) recursive (call stack)</li>
+        <li><b>Insight</b>: 1 billion elements require at most 30 comparisons</li>
+      </ul>
+      <div class="callout">
+        <div class="callout-title">Algorithm Steps</div>
+        low=0, high=n-1 → mid=(low+high)//2 → if arr[mid]==target return mid → if target &lt; arr[mid], high=mid-1 → else low=mid+1 → repeat until low&gt;high
+      </div>
+      <div class="tags"><span class="tag">O(log n)</span><span class="tag">Sorted Required</span><span class="tag">Divide &amp; Conquer</span></div>
+    </div>
+
+    <div class="card wide">
+      <div class="card-code">U1 · 10</div>
+      <div class="card-title">Search Algorithms — Comparison</div>
+      <table class="mini-table">
+        <thead><tr><th>Feature</th><th>Linear Search</th><th>Binary Search</th></tr></thead>
+        <tbody>
+          <tr><td>Data requirement</td><td>None (unsorted OK)</td><td>Must be sorted</td></tr>
+          <tr><td>Best case</td><td>O(1)</td><td>O(1)</td></tr>
+          <tr><td>Worst case</td><td>O(n)</td><td>O(log n)</td></tr>
+          <tr><td>Space</td><td>O(1)</td><td>O(1) iterative / O(log n) recursive</td></tr>
+          <tr><td>Works on</td><td>Arrays, linked lists</td><td>Arrays only (random access required)</td></tr>
+          <tr><td>Use when</td><td>Small/unsorted data</td><td>Large sorted datasets</td></tr>
+          <tr><td>Overhead</td><td>None</td><td>Sorting cost if data not pre-sorted</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- SECTION: SORTING -->
+  <div class="section-label">Sorting Techniques</div>
+  <div class="grid grid-2">
+
+    <div class="card">
+      <div class="card-code">U1 · 11</div>
+      <div class="card-title">Bubble Sort</div>
+      <div class="card-def">Repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order — "bubbling" the largest unsorted element to the end each pass.</div>
+      <ul>
+        <li><b>Invented</b>: 1956; popularised by Knuth in TAOCP</li>
+        <li><b>Best case</b>: O(n) with optimised flag (already sorted)</li>
+        <li><b>Average &amp; Worst</b>: O(n²) — nested loops</li>
+        <li><b>Space</b>: O(1) — in-place</li>
+        <li><b>Stable</b>: Yes — equal elements maintain relative order</li>
+        <li><b>Key insight</b>: After k passes, last k elements are in final position</li>
+        <li><b>Limitation</b>: Extremely slow in practice; worst practical sorting algorithm for large n</li>
+      </ul>
+      <div class="timeline">
+        <div class="timeline-step"><span class="step-num">Pass 1</span><span class="step-name">Compare pairs</span><span class="step-desc">Largest bubbles to end</span></div>
+        <div class="timeline-step"><span class="step-num">Pass 2</span><span class="step-name">Shrink range</span><span class="step-desc">2nd largest in place</span></div>
+        <div class="timeline-step"><span class="step-num">…</span><span class="step-name">n-1 passes</span><span class="step-desc">Array sorted</span></div>
+      </div>
+      <div class="tags"><span class="tag">O(n²)</span><span class="tag">Stable</span><span class="tag">In-place</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U1 · 12</div>
+      <div class="card-title">Selection Sort</div>
+      <div class="card-def">Finds the minimum (or maximum) element from the unsorted portion and places it at the beginning — "selecting" the correct element for each position.</div>
+      <ul>
+        <li><b>Best, Average &amp; Worst</b>: All O(n²) — always scans full unsorted portion</li>
+        <li><b>Space</b>: O(1) — in-place</li>
+        <li><b>Stable</b>: No by default (swapping can change relative order of equals)</li>
+        <li><b>Advantage over Bubble</b>: Fewer swaps — at most n-1 swaps total (useful when writes are expensive)</li>
+        <li><b>Key insight</b>: After k passes, first k elements are in final sorted position</li>
+      </ul>
+      <div class="callout">
+        <div class="callout-title">Algorithm Skeleton</div>
+        For i=0 to n-2: find min in arr[i..n-1] → swap arr[i] with min → repeat
+      </div>
+      <div class="tags"><span class="tag">O(n²)</span><span class="tag">Not Stable</span><span class="tag">Min Swaps</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U1 · 13</div>
+      <div class="card-title">Insertion Sort</div>
+      <div class="card-def">Builds the sorted array one element at a time — each new element is inserted into its correct position among previously sorted elements, like sorting playing cards in hand.</div>
+      <ul>
+        <li><b>Best case</b>: O(n) — already sorted input (only 1 comparison per element)</li>
+        <li><b>Average &amp; Worst</b>: O(n²)</li>
+        <li><b>Space</b>: O(1) — in-place</li>
+        <li><b>Stable</b>: Yes</li>
+        <li><b>Adaptive</b>: Yes — efficient on nearly-sorted data</li>
+        <li><b>Preferred</b>: For small arrays (&lt; 20 elements); used as base case in Timsort (Python's built-in)</li>
+        <li><b>Online</b>: Can sort a stream — doesn't need all elements upfront</li>
+      </ul>
+      <div class="tags"><span class="tag">O(n²)</span><span class="tag">Stable</span><span class="tag">Adaptive</span><span class="tag">Online</span></div>
+    </div>
+
+    <div class="card wide">
+      <div class="card-code">U1 · 14</div>
+      <div class="card-title">Sorting Algorithms — Master Comparison</div>
+      <table class="mini-table">
+        <thead><tr><th>Algorithm</th><th>Best</th><th>Average</th><th>Worst</th><th>Space</th><th>Stable</th><th>Adaptive</th></tr></thead>
+        <tbody>
+          <tr><td>Bubble Sort</td><td><span class="complexity-badge complexity-best">O(n)</span></td><td><span class="complexity-badge complexity-worst">O(n²)</span></td><td><span class="complexity-badge complexity-worst">O(n²)</span></td><td>O(1)</td><td>Yes</td><td>Yes (opt.)</td></tr>
+          <tr><td>Selection Sort</td><td><span class="complexity-badge complexity-worst">O(n²)</span></td><td><span class="complexity-badge complexity-worst">O(n²)</span></td><td><span class="complexity-badge complexity-worst">O(n²)</span></td><td>O(1)</td><td>No</td><td>No</td></tr>
+          <tr><td>Insertion Sort</td><td><span class="complexity-badge complexity-best">O(n)</span></td><td><span class="complexity-badge complexity-worst">O(n²)</span></td><td><span class="complexity-badge complexity-worst">O(n²)</span></td><td>O(1)</td><td>Yes</td><td>Yes</td></tr>
+          <tr><td>Merge Sort*</td><td><span class="complexity-badge complexity-avg">O(n log n)</span></td><td><span class="complexity-badge complexity-avg">O(n log n)</span></td><td><span class="complexity-badge complexity-avg">O(n log n)</span></td><td>O(n)</td><td>Yes</td><td>No</td></tr>
+          <tr><td>Quick Sort*</td><td><span class="complexity-badge complexity-avg">O(n log n)</span></td><td><span class="complexity-badge complexity-avg">O(n log n)</span></td><td><span class="complexity-badge complexity-worst">O(n²)</span></td><td>O(log n)</td><td>No</td><td>No</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:0.78rem; color:var(--text3); margin-top:0.6rem;">* Merge/Quick Sort are beyond syllabus but included for context and comparison depth.</p>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════ UNIT II ═══════════════════════════ -->
+<section class="tab-panel u2" id="unit2" role="tabpanel">
+
+  <div class="unit-hero u2" data-number="II">
+    <div class="unit-hero-label">Unit II</div>
+    <div class="unit-hero-title">Linked Lists</div>
+    <p class="unit-hero-desc">Dynamic node-based structures — singly, doubly, circular — with their operations, comparisons, and applications.</p>
+  </div>
+
+  <div class="section-label">Fundamentals</div>
+  <div class="grid grid-2">
+
+    <div class="card">
+      <div class="card-code">U2 · 01</div>
+      <div class="card-title">What is a Linked List?</div>
+      <div class="card-def">A linked list is a linear data structure in which elements (nodes) are stored at non-contiguous memory locations, connected via pointers.</div>
+      <ul>
+        <li><b>Node</b>: The fundamental unit — contains <b>data</b> field + <b>pointer</b> field(s)</li>
+        <li><b>Head</b>: Pointer to the first node; entry point to the list</li>
+        <li><b>Tail</b>: Last node; its next pointer is NULL</li>
+        <li><b>Dynamic size</b>: Grows/shrinks at runtime — no pre-allocation needed</li>
+        <li><b>Invented by</b>: Allen Newell, Cliff Shaw, Herbert Simon (1956) for the IPL language</li>
+        <li><b>No random access</b>: Must traverse from head — O(n) to reach index i</li>
+      </ul>
+      <div class="tags"><span class="tag">Dynamic</span><span class="tag">Pointer-based</span><span class="tag">Non-contiguous</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U2 · 02</div>
+      <div class="card-title">Node Structure</div>
+      <div class="card-def">Each node is a self-referential structure containing data and one or more links to adjacent nodes.</div>
+      <div class="code-block"><span class="cm">// Singly linked node</span><br><span class="kw">struct</span> <span class="fn">Node</span> {<br>&nbsp; <span class="kw">int</span> data;<br>&nbsp; <span class="kw">struct</span> Node* next;<br>};<br><br><span class="cm">// Doubly linked node</span><br><span class="kw">struct</span> <span class="fn">DNode</span> {<br>&nbsp; <span class="kw">int</span> data;<br>&nbsp; <span class="kw">struct</span> DNode *prev, *next;<br>};</div>
+      <div class="tags"><span class="tag">Self-referential</span><span class="tag">Struct</span></div>
+    </div>
+
+    <div class="card wide">
+      <div class="card-code">U2 · 03</div>
+      <div class="card-title">Types of Linked Lists</div>
+      <div class="grid grid-3" style="margin-top:0.5rem">
+        <div class="type-item">
+          <div class="type-item-name">Singly Linked List (SLL)</div>
+          <div class="type-item-desc">Each node has ONE pointer (next). Traversal only in forward direction. Simplest form. Memory: O(n) for data + n pointers.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Doubly Linked List (DLL)</div>
+          <div class="type-item-desc">Each node has TWO pointers (prev + next). Bidirectional traversal. Easier deletion (no need for previous node pointer). Extra memory per node.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Circular Singly Linked List</div>
+          <div class="type-item-desc">Last node's next points back to head. Useful for round-robin scheduling. No NULL in the list — requires care to detect end.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Circular Doubly Linked List</div>
+          <div class="type-item-desc">DLL where tail's next = head AND head's prev = tail. Most flexible; used in OS (ready queue, LRU cache).</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Header/Sentinel List</div>
+          <div class="type-item-desc">A dummy head node (sentinel) simplifies edge cases in insertion/deletion — no special handling for empty list or first node.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Skip List</div>
+          <div class="type-item-desc">(Beyond syllabus) Multi-layer linked list enabling O(log n) search — probabilistic alternative to balanced trees. Used in Redis.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-label">Singly Linked List Operations</div>
+  <div class="grid grid-2">
+
+    <div class="card">
+      <div class="card-code">U2 · 04</div>
+      <div class="card-title">SLL — Insertion</div>
+      <div class="card-def">Inserting a new node by adjusting pointer links — O(1) if position known, O(n) to find position.</div>
+      <div class="type-grid">
+        <div class="type-item">
+          <div class="type-item-name">At Beginning (Prepend)</div>
+          <div class="type-item-desc">newNode→next = head; head = newNode. O(1). New node becomes the head.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">At End (Append)</div>
+          <div class="type-item-desc">Traverse to last node (O(n)), then lastNode→next = newNode. O(n) without tail pointer; O(1) with tail pointer.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">At Position k</div>
+          <div class="type-item-desc">Traverse to (k-1)th node, adjust pointers: newNode→next = prev→next; prev→next = newNode. O(k).</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">After a Given Node</div>
+          <div class="type-item-desc">newNode→next = givenNode→next; givenNode→next = newNode. O(1) if given node reference is known.</div>
+        </div>
+      </div>
+      <div class="tags"><span class="tag">O(1) head</span><span class="tag">O(n) end</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U2 · 05</div>
+      <div class="card-title">SLL — Deletion &amp; Traversal</div>
+      <div class="card-def">Removing a node by relinking pointers so the deleted node is bypassed; traversal visits each node once.</div>
+      <ul>
+        <li><b>Delete head</b>: head = head→next. O(1)</li>
+        <li><b>Delete tail</b>: Traverse to second-last (O(n)), set →next = NULL</li>
+        <li><b>Delete by value</b>: Find node with value, keep reference to previous node, bypass it</li>
+        <li><b>Delete by position</b>: Traverse to (k-1)th node, set prev→next = prev→next→next</li>
+        <li><b>Traversal</b>: curr = head; while curr ≠ NULL: process(curr); curr = curr→next. O(n)</li>
+        <li><b>Search</b>: Traverse until data matches or NULL. O(n)</li>
+      </ul>
+      <div class="tags"><span class="tag">O(n)</span><span class="tag">Pointer manipulation</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U2 · 06</div>
+      <div class="card-title">Doubly Linked List — Operations</div>
+      <div class="card-def">DLL operations are similar to SLL but involve setting both prev and next pointers — more pointer updates, but allows backward traversal and easier deletion.</div>
+      <ul>
+        <li><b>Insert at beginning</b>: newNode→next = head; head→prev = newNode; head = newNode</li>
+        <li><b>Insert at end</b>: traverse to tail; tail→next = newNode; newNode→prev = tail</li>
+        <li><b>Delete a node</b>: No need to track previous — use node→prev directly: node→prev→next = node→next; node→next→prev = node→prev. O(1) given node reference!</li>
+        <li><b>Backward traversal</b>: Start from tail, follow prev pointers</li>
+        <li><b>Advantage</b>: O(1) deletion with just a node reference (SLL needs O(n))</li>
+        <li><b>Disadvantage</b>: Extra memory per node; more pointer updates required</li>
+      </ul>
+      <div class="tags"><span class="tag">Bidirectional</span><span class="tag">O(1) delete</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U2 · 07</div>
+      <div class="card-title">Circular Linked List — Operations</div>
+      <div class="card-def">In a circular list, the last node loops back to the first. Traversal must detect when we've returned to the starting point to avoid infinite loops.</div>
+      <ul>
+        <li><b>Traversal guard</b>: Stop when curr→next == head (not NULL)</li>
+        <li><b>Insert at beginning</b>: Also update tail→next to point to new head</li>
+        <li><b>Advantage</b>: Can reach any node from any starting point — natural for cyclic processes</li>
+        <li><b>Josephus Problem</b>: Classic algorithm using circular linked list — n people in circle, every k-th eliminated</li>
+        <li><b>Application</b>: CPU round-robin scheduling, multiplayer turn-based games, circular buffers</li>
+      </ul>
+      <div class="tags"><span class="tag">No NULL</span><span class="tag">Round-robin</span><span class="tag">Cyclic</span></div>
+    </div>
+
+  </div>
+
+  <div class="section-label">Arrays vs Linked Lists</div>
+  <div class="grid grid-2">
+
+    <div class="card wide">
+      <div class="card-code">U2 · 08</div>
+      <div class="card-title">Arrays vs Linked Lists — Deep Comparison</div>
+      <table class="mini-table">
+        <thead><tr><th>Feature</th><th>Array</th><th>Linked List</th></tr></thead>
+        <tbody>
+          <tr><td>Memory</td><td>Contiguous block allocated at compile time</td><td>Non-contiguous; each node allocated separately at runtime</td></tr>
+          <tr><td>Size</td><td>Fixed (static array) or amortised growth (dynamic)</td><td>Truly dynamic — no wasted allocation</td></tr>
+          <tr><td>Access time</td><td>O(1) — direct index calculation</td><td>O(n) — must traverse from head</td></tr>
+          <tr><td>Insert at head</td><td>O(n) — all elements shift right</td><td>O(1) — just update head pointer</td></tr>
+          <tr><td>Insert at tail</td><td>O(1) amortised (dynamic array)</td><td>O(n) SLL without tail; O(1) with tail pointer</td></tr>
+          <tr><td>Delete at head</td><td>O(n) — all elements shift left</td><td>O(1)</td></tr>
+          <tr><td>Search</td><td>O(log n) if sorted (binary search)</td><td>O(n) always — no random access</td></tr>
+          <tr><td>Cache friendliness</td><td>Excellent — spatial locality</td><td>Poor — nodes scattered in memory</td></tr>
+          <tr><td>Extra memory</td><td>None beyond element size</td><td>1-2 pointer fields per node (8-16 bytes)</td></tr>
+          <tr><td>Use case</td><td>Frequent access by index, sorted searches</td><td>Frequent insert/delete at head, unknown size</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U2 · 09</div>
+      <div class="card-title">Applications of Linked Lists</div>
+      <div class="card-def">Linked lists are fundamental building blocks used directly and as components in higher-level structures.</div>
+      <div class="type-grid">
+        <div class="type-item">
+          <div class="type-item-name">Stack &amp; Queue Implementation</div>
+          <div class="type-item-desc">Push/enqueue = prepend; pop/dequeue = remove head. O(1) operations without size limits.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Polynomial Representation</div>
+          <div class="type-item-desc">Each node stores coefficient + exponent. Addition traverses two lists simultaneously.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Undo/Redo (DLL)</div>
+          <div class="type-item-desc">Each state is a node; undo = prev; redo = next. Used in editors (VS Code, Word).</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Hash Chaining</div>
+          <div class="type-item-desc">Each hash bucket is a linked list — handles collisions (covered in Unit V).</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Memory Allocator</div>
+          <div class="type-item-desc">Free list in dynamic memory managers (malloc/free) uses linked list of free blocks.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Music/Browser Navigation</div>
+          <div class="type-item-desc">DLL: next song/tab = next; previous song/tab = prev.</div>
+        </div>
+      </div>
+      <div class="tags"><span class="tag">Stacks</span><span class="tag">Queues</span><span class="tag">Polynomial</span><span class="tag">Memory</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U2 · 10</div>
+      <div class="card-title">Reversing a Linked List</div>
+      <div class="card-def">Reversing a singly linked list requires changing all next pointers to point to the previous node — using three pointers iteratively or recursion.</div>
+      <div class="timeline">
+        <div class="timeline-step"><span class="step-num">Init</span><span class="step-name">prev=NULL<br>curr=head</span><span class="step-desc">Two pointers set</span></div>
+        <div class="timeline-step"><span class="step-num">Loop</span><span class="step-name">next=curr→next</span><span class="step-desc">Save forward link</span></div>
+        <div class="timeline-step"><span class="step-num">Reverse</span><span class="step-name">curr→next=prev</span><span class="step-desc">Flip the pointer</span></div>
+        <div class="timeline-step"><span class="step-num">Advance</span><span class="step-name">prev=curr<br>curr=next</span><span class="step-desc">Move forward</span></div>
+        <div class="timeline-step"><span class="step-num">Done</span><span class="step-name">head=prev</span><span class="step-desc">New head set</span></div>
+      </div>
+      <div class="callout"><div class="callout-title">Complexity</div>Time: O(n) · Space: O(1) iterative; O(n) recursive (call stack)</div>
+      <div class="tags"><span class="tag">3-pointer technique</span><span class="tag">O(n)</span></div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════ UNIT III ═══════════════════════════ -->
+<section class="tab-panel u3" id="unit3" role="tabpanel">
+
+  <div class="unit-hero u3" data-number="III">
+    <div class="unit-hero-label">Unit III</div>
+    <div class="unit-hero-title">Stacks</div>
+    <p class="unit-hero-desc">The Last-In First-Out (LIFO) principle — from array and linked-list implementations to expression evaluation and backtracking.</p>
+  </div>
+
+  <div class="section-label">Stack Fundamentals</div>
+  <div class="grid grid-2">
+
+    <div class="card">
+      <div class="card-code">U3 · 01</div>
+      <div class="card-title">Stack — Definition &amp; Properties</div>
+      <div class="card-def">A stack is a linear data structure that follows the <em>Last In, First Out (LIFO)</em> principle — the element inserted last is the first to be removed.</div>
+      <ul>
+        <li><b>Top</b>: The pointer/index to the most recently inserted element</li>
+        <li><b>LIFO</b>: Like a stack of plates — you remove from the top</li>
+        <li><b>Restricted access</b>: Insertions and deletions happen only at the top</li>
+        <li><b>Analogies</b>: Browser back button, call stack, undo history, coin stack</li>
+        <li><b>Historical</b>: Formalised by F.L. Bauer and K. Samelson in 1957 for expression evaluation in compilers</li>
+      </ul>
+      <div class="tags"><span class="tag">LIFO</span><span class="tag">Top pointer</span><span class="tag">Restricted</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U3 · 02</div>
+      <div class="card-title">Stack Operations</div>
+      <div class="card-def">The Stack ADT defines five primary operations — all O(1) time complexity.</div>
+      <div class="type-grid">
+        <div class="type-item">
+          <div class="type-item-name">push(element)</div>
+          <div class="type-item-desc">Add element to top. If top == max-1 → Stack Overflow error. O(1).</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">pop()</div>
+          <div class="type-item-desc">Remove and return top element. If stack empty → Stack Underflow error. O(1).</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">peek() / top()</div>
+          <div class="type-item-desc">Return top element without removing it. O(1).</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">isEmpty()</div>
+          <div class="type-item-desc">Returns true if stack has no elements (top == -1 for array implementation). O(1).</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">isFull()</div>
+          <div class="type-item-desc">Only for array-based stacks — returns true if top == max-1. O(1).</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-label">Implementations</div>
+  <div class="grid grid-2">
+
+    <div class="card">
+      <div class="card-code">U3 · 03</div>
+      <div class="card-title">Stack Using Array</div>
+      <div class="card-def">Use an array with an integer <em>top</em> (initially -1) as index of the most recent element.</div>
+      <div class="code-block"><span class="kw">int</span> stack[MAX], top = -<span class="num">1</span>;<br><br><span class="kw">void</span> <span class="fn">push</span>(<span class="kw">int</span> x) {<br>&nbsp; <span class="kw">if</span> (top == MAX-<span class="num">1</span>) <span class="fn">overflow</span>();<br>&nbsp; stack[++top] = x;<br>}<br><span class="kw">int</span> <span class="fn">pop</span>() {<br>&nbsp; <span class="kw">if</span> (top == -<span class="num">1</span>) <span class="fn">underflow</span>();<br>&nbsp; <span class="kw">return</span> stack[top--];<br>}</div>
+      <ul>
+        <li><b>Advantage</b>: Simple, cache-friendly, O(1) all operations</li>
+        <li><b>Disadvantage</b>: Fixed size — overflow possible; wasted memory if underutilised</li>
+        <li><b>Size</b>: Must be declared upfront (static) or use dynamic array</li>
+      </ul>
+      <div class="tags"><span class="tag">O(1)</span><span class="tag">Fixed size</span><span class="tag">Cache friendly</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U3 · 04</div>
+      <div class="card-title">Stack Using Linked List</div>
+      <div class="card-def">The head of the linked list serves as the top of the stack — push prepends, pop removes head. No overflow (limited only by heap memory).</div>
+      <div class="code-block"><span class="kw">void</span> <span class="fn">push</span>(<span class="kw">int</span> x) {<br>&nbsp; Node* n = <span class="kw">new</span> <span class="fn">Node</span>(x);<br>&nbsp; n→next = top; top = n;<br>}<br><span class="kw">int</span> <span class="fn">pop</span>() {<br>&nbsp; <span class="kw">int</span> val = top→data;<br>&nbsp; Node* tmp = top;<br>&nbsp; top = top→next;<br>&nbsp; <span class="kw">delete</span> tmp; <span class="kw">return</span> val;<br>}</div>
+      <ul>
+        <li><b>Advantage</b>: Dynamic size — no overflow; no wasted space</li>
+        <li><b>Disadvantage</b>: Extra pointer overhead per node; dynamic allocation is slower than array access</li>
+      </ul>
+      <div class="tags"><span class="tag">Dynamic</span><span class="tag">No overflow</span><span class="tag">Pointer overhead</span></div>
+    </div>
+
+    <div class="card wide">
+      <div class="card-code">U3 · 05</div>
+      <div class="card-title">Array vs Linked List Stack — Comparison</div>
+      <table class="mini-table">
+        <thead><tr><th>Feature</th><th>Array-based Stack</th><th>Linked List Stack</th></tr></thead>
+        <tbody>
+          <tr><td>Memory</td><td>Contiguous; fixed allocation</td><td>Dynamic; scattered in heap</td></tr>
+          <tr><td>Size limit</td><td>MAX defined at creation</td><td>Only heap memory limit</td></tr>
+          <tr><td>Overflow</td><td>Possible — must handle</td><td>Not applicable</td></tr>
+          <tr><td>Operations speed</td><td>Faster — no malloc/free</td><td>Slightly slower — dynamic allocation</td></tr>
+          <tr><td>Memory efficiency</td><td>May waste space if underused</td><td>Only uses what's needed</td></tr>
+          <tr><td>Cache performance</td><td>Better — spatial locality</td><td>Worse — pointer chasing</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="section-label">Applications of Stacks</div>
+  <div class="grid grid-2">
+
+    <div class="card">
+      <div class="card-code">U3 · 06</div>
+      <div class="card-title">Expression Notations</div>
+      <div class="card-def">Mathematical expressions can be written in three notations — stacks are key to converting and evaluating them.</div>
+      <div class="type-grid">
+        <div class="type-item">
+          <div class="type-item-name">Infix</div>
+          <div class="type-item-desc">Operator between operands: A + B. Human-readable but requires precedence rules and parentheses. e.g. (3 + 4) × 5</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Prefix (Polish)</div>
+          <div class="type-item-desc">Operator before operands: + A B. No parentheses needed. Invented by logician Jan Łukasiewicz (1920). e.g. × + 3 4 5</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Postfix (Reverse Polish)</div>
+          <div class="type-item-desc">Operator after operands: A B +. No parentheses needed; ideal for stack-based evaluation. e.g. 3 4 + 5 ×. Used in HP calculators, JVM.</div>
+        </div>
+      </div>
+      <div class="tags"><span class="tag">Infix</span><span class="tag">Prefix</span><span class="tag">Postfix</span><span class="tag">Łukasiewicz</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U3 · 07</div>
+      <div class="card-title">Postfix Evaluation Algorithm</div>
+      <div class="card-def">Scan postfix expression left to right — push operands, pop two when operator encountered, apply operator, push result.</div>
+      <div class="timeline">
+        <div class="timeline-step"><span class="step-num">Scan</span><span class="step-name">Read token</span><span class="step-desc">Left to right through expression</span></div>
+        <div class="timeline-step"><span class="step-num">Operand?</span><span class="step-name">Push to stack</span><span class="step-desc">e.g. push 3, push 4</span></div>
+        <div class="timeline-step"><span class="step-num">Operator?</span><span class="step-name">Pop two</span><span class="step-desc">val2=pop(), val1=pop()</span></div>
+        <div class="timeline-step"><span class="step-num">Compute</span><span class="step-name">Apply op</span><span class="step-desc">result = val1 op val2</span></div>
+        <div class="timeline-step"><span class="step-num">Push</span><span class="step-name">Push result</span><span class="step-desc">Until end; final answer = stack top</span></div>
+      </div>
+      <div class="callout"><div class="callout-title">Example: 3 4 + 5 ×</div>Push 3, Push 4 → see + → pop 4,3 → compute 7 → push 7 → see 5 push 5 → see × → pop 5,7 → compute 35 → push 35 → Result: 35</div>
+      <div class="tags"><span class="tag">O(n)</span><span class="tag">Single scan</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U3 · 08</div>
+      <div class="card-title">Infix to Postfix Conversion</div>
+      <div class="card-def">Shunting-yard algorithm (Dijkstra, 1961) converts infix to postfix using a stack to hold operators and manage precedence.</div>
+      <ul>
+        <li><b>Precedence</b>: ^ &gt; × / &gt; + − (higher precedence pops lower from stack)</li>
+        <li><b>Associativity</b>: Left-associative operators (×,/,+,−) pop ≥ precedence; right-associative (^) pop only &gt; precedence</li>
+        <li><b>Operand</b>: Immediately append to output</li>
+        <li><b>( opened</b>: Push to stack</li>
+        <li><b>) closed</b>: Pop stack to output until ( found, discard (</li>
+        <li><b>End of input</b>: Pop remaining operators to output</li>
+        <li><b>Dijkstra</b>: Edsger W. Dijkstra invented this; also known for Dijkstra's shortest-path algorithm</li>
+      </ul>
+      <div class="tags"><span class="tag">Shunting-yard</span><span class="tag">Dijkstra</span><span class="tag">Precedence</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U3 · 09</div>
+      <div class="card-title">Balanced Parentheses Check</div>
+      <div class="card-def">Determine if an expression has properly matched opening and closing brackets — (, ), [, ], {, }.</div>
+      <div class="timeline">
+        <div class="timeline-step"><span class="step-num">Scan</span><span class="step-name">Read char</span><span class="step-desc">Process each character</span></div>
+        <div class="timeline-step"><span class="step-num">Open?</span><span class="step-name">Push it</span><span class="step-desc">( [ { pushed to stack</span></div>
+        <div class="timeline-step"><span class="step-num">Close?</span><span class="step-name">Pop &amp; match</span><span class="step-desc">Empty stack or mismatch → invalid</span></div>
+        <div class="timeline-step"><span class="step-num">End</span><span class="step-name">Stack empty?</span><span class="step-desc">If yes: balanced. If no: unbalanced.</span></div>
+      </div>
+      <div class="callout"><div class="callout-title">Complexity</div>Time: O(n) · Space: O(n) worst case (all opening brackets)</div>
+      <ul style="margin-top:0.5rem">
+        <li><b>Application</b>: Compilers, code editors (bracket highlighting), JSON/XML validators</li>
+      </ul>
+      <div class="tags"><span class="tag">O(n)</span><span class="tag">Compiler use</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U3 · 10</div>
+      <div class="card-title">Function Call Stack (Activation Records)</div>
+      <div class="card-def">The program call stack is the most critical real-world use of the stack ADT — tracking function calls, local variables, and return addresses.</div>
+      <ul>
+        <li><b>Stack frame</b>: Created on each function call — contains local variables, parameters, return address</li>
+        <li><b>LIFO property</b>: When function returns, its frame is popped — control returns to caller</li>
+        <li><b>Recursion</b>: Each recursive call adds a new frame; deep recursion can cause <b>Stack Overflow</b></li>
+        <li><b>Tail call optimisation</b>: Some compilers replace tail-recursive calls to avoid adding frames</li>
+        <li><b>Stack size</b>: Typically 1–8 MB per thread; configurable in OS</li>
+      </ul>
+      <div class="tags"><span class="tag">Call stack</span><span class="tag">Recursion</span><span class="tag">OS</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U3 · 11</div>
+      <div class="card-title">Backtracking &amp; Other Applications</div>
+      <div class="card-def">Stacks are essential in algorithms that explore possibilities and need to "undo" decisions.</div>
+      <div class="type-grid">
+        <div class="type-item">
+          <div class="type-item-name">Backtracking</div>
+          <div class="type-item-desc">Push state before exploring branch; pop to return on dead end. Used in Maze solving, N-Queens, Sudoku solvers.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Reversing a String/List</div>
+          <div class="type-item-desc">Push all elements, then pop — output is reversed. O(n) time and space.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Browser History</div>
+          <div class="type-item-desc">Back button uses a stack of visited URLs. Each new page pushed; back = pop.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">DFS (Graph Traversal)</div>
+          <div class="type-item-desc">Depth-First Search uses a stack (explicit or implicit call stack) to explore graph nodes.</div>
+        </div>
+      </div>
+      <div class="tags"><span class="tag">Backtracking</span><span class="tag">DFS</span><span class="tag">Browser</span></div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════ UNIT IV ═══════════════════════════ -->
+<section class="tab-panel u4" id="unit4" role="tabpanel">
+
+  <div class="unit-hero u4" data-number="IV">
+    <div class="unit-hero-label">Unit IV</div>
+    <div class="unit-hero-title">Queues &amp; Deques</div>
+    <p class="unit-hero-desc">FIFO discipline — ordinary queues, circular queues, priority queues, and the versatile double-ended deque.</p>
+  </div>
+
+  <div class="section-label">Queue Fundamentals</div>
+  <div class="grid grid-2">
+
+    <div class="card">
+      <div class="card-code">U4 · 01</div>
+      <div class="card-title">Queue — Definition &amp; Properties</div>
+      <div class="card-def">A queue is a linear data structure that follows <em>First In, First Out (FIFO)</em> — the element inserted first is removed first, like a line of customers.</div>
+      <ul>
+        <li><b>Front/Head</b>: Pointer to the element to be dequeued next</li>
+        <li><b>Rear/Tail</b>: Pointer to the position where the next element will be inserted</li>
+        <li><b>FIFO</b>: Contrast with Stack (LIFO) — completely opposite removal order</li>
+        <li><b>Real-world analogy</b>: Ticket queue, print spooler, hospital waiting list</li>
+        <li><b>Origin</b>: Formalised in early 1960s for OS process scheduling</li>
+      </ul>
+      <div class="tags"><span class="tag">FIFO</span><span class="tag">Front + Rear</span><span class="tag">Scheduling</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U4 · 02</div>
+      <div class="card-title">Queue Operations</div>
+      <div class="card-def">The Queue ADT defines four core operations, all O(1).</div>
+      <div class="type-grid">
+        <div class="type-item">
+          <div class="type-item-name">enqueue(element)</div>
+          <div class="type-item-desc">Insert element at rear. If rear == MAX-1 → overflow. O(1).</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">dequeue()</div>
+          <div class="type-item-desc">Remove and return element from front. If front &gt; rear or empty → underflow. O(1).</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">peek() / front()</div>
+          <div class="type-item-desc">Return front element without removing. O(1).</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">isEmpty()</div>
+          <div class="type-item-desc">Returns true if front &gt; rear (array) or head == NULL (linked list). O(1).</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-label">Queue Implementations &amp; Variants</div>
+  <div class="grid grid-2">
+
+    <div class="card">
+      <div class="card-code">U4 · 03</div>
+      <div class="card-title">Queue Using Array — Linear &amp; Circular</div>
+      <div class="card-def">A linear array queue wastes space as front advances — the <em>circular queue</em> fixes this by treating the array as a ring.</div>
+      <ul>
+        <li><b>Linear array problem</b>: After dequeues, front advances but vacated slots can't be reused — false "overflow"</li>
+        <li><b>Circular queue</b>: rear = (rear + 1) % MAX; front = (front + 1) % MAX</li>
+        <li><b>Full condition</b>: (rear + 1) % MAX == front</li>
+        <li><b>Empty condition</b>: front == rear (or use a count variable)</li>
+        <li><b>Effective capacity</b>: MAX - 1 slots (one slot wasted to distinguish full from empty)</li>
+        <li><b>Also called</b>: Ring buffer, circular buffer — used in OS I/O buffers, audio processing</li>
+      </ul>
+      <div class="tags"><span class="tag">Ring buffer</span><span class="tag">Modulo arithmetic</span><span class="tag">O(1)</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U4 · 04</div>
+      <div class="card-title">Queue Using Linked List</div>
+      <div class="card-def">Maintain <em>front</em> and <em>rear</em> pointers — enqueue at rear, dequeue at front. No size limit, no wasted space.</div>
+      <div class="code-block"><span class="cm">// Enqueue</span><br>Node* n = <span class="kw">new</span> <span class="fn">Node</span>(x);<br><span class="kw">if</span> (rear) rear→next = n;<br><span class="kw">else</span> front = n;<br>rear = n;<br><br><span class="cm">// Dequeue</span><br><span class="kw">int</span> val = front→data;<br>Node* tmp = front;<br>front = front→next;<br><span class="kw">if</span> (!front) rear = <span class="kw">NULL</span>;<br><span class="kw">delete</span> tmp;</div>
+      <div class="tags"><span class="tag">Dynamic</span><span class="tag">No overflow</span><span class="tag">O(1) both ops</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U4 · 05</div>
+      <div class="card-title">Types of Queues</div>
+      <div class="card-def">Several specialised queue variants extend the basic FIFO behaviour for specific use cases.</div>
+      <div class="type-grid">
+        <div class="type-item">
+          <div class="type-item-name">Simple (Linear) Queue</div>
+          <div class="type-item-desc">Basic FIFO. Enqueue at rear, dequeue at front. Fixed size or dynamic.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Circular Queue</div>
+          <div class="type-item-desc">Array treated as circular ring. Eliminates the false overflow problem. Used in ring buffers.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Priority Queue</div>
+          <div class="type-item-desc">Elements dequeued in order of priority, not insertion order. Min-heap or Max-heap implementation. Used in Dijkstra's algorithm, OS scheduling.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Double-Ended Queue (Deque)</div>
+          <div class="type-item-desc">Insert and delete at both ends. Generalises both stack and queue. Covered in detail below.</div>
+        </div>
+      </div>
+      <div class="tags"><span class="tag">4 Types</span><span class="tag">Priority</span><span class="tag">Deque</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U4 · 06</div>
+      <div class="card-title">Applications of Queues</div>
+      <div class="card-def">Queues model real-world waiting and scheduling scenarios across systems programming and algorithms.</div>
+      <div class="type-grid">
+        <div class="type-item">
+          <div class="type-item-name">BFS (Graph Traversal)</div>
+          <div class="type-item-desc">Breadth-First Search explores nodes level by level using a queue. Finds shortest path in unweighted graphs.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">CPU Scheduling</div>
+          <div class="type-item-desc">Round-robin scheduling: processes wait in a queue; each gets a time quantum. Uses circular queue.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Print Spooler</div>
+          <div class="type-item-desc">Print jobs are queued — first submitted, first printed. OS manages print queue.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Network Packet Buffering</div>
+          <div class="type-item-desc">Router buffers packets in a queue during congestion; forwards in FIFO order.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Keyboard Buffer</div>
+          <div class="type-item-desc">Keystrokes stored in a queue until the application processes them — preserves order.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Level-order Tree Traversal</div>
+          <div class="type-item-desc">Visit tree nodes level by level — equivalent to BFS using a queue.</div>
+        </div>
+      </div>
+      <div class="tags"><span class="tag">BFS</span><span class="tag">OS Scheduling</span><span class="tag">Networking</span></div>
+    </div>
+
+  </div>
+
+  <div class="section-label">Deque (Double-Ended Queue)</div>
+  <div class="grid grid-2">
+
+    <div class="card">
+      <div class="card-code">U4 · 07</div>
+      <div class="card-title">Deque — Definition &amp; Operations</div>
+      <div class="card-def">A Deque (Double-Ended Queue) allows insertion and deletion at <em>both</em> front and rear — a generalisation of both Stack and Queue.</div>
+      <div class="type-grid">
+        <div class="type-item">
+          <div class="type-item-name">insertFront(x)</div>
+          <div class="type-item-desc">Add element to the front. O(1) with DLL or circular array.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">insertRear(x)</div>
+          <div class="type-item-desc">Add element to the rear. Same as regular enqueue.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">deleteFront()</div>
+          <div class="type-item-desc">Remove from front. Same as regular dequeue.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">deleteRear()</div>
+          <div class="type-item-desc">Remove from rear. Like stack pop. Requires DLL or circular array for O(1).</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">getFront() / getRear()</div>
+          <div class="type-item-desc">Peek at front or rear without removal. O(1).</div>
+        </div>
+      </div>
+      <div class="tags"><span class="tag">Both ends</span><span class="tag">Stack + Queue</span><span class="tag">O(1)</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U4 · 08</div>
+      <div class="card-title">Deque Variants &amp; Applications</div>
+      <div class="card-def">Restricted deques limit operations on one end; real-world deques power sliding window algorithms and palindrome checking.</div>
+      <div class="type-grid">
+        <div class="type-item">
+          <div class="type-item-name">Input-Restricted Deque</div>
+          <div class="type-item-desc">Insertion only at rear; deletion at both ends. Useful when input is always appended but removal is flexible.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Output-Restricted Deque</div>
+          <div class="type-item-desc">Deletion only at front; insertion at both ends. When removal order must be FIFO but input can be front-inserted.</div>
+        </div>
+      </div>
+      <div class="callout"><div class="callout-title">Key Applications</div>
+        <ul style="padding-left:1rem; font-size:0.88rem">
+          <li><b>Sliding window maximum</b> (O(n) algorithm using deque)</li>
+          <li><b>Palindrome check</b>: Add chars to deque, compare front and rear simultaneously</li>
+          <li><b>Undo/Redo</b>: Undo = deleteFront, Redo = insertFront</li>
+          <li><b>Work-stealing schedulers</b> (e.g. Java ForkJoinPool): Threads take tasks from their own deque's rear; steal from others' front</li>
+        </ul>
+      </div>
+      <div class="tags"><span class="tag">Sliding Window</span><span class="tag">Palindrome</span><span class="tag">Work-stealing</span></div>
+    </div>
+
+    <div class="card wide">
+      <div class="card-code">U4 · 09</div>
+      <div class="card-title">Stack vs Queue vs Deque — Comparison</div>
+      <table class="mini-table">
+        <thead><tr><th>Feature</th><th>Stack</th><th>Queue</th><th>Deque</th></tr></thead>
+        <tbody>
+          <tr><td>Insertion</td><td>Top only</td><td>Rear only</td><td>Front or Rear</td></tr>
+          <tr><td>Deletion</td><td>Top only</td><td>Front only</td><td>Front or Rear</td></tr>
+          <tr><td>Order</td><td>LIFO</td><td>FIFO</td><td>Both (configurable)</td></tr>
+          <tr><td>Peeking</td><td>Top</td><td>Front</td><td>Front and Rear</td></tr>
+          <tr><td>Can simulate</td><td>—</td><td>—</td><td>Stack AND Queue</td></tr>
+          <tr><td>Implementation</td><td>Array or LL</td><td>Array or LL</td><td>DLL or Circular Array</td></tr>
+          <tr><td>Time complexity</td><td>O(1) all ops</td><td>O(1) all ops</td><td>O(1) all ops</td></tr>
+          <tr><td>Use cases</td><td>DFS, undo, expression eval</td><td>BFS, scheduling, buffering</td><td>Sliding window, palindrome</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════ UNIT V ═══════════════════════════ -->
+<section class="tab-panel u5" id="unit5" role="tabpanel">
+
+  <div class="unit-hero u5" data-number="V">
+    <div class="unit-hero-label">Unit V</div>
+    <div class="unit-hero-title">Trees &amp; Hashing</div>
+    <p class="unit-hero-desc">Hierarchical data with BST operations, and the mathematical magic of hash functions — from collisions to caching.</p>
+  </div>
+
+  <div class="section-label">Tree Fundamentals</div>
+  <div class="grid grid-2">
+
+    <div class="card">
+      <div class="card-code">U5 · 01</div>
+      <div class="card-title">Tree — Definition &amp; Terminology</div>
+      <div class="card-def">A tree is a non-linear hierarchical data structure consisting of nodes connected by edges, with one special root node at the top and no cycles.</div>
+      <div class="type-grid">
+        <div class="type-item"><div class="type-item-name">Root</div><div class="type-item-desc">The topmost node — has no parent. Entry point to the tree.</div></div>
+        <div class="type-item"><div class="type-item-name">Parent / Child</div><div class="type-item-desc">A node directly above is parent; nodes directly below are children.</div></div>
+        <div class="type-item"><div class="type-item-name">Leaf (External) node</div><div class="type-item-desc">A node with no children. Also called terminal node.</div></div>
+        <div class="type-item"><div class="type-item-name">Internal node</div><div class="type-item-desc">Any non-leaf node — has at least one child.</div></div>
+        <div class="type-item"><div class="type-item-name">Height</div><div class="type-item-desc">Number of edges on longest path from root to a leaf. Empty tree: -1; single node: 0.</div></div>
+        <div class="type-item"><div class="type-item-name">Depth / Level</div><div class="type-item-desc">Number of edges from root to a given node. Root is at depth 0.</div></div>
+        <div class="type-item"><div class="type-item-name">Degree</div><div class="type-item-desc">Number of children of a node. Degree of tree = maximum node degree.</div></div>
+        <div class="type-item"><div class="type-item-name">Subtree</div><div class="type-item-desc">Any node + all its descendants forms a subtree.</div></div>
+      </div>
+      <div class="tags"><span class="tag">Hierarchical</span><span class="tag">Acyclic</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U5 · 02</div>
+      <div class="card-title">Binary Tree — Types</div>
+      <div class="card-def">A binary tree is a tree where each node has <em>at most two children</em> — left child and right child.</div>
+      <div class="type-grid">
+        <div class="type-item"><div class="type-item-name">Full (Strictly) Binary Tree</div><div class="type-item-desc">Every node has 0 or 2 children — no node has exactly 1 child.</div></div>
+        <div class="type-item"><div class="type-item-name">Complete Binary Tree</div><div class="type-item-desc">All levels fully filled except possibly the last, which is filled left to right. Max-heaps and min-heaps are complete binary trees.</div></div>
+        <div class="type-item"><div class="type-item-name">Perfect Binary Tree</div><div class="type-item-desc">All internal nodes have 2 children AND all leaves are at the same level. Node count = 2^(h+1) - 1.</div></div>
+        <div class="type-item"><div class="type-item-name">Degenerate (Skewed) Tree</div><div class="type-item-desc">Each parent has only one child — essentially a linked list. Worst case for BST (O(n) all operations).</div></div>
+        <div class="type-item"><div class="type-item-name">Balanced Binary Tree</div><div class="type-item-desc">Height difference between left and right subtrees ≤ 1 for every node. Guarantees O(log n) operations. AVL, Red-Black trees are self-balancing.</div></div>
+      </div>
+      <div class="tags"><span class="tag">Binary</span><span class="tag">Balanced</span><span class="tag">Complete</span></div>
+    </div>
+
+  </div>
+
+  <div class="section-label">Binary Search Tree (BST)</div>
+  <div class="grid grid-2">
+
+    <div class="card">
+      <div class="card-code">U5 · 03</div>
+      <div class="card-title">BST — Definition &amp; BST Property</div>
+      <div class="card-def">A Binary Search Tree is a binary tree where every node's left subtree contains only values <em>less than</em> the node, and every right subtree contains only values <em>greater than</em> the node.</div>
+      <ul>
+        <li><b>BST Property</b>: For every node N: all keys in N.left &lt; N.key &lt; all keys in N.right</li>
+        <li><b>Inorder traversal</b> of a BST always produces a <b>sorted sequence</b></li>
+        <li><b>Average case</b>: O(log n) for search, insert, delete — when tree is balanced</li>
+        <li><b>Worst case</b>: O(n) — when tree degenerates into a linked list (sorted insertions)</li>
+        <li><b>Historical</b>: Binary search trees formalised by P.F. Windley and others around 1960</li>
+        <li><b>No duplicate keys</b>: Standard BSTs don't allow duplicate keys (handled by convention: go left or right)</li>
+      </ul>
+      <div class="tags"><span class="tag">BST Property</span><span class="tag">O(log n) avg</span><span class="tag">Ordered</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U5 · 04</div>
+      <div class="card-title">BST — Insertion</div>
+      <div class="card-def">Insert a new key by traversing the tree following BST property until a NULL position is found, then place the new node there.</div>
+      <div class="timeline">
+        <div class="timeline-step"><span class="step-num">Start</span><span class="step-name">At root</span><span class="step-desc">curr = root</span></div>
+        <div class="timeline-step"><span class="step-num">Compare</span><span class="step-name">key vs curr</span><span class="step-desc">Less? Go left. Greater? Go right.</span></div>
+        <div class="timeline-step"><span class="step-num">Found NULL</span><span class="step-name">Insert here</span><span class="step-desc">Create new node at this position</span></div>
+        <div class="timeline-step"><span class="step-num">Done</span><span class="step-name">BST intact</span><span class="step-desc">Property maintained</span></div>
+      </div>
+      <div class="callout"><div class="callout-title">Complexity</div>Average: O(log n) · Worst (degenerate): O(n) · Space: O(h) for recursion stack</div>
+      <div class="tags"><span class="tag">O(log n) avg</span><span class="tag">Recursive or iterative</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U5 · 05</div>
+      <div class="card-title">BST — Search</div>
+      <div class="card-def">Search exploits the BST property to eliminate half the remaining tree at each step — similar to binary search on arrays.</div>
+      <div class="code-block"><span class="fn">search</span>(root, key):<br>&nbsp; <span class="kw">if</span> root is NULL → <span class="kw">return</span> NULL<br>&nbsp; <span class="kw">if</span> key == root.data → <span class="kw">return</span> root<br>&nbsp; <span class="kw">if</span> key &lt; root.data:<br>&nbsp;&nbsp;&nbsp; <span class="kw">return</span> <span class="fn">search</span>(root.left, key)<br>&nbsp; <span class="kw">else</span>:<br>&nbsp;&nbsp;&nbsp; <span class="kw">return</span> <span class="fn">search</span>(root.right, key)</div>
+      <ul>
+        <li><b>Best case</b>: O(1) — key is at root</li>
+        <li><b>Average</b>: O(log n) for balanced BST</li>
+        <li><b>Worst</b>: O(n) for degenerate tree</li>
+        <li><b>Key insight</b>: At each node, we definitively eliminate one subtree</li>
+      </ul>
+      <div class="tags"><span class="tag">O(log n)</span><span class="tag">Recursive</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U5 · 06</div>
+      <div class="card-title">BST — Deletion</div>
+      <div class="card-def">Deletion has three cases depending on the target node's children — the trickiest case uses the inorder successor (or predecessor).</div>
+      <div class="type-grid">
+        <div class="type-item">
+          <div class="type-item-name">Case 1: Leaf Node</div>
+          <div class="type-item-desc">Simply remove the node. Set parent's child pointer to NULL. O(log n) to find.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Case 2: One Child</div>
+          <div class="type-item-desc">Bypass the node — link parent directly to the node's only child. The child subtree slides up.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Case 3: Two Children</div>
+          <div class="type-item-desc">Find the <b>inorder successor</b> (smallest in right subtree) OR <b>inorder predecessor</b> (largest in left). Copy its value to deleted node. Delete the successor/predecessor (which has at most one child).</div>
+        </div>
+      </div>
+      <div class="callout"><div class="callout-title">Inorder Successor</div>The leftmost node in the right subtree — the next larger value in sorted order. Always has at most a right child.</div>
+      <div class="tags"><span class="tag">3 Cases</span><span class="tag">Inorder Successor</span><span class="tag">O(log n)</span></div>
+    </div>
+
+    <div class="card wide">
+      <div class="card-code">U5 · 07</div>
+      <div class="card-title">BST — Tree Traversals</div>
+      <div class="card-def">Tree traversal visits every node exactly once in a defined order. Three primary depth-first traversals + one breadth-first traversal.</div>
+      <div class="grid grid-4" style="margin-top:0.8rem">
+        <div class="type-item">
+          <div class="type-item-name">Inorder (LNR)</div>
+          <div class="type-item-desc">Left → Node → Right. <b>Produces sorted sequence for BST.</b> Used for: sorted output, converting BST to sorted array.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Preorder (NLR)</div>
+          <div class="type-item-desc">Node → Left → Right. Used for: copying a tree, serialising tree structure, expression tree prefix notation.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Postorder (LRN)</div>
+          <div class="type-item-desc">Left → Right → Node. Used for: deleting a tree (children before parent), postfix expression evaluation, computing directory sizes.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Level-order (BFS)</div>
+          <div class="type-item-desc">Visit level by level, left to right. Uses a Queue. Used for: finding shortest path, printing tree by level.</div>
+        </div>
+      </div>
+      <table class="mini-table" style="margin-top:1rem">
+        <thead><tr><th>Traversal</th><th>Order</th><th>Complexity</th><th>Key Use</th></tr></thead>
+        <tbody>
+          <tr><td>Inorder</td><td>L → N → R</td><td>O(n)</td><td>Sorted output from BST</td></tr>
+          <tr><td>Preorder</td><td>N → L → R</td><td>O(n)</td><td>Tree serialisation / copy</td></tr>
+          <tr><td>Postorder</td><td>L → R → N</td><td>O(n)</td><td>Tree deletion, postfix eval</td></tr>
+          <tr><td>Level-order</td><td>Level by level</td><td>O(n)</td><td>BFS, shortest path</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="section-label">Hashing</div>
+  <div class="grid grid-2">
+
+    <div class="card">
+      <div class="card-code">U5 · 08</div>
+      <div class="card-title">Hashing — Introduction &amp; Concepts</div>
+      <div class="card-def">Hashing is a technique of converting a key into an index (hash) for direct storage/retrieval in a fixed-size table — achieving O(1) average-case access.</div>
+      <ul>
+        <li><b>Hash function h(k)</b>: Maps key k → index in range [0, m-1] where m is table size</li>
+        <li><b>Hash table</b>: Array indexed by hash values</li>
+        <li><b>Perfect hashing</b>: No two keys map to same index (rarely achievable for arbitrary keys)</li>
+        <li><b>Load factor α</b>: α = n/m where n = number of keys, m = table size. Performance degrades as α approaches 1</li>
+        <li><b>Origin</b>: Developed by H.P. Luhn (IBM) around 1953; formalised by Dumey in 1956</li>
+        <li><b>Amortised O(1)</b>: Average case for insert, search, delete — worst case O(n) if all keys collide</li>
+      </ul>
+      <div class="tags"><span class="tag">O(1) average</span><span class="tag">Key-to-index</span><span class="tag">Load factor</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U5 · 09</div>
+      <div class="card-title">Hash Functions</div>
+      <div class="card-def">A good hash function distributes keys uniformly, is fast to compute, and minimises collisions.</div>
+      <div class="type-grid">
+        <div class="type-item">
+          <div class="type-item-name">Division Method</div>
+          <div class="type-item-desc">h(k) = k mod m. Simple and fast. Choose m as a prime not close to a power of 2 for best distribution.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Multiplication Method</div>
+          <div class="type-item-desc">h(k) = ⌊m · (k · A mod 1)⌋ where 0 &lt; A &lt; 1. Knuth suggests A ≈ (√5 - 1)/2 ≈ 0.618 (golden ratio). Works for any m.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Universal Hashing</div>
+          <div class="type-item-desc">Select h randomly from a family of functions at runtime — prevents adversarial inputs from causing worst-case collisions.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Folding Method</div>
+          <div class="type-item-desc">Split key into parts, add them together, take mod. e.g. key=12345678 → 12+34+56+78=180 → 180 mod m.</div>
+        </div>
+      </div>
+      <div class="callout"><div class="callout-title">Properties of a Good Hash Function</div>Deterministic · Uniform distribution · Fast computation · Avalanche effect (small input change → large output change)</div>
+      <div class="tags"><span class="tag">Division</span><span class="tag">Multiplication</span><span class="tag">Universal</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U5 · 10</div>
+      <div class="card-title">Collision &amp; Chaining</div>
+      <div class="card-def">A <em>collision</em> occurs when two different keys hash to the same index. <em>Chaining</em> (separate chaining) resolves collisions by storing all colliding keys in a linked list at each bucket.</div>
+      <ul>
+        <li><b>Separate Chaining</b>: Each slot of the hash table is a linked list (or dynamic array) of all keys mapping to that index</li>
+        <li><b>Insertion</b>: Hash key → prepend to list at that index. O(1)</li>
+        <li><b>Search</b>: Hash key → search list at index. O(1 + α) average where α = load factor</li>
+        <li><b>Load factor</b>: Can exceed 1 with chaining (unlike open addressing)</li>
+        <li><b>Advantage</b>: Simple; table never "fills up"; handles high load factors gracefully</li>
+        <li><b>Disadvantage</b>: Extra memory for pointers; poor cache performance (pointer chasing)</li>
+        <li><b>Real world</b>: Java HashMap, Python dict (pre-3.6) used chaining</li>
+      </ul>
+      <div class="tags"><span class="tag">Separate Chaining</span><span class="tag">Linked List</span><span class="tag">Java HashMap</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U5 · 11</div>
+      <div class="card-title">Open Addressing</div>
+      <div class="card-def">When a collision occurs, open addressing finds the next available slot in the table itself — all entries stored within the table array (no extra linked lists).</div>
+      <div class="type-grid">
+        <div class="type-item">
+          <div class="type-item-name">Linear Probing</div>
+          <div class="type-item-desc">h(k, i) = (h(k) + i) mod m. Try next slot, then next, etc. Simple but causes <b>primary clustering</b> — long runs of occupied slots accumulate, degrading performance.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Quadratic Probing</div>
+          <div class="type-item-desc">h(k, i) = (h(k) + c₁i + c₂i²) mod m. Reduces primary clustering but causes <b>secondary clustering</b> — keys with same initial hash follow same probe sequence.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Double Hashing</div>
+          <div class="type-item-desc">h(k, i) = (h₁(k) + i·h₂(k)) mod m. Uses a second hash function to determine probe step — virtually eliminates clustering. Best open addressing method.</div>
+        </div>
+      </div>
+      <div class="callout"><div class="callout-title">Deletion Challenge</div>Deleting a key from open addressing is tricky — must mark as "DELETED" (tombstone), not truly empty, or searches break for subsequent probes.</div>
+      <div class="tags"><span class="tag">Linear Probing</span><span class="tag">Quadratic</span><span class="tag">Double Hashing</span></div>
+    </div>
+
+    <div class="card wide">
+      <div class="card-code">U5 · 12</div>
+      <div class="card-title">Chaining vs Open Addressing — Comparison</div>
+      <table class="mini-table">
+        <thead><tr><th>Feature</th><th>Separate Chaining</th><th>Open Addressing</th></tr></thead>
+        <tbody>
+          <tr><td>Collision storage</td><td>Linked list per bucket</td><td>Within the table itself</td></tr>
+          <tr><td>Load factor α</td><td>Can exceed 1 freely</td><td>Must stay &lt; 1 (table fills)</td></tr>
+          <tr><td>Memory</td><td>Extra for pointers</td><td>No extra — denser</td></tr>
+          <tr><td>Cache performance</td><td>Poor (pointer chasing)</td><td>Better (array access)</td></tr>
+          <tr><td>Deletion</td><td>Simple (remove from list)</td><td>Complex (tombstone needed)</td></tr>
+          <tr><td>Performance at high α</td><td>Degrades gradually</td><td>Degrades sharply near α=1</td></tr>
+          <tr><td>Best for</td><td>Unknown or variable load</td><td>Cache-sensitive, known size</td></tr>
+          <tr><td>Example</td><td>Java HashMap, Python dict</td><td>Python dict (3.6+), C++ unordered_map</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U5 · 13</div>
+      <div class="card-title">Applications of Hashing</div>
+      <div class="card-def">Hashing is one of the most widely used data structure techniques in real-world systems.</div>
+      <div class="type-grid">
+        <div class="type-item">
+          <div class="type-item-name">Caching (Memoisation)</div>
+          <div class="type-item-desc">Store previously computed results in a hash map — O(1) lookup. Used in dynamic programming, browser caches (URL → content).</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Unique ID / Deduplication</div>
+          <div class="type-item-desc">Hash set tracks seen elements — detect duplicates in O(n) instead of O(n²). Used in finding duplicate files, IPs, records.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Database Indexing</div>
+          <div class="type-item-desc">Hash indexes in databases (e.g. PostgreSQL) allow O(1) equality queries — faster than B-tree for exact lookups.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Cryptographic Hashing</div>
+          <div class="type-item-desc">SHA-256, MD5 — one-way hash functions for password storage, data integrity. Different design goals from hash tables.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">Symbol Tables in Compilers</div>
+          <div class="type-item-desc">Variable names → attributes stored in hash map during compilation — fast identifier lookup.</div>
+        </div>
+        <div class="type-item">
+          <div class="type-item-name">LRU Cache</div>
+          <div class="type-item-desc">HashMap + Doubly Linked List together implement O(1) LRU (Least Recently Used) eviction — used in OS page replacement, CDNs.</div>
+        </div>
+      </div>
+      <div class="tags"><span class="tag">Cache</span><span class="tag">Database</span><span class="tag">Compiler</span><span class="tag">LRU</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-code">U5 · 14</div>
+      <div class="card-title">BST vs Hash Table</div>
+      <div class="card-def">Two dominant structures for dictionaries/maps — each with distinct strengths.</div>
+      <table class="mini-table">
+        <thead><tr><th>Feature</th><th>BST</th><th>Hash Table</th></tr></thead>
+        <tbody>
+          <tr><td>Search</td><td>O(log n) avg</td><td>O(1) avg</td></tr>
+          <tr><td>Ordered ops</td><td>O(log n) — supports range queries, min, max, successor</td><td>Not supported efficiently</td></tr>
+          <tr><td>Worst case</td><td>O(n) unbalanced</td><td>O(n) all collide</td></tr>
+          <tr><td>Memory</td><td>O(n) pointer overhead</td><td>O(m) table + O(n) chains</td></tr>
+          <tr><td>Ordering</td><td>Maintains sorted order</td><td>No ordering</td></tr>
+          <tr><td>Use when</td><td>Need sorted data, range queries</td><td>Need fastest lookup, no ordering needed</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════ LAB ═══════════════════════════ -->
+<section class="tab-panel ulab" id="unitlab" role="tabpanel">
+
+  <div class="unit-hero ulab" data-number="↗">
+    <div class="unit-hero-label">Lab · 1.5 Credits</div>
+    <div class="unit-hero-title">Data Structures Lab</div>
+    <p class="unit-hero-desc">Practical implementations — from array manipulation and linked lists to BST traversals and cache simulation.</p>
+  </div>
+
+  <div class="section-label">Lab Exercises — Array &amp; Searching/Sorting</div>
+  <div class="grid grid-2">
+
+    <div class="card">
+      <div class="card-code">LAB · 01</div>
+      <div class="card-title">Array Reversal</div>
+      <div class="card-def">Reverse an array in-place using two pointers moving from opposite ends towards the centre.</div>
+      <div class="code-block"><span class="kw">void</span> <span class="fn">reverse</span>(<span class="kw">int</span> arr[], <span class="kw">int</span> n) {<br>&nbsp; <span class="kw">int</span> l = <span class="num">0</span>, r = n - <span class="num">1</span>;<br>&nbsp; <span class="kw">while</span> (l &lt; r) {<br>&nbsp;&nbsp;&nbsp; swap(arr[l++], arr[r--]);<br>&nbsp; }<br>}</div>
+      <div class="callout"><div class="callout-title">Complexity</div>Time: O(n/2) = O(n) · Space: O(1) — truly in-place</div>
+      <ul>
+        <li><b>Alternative</b>: Use a stack — push all elements, then pop. O(n) space.</li>
+        <li><b>Application</b>: Rotating arrays, palindrome check, reversing strings</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-code">LAB · 02</div>
+      <div class="card-title">Searching Implementation</div>
+      <div class="card-def">Implement both Linear and Binary search; test on sorted and unsorted arrays; compare step counts.</div>
+      <ul>
+        <li><b>Linear search</b>: Works on any array; count comparisons; test with target at start, middle, end, absent</li>
+        <li><b>Binary search (iterative)</b>: Sort array first; use low/high/mid pointers; compare step counts vs linear on n=100, 1000, 10000</li>
+        <li><b>Experiment</b>: Plot number of comparisons vs array size for both — observe O(n) vs O(log n) divergence</li>
+        <li><b>Edge cases</b>: Empty array, single element, duplicate values, searching minimum/maximum</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-code">LAB · 03</div>
+      <div class="card-title">Sorting Implementations</div>
+      <div class="card-def">Implement all three elementary sorts; verify correctness; measure and compare execution time.</div>
+      <ul>
+        <li><b>Bubble sort</b>: With and without the "no-swap early exit" optimisation — measure difference on nearly-sorted input</li>
+        <li><b>Selection sort</b>: Count swaps — demonstrate it always performs exactly n-1 swaps</li>
+        <li><b>Insertion sort</b>: Test on: random array, sorted array (should be O(n)), reverse-sorted (worst case O(n²))</li>
+        <li><b>Comparison experiment</b>: Generate random arrays of size 100, 500, 1000, 5000; time each sort; tabulate results</li>
+        <li><b>Stability test</b>: Sort array of (value, original_index) pairs; verify bubble and insertion sort maintain relative order of equal elements</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-code">LAB · 04</div>
+      <div class="card-title">Linked List — Singly, Doubly, Circular</div>
+      <div class="card-def">Implement all three variants with complete CRUD operations — insert (head/tail/position), delete, search, display.</div>
+      <ul>
+        <li><b>SLL operations</b>: insertBeginning, insertEnd, insertAtPosition, deleteByValue, deleteByPosition, search, display, countNodes</li>
+        <li><b>DLL extras</b>: displayReverse (follow prev pointers), deleteGivenNode (O(1) with node reference)</li>
+        <li><b>CLL care</b>: Traversal must stop at head again, not NULL; insert must update tail's next pointer</li>
+        <li><b>SLL reversal</b>: Implement iterative (3-pointer) and recursive reversal; verify with display</li>
+        <li><b>Polynomial add</b>: Represent polynomial as SLL (coeff + exp per node); merge two sorted lists; combine like terms</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="section-label">Lab Exercises — Stacks &amp; Queues</div>
+  <div class="grid grid-2">
+
+    <div class="card">
+      <div class="card-code">LAB · 05</div>
+      <div class="card-title">Stack Implementations &amp; Applications</div>
+      <div class="card-def">Implement stack using array and linked list; then use stack to solve classical problems.</div>
+      <ul>
+        <li><b>Array stack</b>: push, pop, peek, isFull, isEmpty, display; handle overflow/underflow gracefully</li>
+        <li><b>Linked list stack</b>: Same operations; demonstrate unbounded growth</li>
+        <li><b>Infix to postfix</b>: Implement Shunting-yard; handle +, -, *, /, ^ and parentheses; test: A*(B+C)-D, (A+B)*(C-D)</li>
+        <li><b>Postfix evaluation</b>: Scan postfix string; push operands; apply operators; output result</li>
+        <li><b>Balanced parens</b>: Check strings with (, ), [, ], {, }; test: "{[()]}" valid, "{[}" invalid</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-code">LAB · 06</div>
+      <div class="card-title">Queue &amp; Palindrome Check</div>
+      <div class="card-def">Implement queue using array and linked list; simulate a printer queue; check palindromes using a combination of stack and queue (or deque).</div>
+      <ul>
+        <li><b>Circular array queue</b>: enqueue, dequeue, isEmpty, isFull using modulo arithmetic</li>
+        <li><b>Linked list queue</b>: maintain front and rear pointers</li>
+        <li><b>Printer queue simulation</b>: Jobs with priority; simulate FIFO printing; display job order</li>
+        <li><b>Palindrome check</b>: Enqueue string chars; push to stack; dequeue and pop simultaneously — if all match → palindrome. Or use deque: compare front and rear.</li>
+        <li><b>BFS simulation</b>: Implement BFS on a small graph using queue; print traversal order</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-code">LAB · 07</div>
+      <div class="card-title">BST Operations</div>
+      <div class="card-def">Implement BST from scratch with all core operations; visualise tree shape; test traversals.</div>
+      <ul>
+        <li><b>Insert</b>: Build BST by inserting sequence 50, 30, 70, 20, 40, 60, 80 — draw the resulting tree</li>
+        <li><b>Search</b>: Implement recursive search; count comparisons; test found and not-found cases</li>
+        <li><b>Delete</b>: Implement all 3 cases; test each case: delete leaf (20), one-child (60), two-children (30)</li>
+        <li><b>Traversals</b>: Implement inorder (verify sorted output), preorder, postorder; implement level-order using queue</li>
+        <li><b>Min/Max</b>: Find minimum (leftmost node) and maximum (rightmost node)</li>
+        <li><b>Height function</b>: Recursively compute tree height</li>
+        <li><b>Degenerate case</b>: Insert sorted sequence 1,2,3,4,5 — observe O(n) tree; observe search degradation</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-code">LAB · 08</div>
+      <div class="card-title">Hash Table &amp; Cache Simulation</div>
+      <div class="card-def">Implement a hash table with both collision resolution methods; simulate a simple LRU cache.</div>
+      <ul>
+        <li><b>Hash table (chaining)</b>: Array of linked lists; implement insert, search, delete; test with load factor α = 0.5 and α = 0.9; observe performance</li>
+        <li><b>Hash table (open addressing)</b>: Linear probing; implement insert (with wraparound), search (skip tombstones), delete (mark as DELETED)</li>
+        <li><b>Hash function comparison</b>: Test division method with prime m vs power-of-2 m — count collisions; observe clustering with linear probing</li>
+        <li><b>LRU Cache (Simple)</b>: Use hash map (Python dict) + deque or doubly linked list; implement get(key) and put(key, value); demonstrate eviction when capacity reached</li>
+        <li><b>Word frequency counter</b>: Hash map counting word occurrences in a text; display top-5 frequent words</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="section-label">Lab Tips &amp; Common Mistakes</div>
+  <div class="grid grid-3">
+
+    <div class="card">
+      <div class="card-code">TIP · 01</div>
+      <div class="card-title">Pointer Pitfalls</div>
+      <div class="card-def">The most common source of bugs in linked list implementations.</div>
+      <ul>
+        <li><b>NULL dereference</b>: Always check if pointer is NULL before accessing →next or →data</li>
+        <li><b>Lost nodes</b>: Save next pointer before overwriting it during reversal or deletion</li>
+        <li><b>Circular infinite loop</b>: In CLL traversal, use do-while or check before visiting, not after</li>
+        <li><b>Memory leak</b>: In C/C++, always free() / delete deleted nodes</li>
+        <li><b>Off-by-one</b>: When inserting at position k, stop at (k-1), not k</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-code">TIP · 02</div>
+      <div class="card-title">Stack / Queue Edge Cases</div>
+      <div class="card-def">Always handle boundary conditions before implementing the happy path.</div>
+      <ul>
+        <li><b>Underflow</b>: pop/dequeue on empty structure — add isEmpty() check first</li>
+        <li><b>Overflow</b>: push/enqueue on full array structure — add isFull() check</li>
+        <li><b>Single element</b>: After popping last element, ensure top = -1 (stack) or front = rear = -1 (queue)</li>
+        <li><b>Circular queue distinction</b>: One slot always left empty — effective capacity is MAX-1</li>
+        <li><b>Postfix operand order</b>: val2 = pop() first, val1 = pop() second — order matters for -, /, ^</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-code">TIP · 03</div>
+      <div class="card-title">BST &amp; Hashing Tips</div>
+      <div class="card-def">Key insights for implementing trees and hash tables correctly.</div>
+      <ul>
+        <li><b>BST deletion two-children</b>: Don't physically move nodes — copy inorder successor's data, then delete the successor node</li>
+        <li><b>Traversal base case</b>: Always start with: if (root == NULL) return — before any recursion</li>
+        <li><b>Hash table prime m</b>: Choose table size as prime number for better distribution with division method</li>
+        <li><b>Tombstones</b>: In open addressing, use a sentinel DELETED marker — don't set to NULL or searches break</li>
+        <li><b>Load factor</b>: Resize hash table (rehash all keys) when α > 0.7 for performance</li>
+      </ul>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ═══ JAVASCRIPT ═══ -->
+<script>
+(function() {
+  const buttons = document.querySelectorAll('.tab-btn');
+  const panels  = document.querySelectorAll('.tab-panel');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+
+      btn.classList.add('active');
+      const target = document.getElementById(btn.dataset.target);
+      if (target) target.classList.add('active');
+
+      // Scroll to top of content
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+})();
+</script>
+</body>
+</html>

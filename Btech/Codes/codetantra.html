@@ -1,0 +1,5087 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DS Lab — Study Codetatra</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style required>
+  :root {
+    --bg: #09080d;
+    --bg2: #110f18;
+    --bg3: #1a1724;
+    --surface: #16131f;
+    --surface2: #1e1b2e;
+    --border: rgba(255,255,255,0.07);
+    --text: #e8e4f0;
+    --muted: #8b85a0;
+    --accent1: #c084fc; /* violet */
+    --accent2: #34d399; /* emerald */
+    --accent3: #fb923c; /* amber */
+    --accent4: #38bdf8; /* sky */
+    --accent5: #f472b6; /* pink */
+    --code-bg: #0d0b14;
+    --code-border: rgba(192,132,252,0.2);
+    --radius: 12px;
+    --noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+      --logo-color: brightness(0) saturate(100%) invert(76%) sepia(44%) saturate(403%) hue-rotate(165deg) brightness(95%) contrast(94%);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; font-size: 10px;}
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Noise overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: var(--noise);
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent1); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--accent5); }
+
+  /* ── HEADER ── */
+  .site-header {
+    position: relative;
+    padding: 64px 40px 48px;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .site-header::before {
+    content: '';
+    position: absolute;
+    top: -120px; left: -120px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(192,132,252,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .site-header::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; right: -80px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(52,211,153,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .header-kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .header-kicker::before {
+    content: '';
+    display: inline-block;
+    width: 32px; height: 1px;
+    background: var(--accent2);
+  }
+
+  .header-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 6vw, 5rem);
+    font-weight: 900;
+    font-style: italic;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #e8e4f0 30%, var(--accent1) 70%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+  }
+
+  .header-sub {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .header-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    padding: 4px 14px;
+    border-radius: 100px;
+    letter-spacing: 0.08em;
+  }
+  .badge-v { background: rgba(192,132,252,0.15); border: 1px solid rgba(192,132,252,0.3); color: var(--accent1); }
+  .badge-e { background: rgba(52,211,153,0.12); border: 1px solid rgba(52,211,153,0.25); color: var(--accent2); }
+  .badge-y { background: rgba(251,146,60,0.12); border: 1px solid rgba(251,146,60,0.25); color: var(--accent3); }
+
+  .header-desc {
+    margin-top: 20px;
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 640px;
+    font-style: italic;
+  }
+
+  /* ── STICKY NAV ── */
+  .tab-nav-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(9,8,13,0.88);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tab-nav {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    padding: 0 24px;
+    scrollbar-width: none;
+  }
+  .tab-nav::-webkit-scrollbar { display: none; }
+
+  .tab-btn {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 16px 18px;
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active {
+    color: var(--accent1);
+    border-bottom-color: var(--accent1);
+  }
+
+  /* ── MAIN CONTENT ── */
+  .main-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── TAB PANELS ── */
+  .tab-panel { display: none; }
+  .tab-panel.active {
+    display: block;
+    animation: fadeIn 0.35s ease;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .panel-header {
+    margin-bottom: 36px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .panel-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .panel-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+
+  /* ── EXPERIMENT CARD ── */
+  .exp-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 32px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .exp-card:hover { border-color: rgba(255,255,255,0.13); }
+
+  .exp-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 24px 28px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+
+  .exp-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--bg);
+    background: var(--accent1);
+    border-radius: 6px;
+    padding: 2px 10px;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    margin-top: 4px;
+    flex-shrink: 0;
+  }
+
+  .exp-number.c2 { background: var(--accent2); }
+  .exp-number.c3 { background: var(--accent3); }
+  .exp-number.c4 { background: var(--accent4); }
+  .exp-number.c5 { background: var(--accent5); }
+
+  .exp-meta { flex: 1; }
+
+  .exp-topic-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .exp-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--text);
+  }
+
+  .exp-body { padding: 24px 28px; }
+
+  /* Aim/Description block */
+  .aim-block {
+    border-left: 3px solid var(--accent1);
+    padding: 14px 20px;
+    background: rgba(192,132,252,0.04);
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 24px;
+  }
+  .aim-block.c2 { border-left-color: var(--accent2); background: rgba(52,211,153,0.04); }
+  .aim-block.c3 { border-left-color: var(--accent3); background: rgba(251,146,60,0.04); }
+  .aim-block.c4 { border-left-color: var(--accent4); background: rgba(56,189,248,0.04); }
+  .aim-block.c5 { border-left-color: var(--accent5); background: rgba(244,114,182,0.04); }
+
+  .aim-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .aim-text {
+    font-family: 'Crimson Pro', serif;
+    font-size: 17px;
+    color: var(--text);
+    line-height: 1.65;
+  }
+  .aim-text p { margin-bottom: 8px; }
+  .aim-text p:last-child { margin-bottom: 0; }
+  .aim-text ul, .aim-text ol { padding-left: 20px; margin-top: 6px; }
+  .aim-text li { margin-bottom: 4px; }
+
+  /* Code block */
+  .code-section { margin-top: 20px; }
+  .code-section + .code-section { margin-top: 16px; }
+
+  .code-window {
+    background: var(--code-bg);
+    border: 1px solid var(--code-border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .code-titlebar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: rgba(255,255,255,0.03);
+    border-bottom: 1px solid var(--code-border);
+  }
+
+  .code-dots {
+    display: flex;
+    gap: 6px;
+  }
+  .code-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+  }
+  .dot-r { background: #ff5f57; }
+  .dot-y { background: #ffbd2e; }
+  .dot-g { background: #28c840; }
+
+  .code-filename {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  .copy-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    background: rgba(192,132,252,0.15);
+    border: 1px solid rgba(192,132,252,0.3);
+    color: var(--accent1);
+    padding: 5px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+  .copy-btn:hover {
+    background: rgba(192,132,252,0.28);
+    border-color: var(--accent1);
+  }
+  .copy-btn.copied {
+    background: rgba(52,211,153,0.2);
+    border-color: var(--accent2);
+    color: var(--accent2);
+  }
+
+  .code-scroll {
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 600px;
+  }
+
+  pre {
+    padding: 20px 24px;
+    font-family: 'DM Mono', monospace;
+    font-size: 13.5px;
+    line-height: 1.75;
+    color: #c9d1d9;
+    white-space: pre;
+    tab-size: 4;
+  }
+
+  /* Syntax-like coloring via CSS only (class-based) */
+  .kw  { color: #c084fc; }
+  .fn  { color: #38bdf8; }
+  .str { color: #34d399; }
+  .cm  { color: #5d6d7e; font-style: italic; }
+  .num { color: #fb923c; }
+  .typ { color: #f472b6; }
+
+  /* Test results */
+  .test-results {
+    margin-top: 20px;
+    padding: 16px 20px;
+    background: rgba(52,211,153,0.05);
+    border: 1px solid rgba(52,211,153,0.15);
+    border-radius: 8px;
+  }
+  .test-header {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--accent2);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .test-header::before {
+    content: '✓';
+    font-size: 13px;
+  }
+  .test-case {
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: rgba(0,0,0,0.25);
+    border-radius: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: #a0a8b8;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  .test-case-label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+
+  /* Divider */
+  .exp-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border), transparent);
+    margin: 8px 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 680px) {
+    .site-header { padding: 40px 20px 32px; }
+    .main-content { padding: 24px 16px 60px; }
+    .exp-card-header { padding: 18px 18px 14px; }
+    .exp-body { padding: 16px 18px; }
+    pre { font-size: 12px; padding: 16px; }
+    .header-title { font-size: 2.2rem; }
+  }
+</style>
+<style>
+  .sec1{
+  width: 100%;
+}
+
+.nav-bar{
+  width: 100%;
+  min-height: 80px;
+  height: 100%;
+  background-color: var(--nav-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky; 
+  top: 1; 
+  z-index: 200;
+  animation: fadeDown 0.5s 0.15s ease both;
+}
+.logo{
+  display: flex;
+  align-items: center;
+  top: 0; 
+  right: 2;
+  z-index: 100;
+  font-size: 20px;
+}
+
+.nav-btns{
+  display: flex;
+  flex-direction: row-reverse;
+  column-gap: 10px;
+  margin-right: 10px;
+}
+
+
+</style>
+<link rel="stylesheet" href="">
+</head>
+<body>
+<section class="sec1">
+          <nav class="nav-bar">
+      <div class="logo" >
+        <a href="../index.html" style="text-decoration: none;">
+          <h1 class="header-title" style="font-size: 40px;
+          margin-left: 10px; ">Must Material</h1></a>
+      </div>
+      
+    </nav>
+  </section>
+<!-- ── HEADER ── -->
+<header class="site-header">
+  <div class="header-kicker">KKR &amp; KSR Institute of Technology and Sciences</div>
+  <h1 class="header-title">Data Structures<br>Lab Codetatra</h1>
+  <div class="header-sub">
+    <span class="header-badge badge-v">ID: cheppanu</span>
+    <span class="header-badge badge-e">2024–2028 </span>
+    <span class="header-badge badge-y">37 Experiments</span>
+  </div>
+  <p class="header-desc">A complete, unabridged study reference — every experiment, every line of C code, preserved in full. Copy any code block with one click.</p>
+</header>
+
+<!-- ── STICKY TAB NAV ── -->
+<div class="tab-nav-wrapper">
+  <nav class="tab-nav" role="tablist">
+    <button class="tab-btn active" data-tab="t1" role="tab">Arrays &amp; Sorting</button>
+    <button class="tab-btn" data-tab="t2" role="tab">Singly Linked Lists</button>
+    <button class="tab-btn" data-tab="t3" role="tab">DLL &amp; CLL</button>
+    <button class="tab-btn" data-tab="t4" role="tab">Stacks</button>
+    <button class="tab-btn" data-tab="t5" role="tab">Queues</button>
+    <button class="tab-btn" data-tab="t6" role="tab">Trees &amp; Hashing</button>
+  </nav>
+</div>
+
+<!-- ── MAIN ── -->
+<main class="main-content">
+
+<!-- ══════════════════════════════════════════════
+     TAB 1 — ARRAYS & SORTING (Exps 1–6)
+════════════════════════════════════════════════ -->
+<section id="t1" class="tab-panel active">
+  <div class="panel-header">
+    <div class="panel-label">Unit 01</div>
+    <h2 class="panel-title">Arrays &amp; Sorting Algorithms</h2>
+  </div>
+
+  <!-- EXP 1 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c1">Exp 01</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Array Manipulation</div>
+        <div class="exp-title">Array Reverse</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Write a C program to reverse all the elements in the array.</p>
+          <p><strong>Input:</strong> First line contains integer N (size). Second line contains N space-separated integers.</p>
+          <p><strong>Output:</strong> Print elements in reverse order.</p>
+          <p><strong>Constraints:</strong> 1 ≤ N ≤ 1000, 0 ≤ arr[i] ≤ 1000</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">ArrayReverse.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include&lt;stdio.h&gt;
+
+int main(){
+        int a[20],n,i;
+          scanf("%d",&amp;n);
+          for(i=0;i&lt;n;i++)
+          scanf("%d",&amp;a[i]);
+                  for(i=n-1;i&gt;=0;i--)
+                  printf("%d ",a[i]);
+                   return 0;
+}</pre></div>
+        </div>
+      </div>
+      <div class="test-results">
+        <div class="test-header">All Test Cases Passed</div>
+        <div class="test-case-label">Test Case 1</div>
+        <div class="test-case">Input: 3 → 15 24 62
+Output: 62 24 15</div>
+        <div class="test-case-label">Test Case 2</div>
+        <div class="test-case">Input: 4 → -54 63 -21 51
+Output: 51 -21 63 -54</div>
+        <div class="test-case-label">Test Case 3</div>
+        <div class="test-case">Input: 5 → -50 -60 -70 100 80
+Output: 80 100 -70 -60 -50</div>
+        <div class="test-case-label">Test Case 5</div>
+        <div class="test-case">Input: 5 → -5 -10 -15 -20 -25
+Output: -25 -20 -15 -10 -5</div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EXP 2 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c2">Exp 02</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Searching</div>
+        <div class="exp-title">Linear Search</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block c2">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Write a C program to check whether a given element is present in an array using linear search. Prompt the user for the size, elements, and search key. Output whether the element is found and at what 0-based index position.</p>
+          <p><strong>Input:</strong> Size n (1≤n≤20), n integers, then search key.</p>
+          <p><strong>Output:</strong> "Found at position X" (0-based) or "Y is not found"</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">SearchEle.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include&lt;stdio.h&gt;
+int main(){
+          int a[100],n,key,i,flag=0;
+          printf("Enter size: ");
+          scanf("%d",&amp;n);
+          printf("Enter %d element: ",n);
+          for(i=0;i&lt;n;i++){
+                     scanf("%d",&amp;a[i]);
+          }
+                     printf("Enter search element: ");
+                     scanf("%d",&amp;key);
+                     for(i=0;i&lt;n;i++)
+                             {
+                             if(a[i]==key)
+                             {
+                                     flag=1;
+                                     break;
+                             }
+                             }
+          if(flag==1)
+          {
+                                     printf("Found at position %d\n",i);
+                             }
+          else
+                  printf("%d is not found\n",key);
+          return 0;
+}</pre></div>
+        </div>
+      </div>
+      <div class="test-results">
+        <div class="test-header">All Test Cases Passed</div>
+        <div class="test-case-label">Test Case 1</div>
+        <div class="test-case">Enter size: 6  Enter 6 element: 2 4 8 1 3 5  Enter search element: 6
+Output: 6 is not found</div>
+        <div class="test-case-label">Test Case 2</div>
+        <div class="test-case">Enter size: 6  Enter 6 element: 2 4 8 1 3 5  Enter search element: 2
+Output: Found at position 0</div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EXP 3 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c3">Exp 03</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Sorting</div>
+        <div class="exp-title">Bubble Sort</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block c3">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Write a C program that reads n integer numbers and arranges them in ascending order using the Bubble Sort algorithm. Display elements before and after sorting.</p>
+          <p><strong>Input:</strong> Integer n (1≤n≤20), then n integers.</p>
+          <p><strong>Output:</strong> "Before sorting: ..." then "After sorting: ..."</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">bubbleSort.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include&lt;stdio.h&gt;
+void main()
+{
+        int a[20],i,n,j,temp;
+        printf("n: ");
+        scanf("%d",&amp;n);
+        printf("Elements: ");
+        for(i=0;i&lt;n;i++)
+                {
+                           scanf("%d",&amp;a[i]);
+                }
+        printf("Before sorting: ");
+        for(i=0;i&lt;n;i++)
+                {
+                           printf("%d ",a[i]);
+                }
+        printf("\n");
+        for(i=0;i&lt;n-1;i++)
+                {
+                           for(j=0;j&lt;n-1;j++)
+                                   {
+                                           if(a[j]&gt;a[j+1])
+                                          {
+                                                   temp=a[j];
+                                                   a[j]=a[j+1];
+                                                   a[j+1]=temp;
+                                          }
+                                }
+                }
+        printf("After sorting: ");
+        for(i=0;i&lt;n;i++)
+                {
+                           printf("%d ",a[i]);
+                }
+        printf("\n");
+}</pre></div>
+        </div>
+      </div>
+      <div class="test-results">
+        <div class="test-header">All Test Cases Passed</div>
+        <div class="test-case-label">Test Case 1</div>
+        <div class="test-case">n: 4  Elements: 44 22 66 11
+Before sorting: 44 22 66 11
+After sorting: 11 22 44 66</div>
+        <div class="test-case-label">Test Case 2</div>
+        <div class="test-case">n: 5  Elements: 9 2 7 1 6
+Before sorting: 9 2 7 1 6
+After sorting: 1 2 6 7 9</div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EXP 4 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c4">Exp 04</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Searching</div>
+        <div class="exp-title">Non-Recursive Binary Search</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block c4">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Write a C program that uses non-recursive functions to perform Binary Search for a Key value in a given sorted list of integers.</p>
+          <p><strong>Input:</strong> Size (up to 20), sorted elements, search key.</p>
+          <p><strong>Output:</strong> "found at X" (1-based) or "not found".</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">recursiveBinarySearch.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include &lt;stdio.h&gt;
+
+int binarysearch(int arr[],int low,int high, int key) {
+   while (low &lt;= high){
+              int mid = low + (high -low) / 2;
+              if(arr[mid] == key) {
+                      return mid;
+              }
+              if (arr[mid] &lt; key) {
+                      low = mid + 1;
+              }
+              else{
+                      high = mid - 1;
+              }
+     }
+     return -1;
+}
+
+int main() {
+    int a[20], i, n, key, pos;
+      printf("size: ");
+      scanf("%d", &amp; n);
+      printf("elements: ");
+      for (i = 0; i &lt; n; i++) {
+          scanf("%d", &amp; a[i]);
+      }
+      printf("search element: ");
+      scanf("%d", &amp; key);
+      pos = binarysearch(a, 0, n - 1, key);
+      if (pos &gt;= 0) {
+          printf("found at %d", pos + 1);
+      } else {
+          printf("not found");
+      }
+}</pre></div>
+        </div>
+      </div>
+      <div class="test-results">
+        <div class="test-header">All Test Cases Passed</div>
+        <div class="test-case-label">Test Case 1</div>
+        <div class="test-case">size: 3  elements: 3 6 9  search element: 6
+Output: found at 2</div>
+        <div class="test-case-label">Test Case 2</div>
+        <div class="test-case">size: 3  elements: 3 6 9  search element: 2
+Output: not found</div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EXP 5 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c5">Exp 05</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Sorting</div>
+        <div class="exp-title">Insertion Sort</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block c5">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Write a C program that implements Insertion Sort to sort a given list of integers in ascending order.</p>
+          <p><strong>Input:</strong> Integer n, then n integers.</p>
+          <p><strong>Output:</strong> "Array before sort: ..." then "Array after insertion sort: ..."</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">insertionSort.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include&lt;stdio.h&gt;
+void main()
+{
+          int a[100],n,i,j,ele;
+          printf("Enter no of elements: ");
+          scanf("%d",&amp;n);
+          printf("Enter the elements: ");
+          for(i=0;i&lt;n;i++)
+                  scanf("%d",&amp;a[i]);
+          printf("Array before sort: ");
+          for(i=0;i&lt;n;i++)
+                  printf("%d ",a[i]);
+          printf("\n");
+          for(i=0;i&lt;n;i++)
+                  {
+                            ele=a[i];
+                            for(j=i-1;j&gt;=0;j--)
+                                   {
+                                            if(a[j]&gt;ele)
+                                            {
+                                                    a[j+1]=a[j];
+                                            }
+                                            else
+                                                    break;
+                                   }
+                            a[j+1]=ele;
+                  }
+          printf("Array after insertion sort: ");
+          for(i=0;i&lt;n;i++)
+                  printf("%d ",a[i]);
+          printf("\n");
+}</pre></div>
+        </div>
+      </div>
+      <div class="test-results">
+        <div class="test-header">All Test Cases Passed</div>
+        <div class="test-case-label">Test Case 1</div>
+        <div class="test-case">Enter no of elements: 6  Enter the elements: 1 5 4 2 6 8
+Array before sort: 1 5 4 2 6 8
+Array after insertion sort: 1 2 4 5 6 8</div>
+        <div class="test-case-label">Test Case 2</div>
+        <div class="test-case">Enter no of elements: 8  Enter the elements: 5 2 10 36 95 14 10 23
+Array before sort: 5 2 10 36 95 14 10 23
+Array after insertion sort: 2 5 10 10 14 23 36 95</div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EXP 6 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c1">Exp 06</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Sorting</div>
+        <div class="exp-title">Selection Sort</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Write a C program that implements the Selection Sort algorithm to sort a given list of integers in ascending order. Display elements before and after sorting.</p>
+          <p><strong>Input:</strong> n (1≤n≤20), then n integers.</p>
+          <p><strong>Output:</strong> "Array before sort: ..." then "Array after sort: ..."</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">selectionSort.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include&lt;stdio.h&gt;
+
+void selectionSort(int arr[], int n) {
+    int i, j, minIndex, temp;
+    for(i=0;i&lt;n;i++)
+                {
+                           for(j=0;j&lt;n-1;j++)
+                                  {
+                                          if(arr[j]&gt;arr[j+1])
+                                          {
+                                                  temp=arr[j];
+                                                  arr[j]=arr[j+1];
+                                                  arr[j+1]=temp;
+                                          }
+                                  }
+                }
+}
+
+void main() {
+        int n, i;
+        printf("Enter no of elements: ");
+        scanf("%d", &amp;n);
+        int arr[n];
+        printf("Enter the elements: ");
+        for(i = 0; i &lt; n; i++) {
+                scanf("%d", &amp;arr[i]);
+        }
+        printf("Array before sort: ");
+        for(i = 0; i &lt; n; i++) {
+                printf("%d ", arr[i]);
+        }
+        // Sorting the array using Selection Sort
+        selectionSort(arr, n);
+        printf("\nArray after sort: ");
+        for(i = 0; i &lt; n; i++) {
+                printf("%d ", arr[i]);
+        }
+}</pre></div>
+        </div>
+      </div>
+      <div class="test-results">
+        <div class="test-header">All Test Cases Passed</div>
+        <div class="test-case-label">Test Case 1</div>
+        <div class="test-case">Enter no of elements: 5  Enter the elements: 2 6 1 5 7
+Array before sort: 2 6 1 5 7
+Array after sort: 1 2 5 6 7</div>
+        <div class="test-case-label">Test Case 2</div>
+        <div class="test-case">Enter no of elements: 6  Enter the elements: 62 51 58 96 32 14
+Array before sort: 62 51 58 96 32 14
+Array after sort: 14 32 51 58 62 96</div>
+        <div class="test-case-label">Test Case 3</div>
+        <div class="test-case">Enter no of elements: 5  Enter the elements: 64 25 12 22 11
+Array before sort: 64 25 12 22 11
+Array after sort: 11 12 22 25 64</div>
+      </div>
+    </div>
+  </article>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     TAB 2 — SINGLY LINKED LISTS (Exps 7–14)
+════════════════════════════════════════════════ -->
+<section id="t2" class="tab-panel">
+  <div class="panel-header">
+    <div class="panel-label">Unit 02</div>
+    <h2 class="panel-title">Singly Linked Lists &amp; Polynomials</h2>
+  </div>
+
+  <!-- EXP 7 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c2">Exp 07</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Singly Linked List</div>
+        <div class="exp-title">Insert at End &amp; Traverse SLL</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block c2">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Write a C program to implement a single linked list that allows inserting elements at the end and displaying the elements. Implement: createNode(), insertAtEnd(NODE first, int x), traverseList(NODE first).</p>
+          <p>Output format: "The elements in SLL are : data1 --&gt; data2 --&gt; ... --&gt; NULL" or "Single Linked List is empty"</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">SingleLL3.c (Driver)</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+
+#include "InsAtEnding.c"
+
+void main() {
+        NODE first = NULL;
+        int x, op;
+        while(1) {
+                printf("1.Insert At End 2.Traverse the List 3.Exit\n");
+                printf("Enter your option : ");
+                scanf("%d", &amp;op);
+                switch(op) {
+                        case 1: printf("Enter an element : ");
+                                        scanf("%d", &amp;x);
+                                           first = insertAtEnd(first, x);
+                                           break;
+                           case 2: if (first == NULL) {
+                                                     printf("Single Linked List is empty\n");
+                                          } else {
+                                                     printf("The elements in SLL are : ");
+                                                     traverseList(first);
+                                          }
+                                          break;
+                           case 3: exit(0);
+                }
+        }
+}</pre></div>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">InsAtEnding.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>struct node {
+int data;
+struct node *next;
+};
+typedef struct node* NODE;
+NODE createNode() {
+NODE temp = (NODE) malloc(sizeof(struct node));
+          temp-&gt;next= NULL;
+                  return temp;
+}
+
+NODE insertAtEnd(NODE first, int x) {
+          NODE temp = first;
+          NODE newNode= (NODE) malloc(sizeof(struct node));
+          newNode-&gt;data = x;
+          newNode-&gt;next=NULL;
+          if(temp==NULL)
+                  return newNode;
+          while(temp-&gt;next!=NULL)
+                  temp = temp-&gt;next;
+          temp-&gt;next=newNode;
+          return first;
+}
+
+void traverseList(NODE first) {
+        NODE temp=first;
+          while(temp!=NULL)
+                  {
+                          printf("%d --> ",temp-&gt;data);
+                          temp = temp-&gt;next;
+                  }
+          printf("NULL\n");
+}</pre></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EXP 8 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c3">Exp 08</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Singly Linked List</div>
+        <div class="exp-title">Insert at Begin &amp; Delete at End in SLL</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block c3">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Fill in the missing code in insertAtBegin(NODE first, int x) and deleteAtEnd(NODE first) in InsAtBeginAndDelEnd.c.</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">SingleLL2.c (Driver)</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+
+#include "InsAtBeginAndDelEnd.c"
+
+void main() {
+        NODE first = NULL;
+        int x, op;
+        while(1) {
+                printf("1.Insert At Begin 2.Delete at End 3.Traverse the List 4.Exit\n");
+                printf("Enter your option : ");
+                scanf("%d", &amp;op);
+                switch(op) {
+                        case 1: printf("Enter an element : ");
+                                        scanf("%d", &amp;x);
+                                        first = insertAtBegin(first, x);
+                                        break;
+                        case 2:if (first == NULL) {
+                                                   printf("Single Linked List is empty so deletion is not possible\n");
+                                        } else {
+                                                   first = deleteAtEnd(first);
+                                        }
+                                        break;
+                        case 3: if (first == NULL) {
+                                                   printf("Single Linked List is empty\n");
+                                        } else {
+                                                   printf("The elements in SLL are : ");
+                                                   traverseList(first);
+                                        }
+                                        break;
+                        case 4: exit(0);
+                }
+        }
+}</pre></div>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">InsAtBeginAndDelEnd.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>struct node {
+        int data;
+        struct node *next;
+};
+typedef struct node *NODE;
+NODE deleteAtEnd(NODE first)
+{
+        NODE temp,prevnode;
+        temp=first;
+        while(temp-&gt;next!=0)
+                {
+                          prevnode=temp;
+                          temp=temp-&gt;next;
+                }
+        if(temp==first)
+        {
+                first=0;
+                printf("The deleted item from SLL : %d\n",temp-&gt;data);
+                free(temp);
+        }
+        else{
+                prevnode-&gt;next=0;
+                printf("The deleted item from SLL : %d\n",temp-&gt;data);
+                free(temp);
+        }
+        return first;
+}
+
+NODE createNode() {
+        NODE newnode;
+        newnode=(NODE)malloc(sizeof(struct node));
+        return newnode;
+}
+
+NODE insertAtBegin(NODE first, int x) {
+        NODE newnode,temp;
+        newnode=createNode();
+        newnode-&gt;data=x;
+        newnode-&gt;next=0;
+        if(first==0)
+        {
+                first=newnode;
+        }
+        else{
+                newnode-&gt;next=first;
+                first=newnode;
+          }
+          return first;
+}
+
+void traverseList(NODE first) {
+        NODE temp = first;
+          while (temp != NULL) {
+                  printf("%d --> ",temp -&gt; data);
+                  temp = temp -&gt; next;
+          }
+          printf("NULL\n");
+}</pre></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EXP 9 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c4">Exp 09</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Singly Linked List</div>
+        <div class="exp-title">Reverse a Singly Linked List</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block c4">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Write a C program to reverse the elements of a single linked list. Allow user to create a list of N nodes, reverse it, and display the reversed list.</p>
+          <p><strong>Output:</strong> "Reversed the list: " followed by elements. If N ≤ 0, print "List size must be greater than zero:"</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">ReverseList.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+struct node
+{
+int data;
+struct node* next;
+};
+void main()
+{
+          int i,n;
+          struct node *newnode,*temp,*head,*prev,*nxt;
+          printf("Enter no.of nodes: ");
+          scanf("%d",&amp;n);
+          while(n&lt;=0)
+                 {
+                 printf("List size must be greater than zero:\n");
+                 printf("Enter no.of nodes: ");
+                 scanf("%d",&amp;n);
+                 }
+          head=0;
+          printf("Enter data: ");
+          for(i=1;i&lt;=n;i++)
+                 {
+                          newnode=(struct node*)malloc(sizeof(struct node));
+                          scanf("%d",&amp;newnode-&gt;data);
+                          newnode-&gt;next=0;
+                          if(head==0)
+                          {
+                                  head=newnode;
+                                    temp=newnode;
+                          }
+                          else{
+                                    temp-&gt;next=newnode;
+                                    temp=newnode;
+                          }
+                  }
+          printf("Reversed the list: ");
+          prev=0;
+          temp=head;
+          nxt=head;
+          while(nxt!=0)
+                  {
+                          nxt=nxt-&gt;next;
+                          temp-&gt;next=prev;
+                            prev=temp;
+                            temp=nxt;
+                   }
+           head=prev;
+           temp=head;
+           while(temp!=0)
+                   {
+                   printf("%d ",temp-&gt;data);
+                   temp=temp-&gt;next;
+                   }
+}</pre></div>
+        </div>
+      </div>
+      <div class="test-results">
+        <div class="test-header">All Test Cases Passed</div>
+        <div class="test-case-label">Test Case 1</div>
+        <div class="test-case">Enter no.of nodes: 4  Enter data: 1 2 3 4
+Reversed the list: 4 3 2 1</div>
+        <div class="test-case-label">Test Case 2</div>
+        <div class="test-case">Enter no.of nodes: 0
+List size must be greater than zero:
+Enter no.of nodes: 10  Enter data: 15 12 31 14 158 140 465 235 48 49
+Reversed the list: 49 48 235 465 140 158 14 31 12 15</div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EXP 10 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c5">Exp 10</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Singly Linked List</div>
+        <div class="exp-title">Reverse SLL Recursively</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block c5">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Write a C program to create a linked list, reverse it recursively, and display both the original and reversed linked lists.</p>
+          <p>Prompt with "No of nodes: ", then "Data for node X: " for each node. Print original then reversed list in "X -&gt; Y -&gt; Null" format.</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">RecursiveReverse.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+struct Node {
+     int data;
+     struct Node* next;
+};
+
+// Write a function to create a new node with the given data
+struct Node* createNode(int data) {
+        struct Node* newNode=(struct Node*)malloc(sizeof(struct Node));
+        newNode-&gt;data=data;
+        newNode-&gt;next=NULL;
+        return newNode;
+}
+// Write a function to print the linked list
+void printList(struct Node* head) {
+        while(head!=NULL){
+                printf("%d -&gt; ",head-&gt;data);
+                head=head-&gt;next;
+        }
+        printf("Null\n");
+}
+// Write a function to reverse the linked list recursively
+struct Node* reverseList(struct Node* current, struct Node* prev) {
+        if(current==NULL){
+                return prev;
+        }
+        struct Node*
+        nextNode=current-&gt;next;
+        current-&gt;next=prev;
+
+        return reverseList(nextNode, current);
+}
+// Write your main function here
+int main() {
+    int n, data;
+
+     // Getting the number of nodes from the user
+     printf("No of nodes: ");
+     scanf("%d", &amp;n);
+
+     // Creating the linked list based on user input
+     struct Node* head = NULL;
+     struct Node* tail = NULL;
+        for (int i = 0; i &lt; n; ++i) {
+            printf("Data for node %d: ", i + 1);
+            scanf("%d", &amp;data);
+            struct Node* newNode = createNode(data);
+            if (head == NULL) {
+                head = tail = newNode;
+            } else {
+                tail-&gt;next = newNode;
+                tail = newNode;
+            }
+        }
+
+        printf("Original linked list: ");
+        printList(head);
+
+        // Reversing the linked list
+        head = reverseList(head, NULL);
+
+        printf("Reversed linked list: ");
+        printList(head);
+
+        // Freeing the allocated memory
+        while (head != NULL) {
+            struct Node* temp = head;
+            head = head-&gt;next;
+            free(temp);
+        }
+
+        return 0;
+}</pre></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EXP 11 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c1">Exp 11</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Singly Linked List</div>
+        <div class="exp-title">SLL Operations — Student Data (Menu Driven)</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Write a C program for menu driven operations on Singly Linked List (SLL) of Student Data (USN, Name, Branch, Sem, PhNo):</p>
+          <ul>
+            <li>1. Create SLL of N Students (front insertion)</li>
+            <li>2. Display status and count nodes</li>
+            <li>3. Insert at End</li>
+            <li>4. Delete at End</li>
+            <li>5. Insertion/Deletion at Front (Stack demo)</li>
+            <li>6. Exit</li>
+          </ul>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">sll.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;string.h&gt;
+struct node
+{
+char U[25],N[25],B[25];
+int S;
+long long int P;
+struct node* n;
+};
+struct node* IB(struct node*h){
+struct node*nn=(struct node*)malloc(sizeof(struct node));
+scanf("%s%s%s%d%lld",nn-&gt;U,nn-&gt;N,nn-&gt;B,&amp;nn-&gt;S,&amp;nn-&gt;P);
+nn-&gt;n=h;
+return nn;
+}
+struct node* IE(struct node* h){
+        struct node* t=h;
+        struct node* nn=(struct node*)malloc(sizeof(struct node));
+        scanf("%s%s%s%d%lld",nn-&gt;U,nn-&gt;N,nn-&gt;B,&amp;nn-&gt;S,&amp;nn-&gt;P);
+        nn-&gt;n=NULL;
+        if(t==NULL)
+                return nn;
+        while(t-&gt;n!=NULL)
+                t=t-&gt;n;
+        t-&gt;n=nn;
+        return h;
+}
+struct node* DE(struct node* h){
+        struct node* t=h;
+struct node* p=NULL;
+        if(h==NULL){
+                printf("Linked List is empty\n");
+        return NULL;}
+if(t-&gt;n==NULL){
+        printf("The student node with usn: %s is deleted\n",t-&gt;U);
+        free(t);
+        return NULL;
+}
+        while(t-&gt;n!=NULL){
+                p=t;
+        t=t-&gt;n;}
+                p-&gt;n=NULL;
+        printf("The student node with usn: %s is deleted\n",t-&gt;U);
+        free(t);
+        return h;
+}
+        void D(struct node* h){
+                  struct node* t=h;
+                  int i=1;
+while(t!=NULL){
+                        printf("--%d-- USN:%s| Name:%s| Branch:%s| Sem:%d| Ph:%lld|\n",i,t-&gt;U,t-&gt;N,t-&gt;B,t-&gt;S,t-&gt;P);
+                           t=t-&gt;n;
+                           i++;
+                  }
+                  printf("No of student nodes is %d\n",i-1);
+        }
+struct node* DB(struct node* h){
+        struct node *t=h;
+        h=h-&gt;n;
+        printf("The Student node with usn: %s is deleted\n",t-&gt;U);
+        free(t);
+        return h;
+}
+void main(){
+        struct node* h=NULL;
+        int i,ch,ch1,n;
+        EAR:
+        do{
+                printf("1: Create SLL of Student Nodes\n2: DisplayStatus\n3: InsertAtEnd\n4: DeleteAtEnd\n5: Stack Demo using SLL(Insertion and Deletion at Front)\n6: Exit\nEnter your choice: ");
+                scanf("%d",&amp;ch);
+                  switch(ch){
+                          case 1:
+                                     printf("Enter the no of students: ");
+                                  scanf("%d",&amp;n);
+                  for(i=0;i&lt;n;i++){
+                          printf("Enter usn, Name, Branch, sem, PhoneNo of student: ");
+                           h=IB(h);
+                  }
+                  break;
+        case 2:
+                  if(h==NULL)
+                          printf("---No elements to display---\n");
+                  else{
+                           printf("The details of the students: \n");
+                                   D(h);
+                  }
+                  break;
+                 case 3:
+                 printf("Enter usn, Name, Branch, sem, PhoneNo of student: ");
+                           h=IE(h);
+                           break;
+                           case 4:
+                           h=DE(h);
+                           break;
+                 case 5:
+                           do{
+                                printf("1: Push operation\n2: Pop operation\n3: Display\n4: Exit\nEnter your choice for stack demo: ");
+                                     scanf("%d",&amp;ch1);
+                                             switch(ch1){
+                                                     case 1:
+                                                       printf("Enter usn, Name, Branch, sem, PhoneNo of student: ");
+                                        h=IE(h);
+                                             break;
+                                             case 2:
+                                          if(h==NULL)
+          printf("Linked list is empty\n");
+                  else
+                           h=DB(h);
+                                             break;
+case 3:
+                                                     if(h==NULL)
+                                     printf("---No elements to display---\n");
+                           else{
+                                     printf("The details of the students:\n");
+                                     D(h);
+                           }
+                                             break;
+                                                       case 4:
+                                             goto EAR;
+                                             }
+                                     }
+                                     while(1);
+                           break;
+                           case 6:
+                           exit(0);
+                           }
+          }
+          while(1);
+}</pre></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EXP 12 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c2">Exp 12</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Singly Linked List</div>
+        <div class="exp-title">Remove Duplicate Elements in SLL</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block c2">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Write a program to remove all duplicate elements that are present in a given singly linked list.</p>
+          <p><strong>Algorithm:</strong> Take input elements → Sort them → Traverse and compare each node with next → If data same, delete next node → Print result.</p>
+          <p>Input: Enter elements one by one, -1 to stop. Output: List before and after removing duplicates.</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">SingleLL10.c (Driver)</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include "RemoveLL.c"
+
+int main() {
+        NODE l1;
+        l1 = NULL;
+        printf("Enter list elements :\n");
+        l1 = createAndAddNodes(l1);
+        sort(l1);
+        printf("List before removing duplicates : ");
+        print(l1);
+        printf("\n");
+        printf("List after removing duplicates : ");
+        removeDuplicates(l1);
+        print(l1);
+}</pre></div>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">RemoveLL.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>struct node {
+        int data;
+        struct node *next;
+};
+typedef struct node * NODE;
+
+NODE createAndAddNodes(NODE first) {
+        NODE temp, q;
+        int x;
+        printf("Enter element : ");
+        scanf("%d", &amp;x);
+        while(x != -1) {
+                temp = (NODE)malloc(sizeof(struct node));
+                temp-&gt;data = x;
+                temp-&gt;next = NULL;
+                if(first == NULL) {
+                         first = temp;
+                } else {
+                           q-&gt;next = temp;
+                }
+                q = temp;
+                printf("Enter element : ");
+                scanf("%d", &amp;x);
+        }
+        return first;
+}
+void print(NODE node) {
+        while (node != NULL) {
+                printf("%d ", node-&gt;data);
+                node = node -&gt; next;
+        }
+}
+NODE sort(NODE first) {
+        NODE t1, t2;
+        int x;
+        for(t1 = first; t1 -&gt; next != NULL; t1 = t1 -&gt; next) {
+                for(t2 = t1 -&gt; next; t2 != NULL; t2 = t2 -&gt; next) {
+                        if (t1 -&gt; data &gt; t2 -&gt; data) {
+                                x = t1 -&gt; data;
+                                  t1 -&gt; data = t2 -&gt; data;
+                                  t2 -&gt; data = x;
+                           }
+                }
+        }
+        return first;
+}
+
+NODE removeDuplicates(NODE head) {
+        NODE current=head;
+          NODE next_next;
+          if(current==NULL)
+                  return NULL;
+          while(current-&gt;next!=NULL){
+                  if(current-&gt;data==current-&gt;next-&gt;data){
+                            next_next=current-&gt;next-&gt;next;
+                            free(current-&gt;next);
+                            current-&gt;next=next_next;
+                  }
+                  else{
+                            current=current-&gt;next;
+                  }
+          }
+          return head;
+}</pre></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EXP 13 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c3">Exp 13</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Polynomial — Linked List</div>
+        <div class="exp-title">Creating &amp; Printing Polynomials Using Linked Lists</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block c3">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Fill in the missing code to create and print a polynomial using linked lists. Each node holds coeff and exp. Output: "coeff X^ exp ---&gt; ... ---&gt; NULL"</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">PolyLLMain.c (Driver)</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#define max 20
+
+#include "CreateAndPrintPolyLL.c"
+
+poly create(poly head) {
+        poly temp;
+        char ch;
+        int coeff, exp;
+        do {
+                 temp = (poly)malloc(sizeof(struct polynomial));
+                 printf("Enter coeff and exp of node : ");
+                 scanf("%d%d", &amp;coeff, &amp;exp);
+                 temp -&gt; coeff = coeff;
+                 temp -&gt; exp = exp;
+                 temp -&gt; next = NULL;
+                 head = addTerm(head, temp);
+                 printf("Do u want another node (y/n) : ");
+                 scanf(" %c", &amp;ch);
+        } while(ch != 'n');
+        return head;
+}
+
+void main() {
+        poly head = NULL;
+        int ch;
+        head = create(head);
+        printf("The polynomial is : ");
+        print(head);
+}</pre></div>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">CreateAndPrintPolyLL.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>struct polynomial {
+        int coeff;
+        int exp;
+        struct polynomial *next;
+};
+typedef struct polynomial *poly;
+
+poly addTerm(poly head, poly temp) {
+        poly p1,p2;
+        p1=p2=head;
+        if(p1==NULL){
+                head=temp;
+        }
+        else{
+                while(p1!=NULL&amp;&amp;p1-&gt;exp&gt;temp-&gt;exp){
+                          p2=p1;
+                          p1=p1-&gt;next;
+                }
+                if(p1==NULL){
+                        p2-&gt;next=temp;
+                }
+        else if(p1-&gt;exp==temp-&gt;exp){
+                p1-&gt;coeff=p1-&gt;coeff+temp-&gt;coeff;
+        }else if(p1-&gt;exp&lt;temp-&gt;exp){
+                if(p1==p2){
+                        temp-&gt;next=p1;
+                          head=temp;
+                }else{
+                          temp-&gt;next=p1;
+                          p2-&gt;next=temp;
+                }
+        }
+        }
+        return head;
+}
+
+void print(poly head) {
+        poly temp=head;
+        while(temp!=NULL){
+                printf("%d X^ %d ---> ",temp-&gt;coeff,temp-&gt;exp);
+                temp=temp-&gt;next;
+        }
+        printf("NULL\n");
+}</pre></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EXP 14 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c4">Exp 14</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Polynomial — Linked List</div>
+        <div class="exp-title">Adding Polynomials Using Linked List</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block c4">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Write a C program to add two polynomials using linked lists. Create two polynomials, add them, and display all three.</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">PolyLLMain1.c (Driver)</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include "AddPolyLL.c"
+
+poly create(poly head) {
+        poly temp;
+        char ch;
+        int coeff, exp;
+        do {
+                temp = (poly)malloc(sizeof(struct polynomial));
+                printf("Coeff and Power of the term: ");
+                scanf("%d%d", &amp;coeff, &amp;exp);
+                temp -&gt; coeff = coeff;
+                temp -&gt; exp = exp;
+                temp -&gt; next = NULL;
+                head = addTerm(head, temp);
+                printf("Want to add more terms?(y/n): ");
+                scanf(" %c", &amp;ch);
+        } while(ch != 'n');
+        return head;
+}
+
+void main() {
+        poly head1=NULL, head2= NULL, result = NULL;
+        int ch;
+        printf("First polynomial: \n");
+        head1 = create(head1);
+        printf("Second polynomial: \n");
+        head2 = create(head2);
+        result = add(head1, head2);
+        printf("First polynomial: ");
+        print(head1);
+        printf("Second polynomial: ");
+        print(head2);
+        printf("Addition: ");
+        print(result);
+}</pre></div>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">AddPolyLL.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>struct polynomial {
+        int coeff;
+        int exp;
+        struct polynomial *next;
+};
+typedef struct polynomial *poly;
+
+poly addTerm(poly head, poly temp) {
+        poly p1,p2;
+        p1=p2=head;
+        if(p1==NULL){
+                head=temp;
+        }else{
+                 while(p1!=NULL&amp;&amp;p1-&gt;exp&gt;temp-&gt;exp){
+                         p2=p1;
+                         p1=p2-&gt;next;
+                 }
+                 if(p1==NULL){
+                         p2-&gt;next=temp;
+                 }else if(p1-&gt;exp==temp-&gt;exp){
+                         p1-&gt;coeff=p1-&gt;coeff+temp-&gt;coeff;
+                 }else if(p1-&gt;exp&lt;temp-&gt;exp){
+                         if(p2==p1){
+                                   temp-&gt;next=p1;
+                                   head=temp;
+                          }
+                          else{
+                                   temp-&gt;next=p1;
+                                   p2-&gt;next=temp;
+                          }
+                 }
+        }
+        return head;
+}
+
+void print(poly head) {
+        poly temp=head;
+        int isFirstTerm=1;
+        while(temp!=NULL){
+                if(temp-&gt;next!=NULL){
+                        printf("%d X^%d",temp-&gt;coeff,temp-&gt;exp);
+                          if(temp-&gt;next-&gt;coeff&gt;0){
+                                  printf(" + ");
+                          }
+                 }else{
+                printf("%d X^%d",temp-&gt;coeff,temp-&gt;exp);
+                }
+                temp=temp-&gt;next;
+        }
+        printf("\n");
+}
+
+poly add(poly head1, poly head2) {
+        poly t1,t2,sum=NULL,temp=NULL;
+        t1=head1;
+        t2=head2;
+        while(t1!=NULL&amp;&amp;t2!=NULL){
+                temp=(poly)malloc(sizeof(struct polynomial));
+                if(t1-&gt;exp==t2-&gt;exp){
+                        temp-&gt;coeff=t1-&gt;coeff+t2-&gt;coeff;
+                        temp-&gt;exp=t1-&gt;exp;
+                          temp-&gt;next=NULL;
+                          sum=addTerm(sum,temp);
+                        t1=t1-&gt;next;
+                        t2=t2-&gt;next;
+                }else if(t1-&gt;exp&gt;t2-&gt;exp){
+                          temp-&gt;coeff=t1-&gt;coeff;
+                          temp-&gt;exp=t1-&gt;exp;
+                          temp-&gt;next=NULL;
+                                  sum=addTerm(sum,temp);
+                          t1=t1-&gt;next;
+                } else{
+                          temp-&gt;coeff=t2-&gt;coeff;
+                          temp-&gt;exp=t2-&gt;exp;
+                          temp-&gt;next=NULL;
+                          sum=addTerm(sum,temp);
+                          t2=t2-&gt;next;
+                }
+        }
+        while(t1!=NULL){
+                temp=(poly)malloc(sizeof(struct polynomial));
+                temp-&gt;coeff=t1-&gt;coeff;
+                temp-&gt;exp=t1-&gt;exp;
+                temp-&gt;next=NULL;
+                sum=addTerm(sum,temp);
+                t1=t1-&gt;next;
+        }
+        while(t2!=NULL){
+                  temp=(poly)malloc(sizeof(struct polynomial));
+                  temp-&gt;coeff=t2-&gt;coeff;
+                  temp-&gt;exp=t2-&gt;exp;
+                  temp-&gt;next=NULL;
+                  sum=addTerm(sum,temp);
+                  t2=t2-&gt;next;
+          }
+          return sum;
+}</pre></div>
+        </div>
+      </div>
+    </div>
+  </article>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     TAB 3 — DLL & CLL (Exps 15–20)
+════════════════════════════════════════════════ -->
+<section id="t3" class="tab-panel">
+  <div class="panel-header">
+    <div class="panel-label">Unit 03</div>
+    <h2 class="panel-title">Doubly &amp; Circular Linked Lists</h2>
+  </div>
+
+  <!-- EXP 15 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c3">Exp 15</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Doubly Linked List</div>
+        <div class="exp-title">Insert at End &amp; Traverse DLL</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block c3">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Fill in the missing code in insertAtEndInDLL(NODE first, int x) and traverseListInDLL(NODE first). The insert function adds to end; traverse prints all elements with "&lt;--&gt;".</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">DoubleLL1.c (Driver)</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+
+#include "InsertEndAndTraverseInDLL.c"
+
+void main() {
+        NODE first = NULL;
+        int x, op;
+        while(1) {
+                printf("1.Insert At End 2.Traverse the List 3.Exit\n");
+                printf("Enter your option : ");
+                scanf("%d", &amp;op);
+                switch(op) {
+                        case 1: printf("Enter an element : ");
+                                        scanf("%d", &amp;x);
+                                         first = insertAtEndInDLL(first, x);
+                                         break;
+                        case 2: if (first == NULL) {
+                                                printf("Double Linked List is empty\n");
+                                         } else {
+                                                    printf("The elements in DLL are : ");
+                                                    traverseListInDLL(first);
+                                         }
+                                         break;
+                        case 3: exit(0);
+                }
+        }
+}</pre></div>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">InsertEndAndTraverseInDLL.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>struct node {
+        int data;
+        struct node *prev;
+        struct node *next;
+};
+typedef struct node * NODE;
+
+NODE createNodeInDLL() {
+        NODE temp;
+        temp = (NODE)malloc(sizeof(struct node));
+        temp-&gt;prev = NULL;
+        temp-&gt;next = NULL;
+        return temp;
+}
+
+NODE insertAtEndInDLL(NODE first, int x) {
+        NODE temp,last;
+        temp=createNodeInDLL();
+        temp-&gt;data=x;
+        if(first==NULL){
+                 first=temp;
+        }else{
+                 last=first;
+                 while(last-&gt;next!=NULL){
+                         last=last-&gt;next;
+                 }
+                 last-&gt;next=temp;
+                 temp-&gt;prev=last;
+        }
+        return first;
+}
+
+void traverseListInDLL(NODE first) {
+        if(first==NULL){
+                 printf("List is empty \n");
+                 return;
+        }
+        while(first!=NULL){
+                printf("%d &lt;--&gt; ",first-&gt;data);
+                first=first-&gt;next;
+        }
+        printf("NULL\n");
+}</pre></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EXP 16 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c4">Exp 16</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Doubly Linked List</div>
+        <div class="exp-title">All DLL Operations (Insert/Delete Begin, Search, Traverse)</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block c4">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Write a C program to implement a DLL with: Insert at beginning, Delete first element, Search for an element (return position), Traverse/display the list, Exit.</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">AllOperationsDLL.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+struct node {
+        int data;
+        struct node *prev;
+        struct node *next;
+};
+
+typedef struct node * NODE;
+NODE createNodeInDLL() {
+                NODE nn;
+        nn=(NODE)malloc(sizeof(NODE));
+        nn-&gt;next=0;
+        nn-&gt;prev=0;
+        return nn;
+}
+
+void traverseListInDLL(NODE first) {
+                NODE nn=first;
+        while(nn!=0) {
+        printf("%d &lt;--&gt; ",nn-&gt;data);
+        nn=nn-&gt;next;
+        }
+        printf("NULL\n");
+}
+
+NODE insertAtBeginInDLL(NODE first, int x) {
+                NODE nn=createNodeInDLL();
+        nn-&gt;data=x;
+        nn-&gt;next=0;
+        nn-&gt;prev=0;
+        if(first!=0) {
+        nn-&gt;next=first;
+        first-&gt;prev=nn;
+        }
+        first=nn;
+return first;
+}
+
+int searchPosOfEleInDLL(NODE first, int element) {
+                NODE nn=first;
+        int pos=0;
+        if(first==0)
+         return 0;
+         while(nn!=0 &amp;&amp; nn-&gt;data!=element) {
+         if(nn-&gt;next==0)
+         return 0;
+         pos++;
+         nn=nn-&gt;next;
+         }
+         return pos+1;
+}
+
+NODE deleteAtBeginInDLL(NODE first) {
+        NODE lastNode,nn;
+         nn=first;
+         if(nn-&gt;next==0)
+         first=0;
+         else{
+         first=first-&gt;next;
+         first-&gt;prev=0;
+         }
+         lastNode=nn;
+         printf("The deleted element from DLL : %d\n", lastNode -&gt; data);
+         free(lastNode);
+         return first;
+}
+void main() {
+        NODE first = NULL;
+         int x, pos, op;
+         while(1) {
+                 printf("1.Insert At Begin\n2.Delete at Begin\n3.Search an element Position\n4.Traverse the List\n5.Exit\n");
+                printf("Enter your option : ");
+                scanf("%d", &amp;op);
+                switch(op) {
+                        case 1: printf("Enter an element: ");
+                                        scanf("%d", &amp;x);
+                                        first = insertAtBeginInDLL(first, x);
+                                        break;
+                           case 2:
+                                        if (first == NULL) {
+                                                   printf("Double Linked List is empty so deletion is not possible\n");
+                                        } else {
+                                                   first = deleteAtBeginInDLL(first);
+                                             }
+                                             break;
+                           case 3:
+                                             printf("Enter search element: ");
+                                             scanf("%d", &amp;x);
+                                             pos = searchPosOfEleInDLL(first, x);
+                                             if (pos == 0) {
+                                                        printf("The given element %d is not found in the given DLL\n", x);
+                                             } else {
+                                                printf("The given element %d is found at position : %d\n", x, pos);
+                                             }
+                                             break;
+                           case 4:
+                                             if (first == NULL) {
+                                                     printf("Double Linked List is empty\n");
+                                             } else {
+                                                        printf("The elements in DLL are: ");
+                                                        traverseListInDLL(first);
+                                             }
+                                             break;
+                           case 5: exit(0);
+                   }
+             }
+}</pre></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EXP 17 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c5">Exp 17</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Doubly Linked List</div>
+        <div class="exp-title">DLL Operations — Employee Data (Menu Driven)</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block c5">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Write a menu-driven C program for DLL operations on Employee Data (SSN, Name, Dept, Designation, Salary, PhNo):</p>
+          <ul>
+            <li>1. Create DLL of N Employees (end insertion)</li>
+            <li>2. Display status and count</li>
+            <li>3. Insert/Delete at End</li>
+            <li>4. Insert/Delete at Front</li>
+            <li>5. Exit</li>
+          </ul>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">dllOps.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;string.h&gt;
+struct node{
+char ssn[6];
+char name[20];
+char department[20];
+char designation[20];
+long long salary;
+long long phno;
+struct node *prev;
+struct node *next;
+};
+struct node* insertatend(int n, struct node *tail);
+void display(struct node *head);
+struct node* deleteatend(struct node *tail);
+struct node* insertatfront(struct node *head);
+struct node* deleteatfront(struct node *head);
+
+void main() {
+        int ch, n;
+        struct node *head = NULL, *tail = NULL;
+        while(1) {
+                printf("1: Create DLL of Employee Nodes\n2: DisplayStatus\n3: InsertAtEnd\n4: DeleteAtEnd\n5: InsertAtFront\n6: DeleteAtFront\n7: Exit\nPlease enter your choice: ");
+                scanf("%d", &amp;ch);
+                switch (ch) {
+                        case 1:
+                        printf("Enter no of Employees: ");
+                        scanf("%d", &amp;n);
+                        if (n &lt;= 0) {
+                                printf("Number of employees should be positive\n");
+                                break;
+                        }
+                        if (head == NULL) {
+                                head = (struct node*)malloc(sizeof(struct node));
+                                printf("Enter ssn, Name, Department, Designation, Salary, PhoneNo of employee: ");
+                                scanf("%s %s %s %s %lld %lld", head-&gt;ssn, head-&gt;name, head-&gt;department, head-&gt;designation, &amp;head-&gt;salary, &amp;head-&gt;phno);
+                                head-&gt;prev = NULL;
+                                head-&gt;next = NULL;
+                                tail = head;
+                                tail = insertatend(n - 1, tail);
+                        } else {
+                                tail = insertatend(n, tail);
+                        }
+                        if (tail == NULL)
+                                  head = tail;
+                        break;
+                        case 2:
+                        if (head == NULL)
+                                printf("DLL is Empty\n");
+                        else
+                                  display(head);
+                        break;
+                        case 3:
+                        if (head == NULL) {
+                                head = (struct node*)malloc(sizeof(struct node));
+                                printf("Enter ssn, Name, Department, Designation, Salary, PhoneNo of employee: ");
+                                scanf("%s %s %s %s %lld %lld", head-&gt;ssn, head-&gt;name, head-&gt;department, head-&gt;designation, &amp;head-&gt;salary, &amp;head-&gt;phno);
+                                  head-&gt;prev = NULL;
+                                  head-&gt;next = NULL;
+                                tail = head;
+                        } else {
+                                tail = insertatend(1, tail);
+                        }
+                        break;
+                        case 4:
+                        if (head == NULL) {
+                                printf("DLL is empty\n");
+                        } else {
+                                tail = deleteatend(tail);
+                                if (tail == NULL)
+                                         head = tail;
+                        }
+                        break;
+                        case 5:
+                        if (head == NULL) {
+                                head = insertatfront(head);
+                                tail = head;
+                        } else {
+                                  head = insertatfront(head);
+                        }
+                        break;
+                        case 6:
+                           if (head == NULL) {
+                                   printf("DLL is empty\n");
+                           } else {
+                                   head = deleteatfront(head);
+                                   if (head == NULL)
+                                           tail = head;
+                           }
+                           break;
+                           case 7:
+                           exit(0);
+                           break;
+                           default:
+                           printf("Please Enter valid choice\n");
+                           break;
+                   }
+        }
+}
+
+struct node* insertatend(int n, struct node *tail) {
+        int i;
+        struct node *newnode;
+        for (i = 1; i &lt;= n; i++) {
+                newnode = (struct node*)malloc(sizeof(struct node));
+                printf("Enter ssn, Name, Department, Designation, Salary, PhoneNo of employee: ");
+                scanf("%s %s %s %s %lld %lld", newnode-&gt;ssn, newnode-&gt;name, newnode-&gt;department, newnode-&gt;designation, &amp;newnode-&gt;salary, &amp;newnode-&gt;phno);
+                           newnode-&gt;next = NULL;
+                   newnode-&gt;prev = tail;
+                   tail-&gt;next = newnode;
+                   tail = newnode;
+        }
+        return tail;
+}
+void display(struct node *head) {
+        int len = 0;
+        struct node *temp;
+        temp = head;
+        while (temp != NULL) {
+                printf("SSN:%s| Name:%s| Department:%s| Designation:%s| Salary:%lld| Phone no:%lld\n", temp-&gt;ssn, temp-&gt;name, temp-&gt;department, temp-&gt;designation, temp-&gt;salary, temp-&gt;phno);
+                   len++;
+                   temp = temp-&gt;next;
+        }
+        printf("No of employees: %d\n", len);
+}
+
+struct node* deleteatend(struct node *tail) {
+        struct node *temp;
+        if (tail == NULL) {
+                printf("DLL is empty\n");
+                return NULL;
+        }
+        temp = tail;
+        if (tail-&gt;prev != NULL) {
+                tail = tail-&gt;prev;
+                tail-&gt;next = NULL;
+        } else {
+                tail = NULL;
+        }
+        printf("employee with ssn: %s is deleted\n", temp-&gt;ssn);
+        free(temp);
+        return tail;
+}
+struct node* insertatfront(struct node *head) {
+        struct node *newnode;
+        newnode = (struct node*)malloc(sizeof(struct node));
+        printf("Enter ssn, Name, Department, Designation, Salary, PhoneNo of employee: ");
+        scanf("%s %s %s %s %lld %lld", newnode-&gt;ssn, newnode-&gt;name, newnode-&gt;department, newnode-&gt;designation, &amp;newnode-&gt;salary, &amp;newnode-&gt;phno);
+        if (head == NULL) {
+                head = newnode;
+                head-&gt;next = NULL;
+                head-&gt;prev = NULL;
+        } else {
+                newnode-&gt;next = head;
+                newnode-&gt;prev = NULL;
+                head-&gt;prev = newnode;
+                head = newnode;
+        }
+        return head;
+}
+struct node* deleteatfront(struct node *head) {
+        struct node *temp;
+        if (head == NULL) {
+                printf("DLL is empty\n");
+                return NULL;
+        }
+        temp = head;
+        head = head-&gt;next;
+          if (head != NULL)
+                  head-&gt;prev = NULL;
+          printf("employee with ssn: %s is deleted\n", temp-&gt;ssn);
+          free(temp);
+          return head;
+}</pre></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EXP 18 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c1">Exp 18</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Circular Linked List</div>
+        <div class="exp-title">insertAtBeginInCLL() and countInCLL()</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Fill in the missing code in insertAtBeginInCLL(NODE first, int x) and countInCLL(NODE first). Insert inserts at beginning of CLL; count counts nodes in CLL.</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">CircularLL2.c (Driver)</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+#include "InsAtBeginAndCountInCLL.c"
+
+void main() {
+        NODE first = NULL;
+        int x, op;
+        while(1) {
+                printf("1.Insert At Begin 2.Count Number of Nodes 3.Traverse the List 4.Exit\n");
+                printf("Enter your option : ");
+                scanf("%d", &amp;op);
+                switch(op) {
+                        case 1: printf("Enter an element : ");
+                                       scanf("%d", &amp;x);
+                                       first = insertAtBeginInCLL(first, x);
+                                        break;
+                        case 2: printf("The number of nodes in a CLL are : %d\n", countInCLL(first));
+                                        break;
+                        case 3: if (first == NULL) {
+                                                  printf("Circular Linked List is empty\n");
+                                       } else {
+                                                  printf("The elements in CLL are : ");
+                                                  traverseListInCLL(first);
+                                       }
+                                        break;
+                        case 4: exit(0);
+                }
+        }
+}</pre></div>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">InsAtBeginAndCountInCLL.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>struct node {
+        int data;
+        struct node *next;
+};
+typedef struct node *NODE;
+
+NODE createNodeInCLL() {
+        NODE temp;
+        temp = (NODE) malloc(sizeof(struct node));
+        temp -&gt; next = NULL;
+        return temp;
+}
+
+NODE insertAtBeginInCLL(NODE first, int x) {
+        NODE newnode,temp;
+        newnode=(NODE)malloc(sizeof(NODE));
+        newnode-&gt;data=x;
+        temp=first;
+        while(temp-&gt;next!=first)
+                {
+                           temp=temp-&gt;next;
+}
+        newnode-&gt;next=first;
+        temp-&gt;next=newnode;
+        first=newnode;
+        return first;
+}
+int countInCLL(NODE first) {
+        NODE temp;
+        int cnt=0;
+        temp=first;
+        while(temp-&gt;next!=first)
+                {
+                        cnt++;
+                           temp=temp-&gt;next;
+                }
+        return cnt;
+}
+
+void traverseListInCLL(NODE first) {
+        NODE temp = first;
+        do {
+                printf("%d --> ", temp -&gt; data);
+                temp = temp -&gt; next;
+        } while (temp-&gt;next != first);
+          printf("\n");
+}</pre></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EXP 19 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c2">Exp 19</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Circular Linked List</div>
+        <div class="exp-title">All CLL Operations (Create, Insert, Delete, Traverse)</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block c2">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Write a program to perform all operations on Circular Linked List: Creation, Insertion at position, Deletion at position, Traversal.</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">AlloperationsinCLL.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+
+struct node {
+        int data;
+        struct node *next;
+};
+typedef struct node *NODE;
+
+NODE createNodeInCLL() {
+        NODE temp;
+        temp= (NODE)malloc(sizeof(struct node));
+        temp-&gt; next = NULL;
+        return temp;
+}
+
+NODE insertAtPositionInCLL(NODE first, int pos, int x) {
+        NODE temp,lastNode=first;
+        int i;
+        for(i=1; i&lt;pos-1;i++) {
+                if(lastNode-&gt;next==first){
+                        printf("No such position in CLL so insertion is not possible\n");
+                         return first;
+                 }
+                 lastNode=lastNode-&gt;next;
+        }
+        temp=createNodeInCLL();
+        temp-&gt;data=x;
+        if(pos==1){
+                if(first==NULL){
+                           first=temp;
+                           temp-&gt;next=first;
+                 }
+                 else{
+                           while(lastNode-&gt;next!=first){
+                                   lastNode=lastNode-&gt;next;
+                           }
+                           temp-&gt;next=first;
+                           first=temp;
+                           lastNode-&gt;next=first;
+                 }
+        }else{
+                 temp-&gt;next=lastNode-&gt;next;
+                 lastNode-&gt;next=temp;
+        }
+         return first;
+}
+
+NODE deleteAtPositionInCLL(NODE first, int pos) {
+         NODE prev=first,lastNode=first;
+         int i;
+         if(pos==1){
+                if(prev-&gt;next==first){
+                        first=NULL;
+                }else{
+                         while(lastNode-&gt;next!=first){
+                                 lastNode=lastNode-&gt;next;
+                         }
+                         first=prev-&gt;next;
+                         lastNode-&gt;next=first;
+                }
+}else{
+         for(i=1;i&lt;pos;i++){
+                if(prev-&gt;next==first){
+                                printf("No such position in CLL so deletion is not possible\n");
+                                   return first;
+                }
+                lastNode=prev;
+                prev=prev-&gt;next;
+         }
+         lastNode-&gt;next=prev-&gt;next;
+}
+         printf("The deleted element from CLL : %d\n", prev -&gt; data);
+         free(prev);
+         return first;
+}
+
+void traverseListInCLL(NODE first) {
+         NODE temp = first;
+         do{
+                printf("%d --> ",temp -&gt;data);
+                temp = temp -&gt; next;
+         }
+         while(temp != first);
+         printf("\n");
+}
+
+void main() {
+         NODE first = NULL;
+         int x, pos, op;
+        while(1) {
+                printf("1.Insert 2.Delete 3.Print 4.Exit\n");
+                printf("Enter your option: ");
+                scanf("%d", &amp;op);
+                switch(op) {
+                        case 1: printf("Enter a position: ");
+                                        scanf("%d", &amp;pos);
+                                        if (pos &lt;= 0) {
+                                                printf("No such position in CLL so insertion is not possible\n");
+                                        } else {
+                                                   printf("Enter an element: ");
+                                                   scanf("%d", &amp;x);
+                                                   first = insertAtPositionInCLL(first, pos, x);
+                                        }
+                                        break;
+                case 2: if (first == NULL) {
+                                                   printf("Circular Linked List is empty so deletion is not possible\n");
+                                        } else {
+                                                   printf("Enter position : ");
+                                                   scanf("%d", &amp;pos);
+                                                   first = deleteAtPositionInCLL(first, pos);
+                                        }
+                                        break;
+                        case 3: if (first == NULL) {
+                                                printf("Circular Linked List is empty\n");
+                                        } else {
+                                                   printf("The elements in CLL are: ");
+                                                   traverseListInCLL(first);
+                                        }
+                                        break;
+                        case 4: exit(0);
+                }
+        }
+}</pre></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EXP 20 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c3">Exp 20</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Double-Ended Queue</div>
+        <div class="exp-title">DEQueue Using Linked List — inject, eject, display</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block c3">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Implement a double-ended queue using linked list. Fill missing code in inject(int ele), eject(), and display().</p>
+          <ul>
+            <li>inject(ele): insert at rear; print "Dequeue is overflow." if full</li>
+            <li>eject(): remove from rear; print "Dequeue is underflow." if empty</li>
+            <li>display(): print all elements</li>
+          </ul>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">DequeueListMain1.c (Driver)</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include "DequeueListInjectEject.c"
+int main() {
+    int op, x;
+    while (1) {
+      printf("1.Inject 2.Eject 3.Display 4.Exit\n");
+        printf("Enter your option : ");
+        scanf("%d", &amp; op);
+        switch (op) {
+        case 1:
+          printf("Enter element : ");
+            scanf("%d", &amp; x);
+            inject(x);
+            break;
+        case 2:
+          eject();
+          break;
+        case 3:
+          display();
+          break;
+        case 4:
+          exit(0);
+        }
+    }
+}</pre></div>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">DequeueListInjectEject.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>struct queue {
+        int data;
+          struct queue *next;
+};
+typedef struct queue *DeQueue;
+DeQueue front = NULL, rear = NULL;
+
+void inject(int ele) {
+        DeQueue temp=NULL;
+        temp=(DeQueue)malloc(sizeof(struct queue));
+          if(temp==NULL){
+                  printf("Deueue is overflow.\n");
+          }
+          else{
+                  temp-&gt;data=ele;
+                  temp-&gt;next=NULL;
+                  if(front==NULL){
+                          front=temp;
+                  }
+                  else{
+                          rear-&gt;next=temp;
+                  }
+                  rear=temp;
+                  printf("Successfully inserted at rear side.\n");
+          }
+}
+void eject() {
+        DeQueue temp=NULL;
+          if(rear==NULL){
+                  printf("Dequeue is underflow.\n");
+          }else{
+                  temp=front;
+                  if(front==rear){
+                          front=rear=NULL;
+                  }
+                  else{
+                          while(temp-&gt;next!=rear){
+                                  temp=temp-&gt;next;
+                          }
+                          rear=temp;
+                          temp=rear-&gt;next;
+                          rear-&gt;next=NULL;
+                  }
+                  printf("Deleted element %d from the rear side.\n",temp-&gt;data);
+                  free(temp);
+          }
+}
+void display() {
+        if(front==NULL){
+                  printf("Double ended queue is empty.\n");
+          }
+          else{
+                  DeQueue temp=front;
+                  printf("Elements in the double ended queue : \n");
+                  while(temp!=NULL){
+                           printf("%d ",temp-&gt;data);
+                           temp=temp-&gt;next;
+                  }
+                  printf("\n");
+          }
+}</pre></div>
+        </div>
+      </div>
+    </div>
+  </article>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     TAB 4 — STACKS (Exps 21–24)
+════════════════════════════════════════════════ -->
+<section id="t4" class="tab-panel">
+  <div class="panel-header">
+    <div class="panel-label">Unit 04</div>
+    <h2 class="panel-title">Stacks — Arrays, Linked Lists &amp; Applications</h2>
+  </div>
+
+  <!-- EXP 21 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c4">Exp 21</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Stack</div>
+        <div class="exp-title">Stack Using Arrays (Push, Pop, Display, isEmpty, Peek)</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block c4">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Write a C program to implement stack operations using arrays. Menu: Push, Pop, Display, Is Empty, Peek, Exit. Max size = 10.</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">StackUsingArray.c (Driver)</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#define STACK_MAX_SIZE 10
+#include "StackOperations.c"
+
+int main() {
+        int op, x;
+        while(1) {
+                printf("1.Push 2.Pop 3.Display 4.Is Empty 5.Peek 6.Exit\n");
+                printf("Option: ");
+                scanf("%d", &amp;op);
+                switch(op) {
+                        case 1:
+                                  printf("element: ");
+                                  scanf("%d", &amp;x);
+                                  push(x);
+                                  break;
+                        case 2:
+                                  pop();
+                                  break;
+                        case 3:
+                                  display();
+                                  break;
+                        case 4:
+                                  isEmpty();
+                                  break;
+                        case 5:
+                                  peek();
+                                  break;
+                        case 6:
+                                  exit(0);
+                }
+        }
+}</pre></div>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">StackOperations.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#define STACK_MAX_SIZE 10
+int st[STACK_MAX_SIZE];
+int top=-1;
+void push(int element) {
+                if( top==STACK_MAX_SIZE-1 )
+                printf("Stack is overflow\n");
+        else
+        {
+                top++;
+                st[top]=element;
+                printf("Successfully pushed\n");
+        }
+}
+void display() {
+        if( top==-1)
+                printf("Stack is empty\n");
+        else
+        {
+                printf("Elements: ");
+                for(int i=top;i&gt;=0;i-- )
+                        printf("%d ",st[i]);
+                printf("\n");
+        }
+}
+
+void pop() {
+        if( top==-1 )
+                printf("Stack is underflow\n");
+        else
+        {
+                printf("Popped value: %d\n",st[top]);
+                top--;
+        }
+}
+void peek(){
+        if( top==-1 )
+printf("Stack is underflow\n");
+else
+printf("Peek value: %d\n",st[top]);
+}
+void isEmpty() {
+        if(top==-1)
+printf("Stack is empty\n");
+else
+printf("Stack is not empty\n");
+}</pre></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EXP 22 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c5">Exp 22</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Stack</div>
+        <div class="exp-title">Stack Using Linked Lists</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block c5">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Write a program to implement a stack using linked lists. Menu: Push, Pop, Display, Is Empty, Peek, Exit. Outputs: "Successfully pushed.", "Popped value = X", "Stack is underflow.", "Stack is empty.", "Stack is not empty.", "Peek value = X"</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">StackUsingLL.c (Driver)</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include "StackOperationsLL.c"
+
+int main() {
+          int op, x;
+          while(1) {
+                   printf("1.Push 2.Pop 3.Display 4.Is Empty 5.Peek 6.Exit\n");
+                   printf("Enter your option : ");
+                   scanf("%d", &amp;op);
+                   switch(op) {
+                           case 1:
+                                       printf("Enter element : ");
+                                       scanf("%d", &amp;x);
+                                       push(x);
+                                       break;
+                             case 2:
+                                       pop();
+                                       break;
+                             case 3:
+                                       display();
+                                       break;
+                             case 4:
+                                       isEmpty();
+                                       break;
+                             case 5:
+                                       peek();
+                                       break;
+                             case 6:
+                                       exit(0);
+                   }
+          }
+}</pre></div>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">StackOperationsLL.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>struct stack
+{
+int data;
+struct stack *next;
+};
+struct stack *top = NULL;
+
+void push(int val)
+{
+        struct stack *ptr;
+        ptr=top;
+        ptr=(struct stack *)malloc(sizeof(struct stack));
+        ptr-&gt;data = val;
+        if(top==NULL)
+        {
+                ptr-&gt;next=NULL;
+                top=ptr;
+                printf("Successfully pushed.\n");
+        }
+        else{
+                ptr-&gt;next=top;
+                top=ptr;
+                printf("Successfully pushed.\n");
+        }
+}
+void pop()
+{
+        struct stack *ptr;
+        ptr=top;
+        if(top==NULL)
+                printf("Stack is underflow.\n");
+        else{
+                top=top-&gt;next;
+                printf("Popped value = %d\n",ptr-&gt;data);
+                free(ptr);
+        }
+}
+void display()
+{
+        struct stack *ptr;
+        ptr=top;
+        if(top==NULL)
+        {
+                printf("Stack is empty.\n");
+        }
+        else{
+                printf("Elements of the stack are : ");
+                while(ptr!=NULL)
+                        {
+                                  printf("%d ",ptr-&gt;data);
+                                  ptr=ptr-&gt;next;
+                        }
+                  printf("\n");
+          }
+}
+void isEmpty()
+{
+          if(top==NULL)
+          {
+                  printf("Stack is empty.\n");
+          }
+          else{
+                  printf("Stack is not empty.\n");
+          }
+}
+void peek()
+{
+          if(top==NULL)
+                  printf("Stack is underflow.\n");
+          else
+                  printf("Peek value = %d\n",top-&gt;data);
+}</pre></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EXP 23 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c1">Exp 23</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Stack Application</div>
+        <div class="exp-title">Evaluate a Postfix Expression</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Write a C program to evaluate a postfix expression using a stack. Write isEmpty(), push(int x), pop() and evaluatePostfix(char *e).</p>
+          <p>Input: Postfix expression string (digits 0-9 and operators +,-,*,/,%). Output: "Result : r" or "Invalid postfix expression."</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">PostfixEvaluation.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include &lt;ctype.h&gt;
+#include &lt;stdio.h&gt;
+#define STACK_MAX_SIZE 20
+//Declare the required stack variables.
+int a[STACK_MAX_SIZE];
+int top=-1;
+//Return 1 if stack is empty else return 0.
+int isEmpty() {
+        if(top&lt;0)
+                return 1;
+        else
+                return 0;
+}
+
+//Push the character into stack
+void push(int x) {
+        top++;
+         a[top]=x;
+}
+
+//pop a character from stack
+int pop() {
+        return a[top--];
+}
+
+//Output Format - Result : &lt;r&gt; if the input postfix expression is valid.
+//Output Format - Invalid postfix expression. - if the input expression is invalid.
+//postfix expression is given as the parameter.
+void evaluatePostfix(char * e) {
+        int a,b,i;
+        i=0;
+        while(e[i]!='\0')
+                {
+                        if (isdigit(e[i]))
+                        {
+                                  push(e[i]-'0');
+                        }
+                        else
+                        {
+                                  if(top&lt;0)
+                                  {
+                                          break;
+                                  }
+                                  b=pop();
+                                     a=pop();
+                                     switch(e[i])
+                                             {
+                                                     case '+':push(a+b);
+                                                             break;
+                                                     case '-':push(a-b);
+                                                             break;
+                                                     case '*':push(a*b);
+                                                             break;
+                                                     case '/':push(a/b);
+                                                              break;
+                                             }
+                            }
+                            i++;
+                   }
+            if(!isEmpty()&amp;&amp;top==0)
+            {
+                    printf("Result : %d\n",pop());
+            }
+            else
+            {
+                   printf("Invalid postfix expression.\n");
+            }
+}
+
+//Read a postfix expression and evaluate it.
+int main() {
+        char exp[20];
+            char *e, x;
+            printf("Enter the postfix expression : ");
+            scanf("%s",exp);
+            e = exp;
+            evaluatePostfix(e);
+}</pre></div>
+        </div>
+      </div>
+      <div class="test-results">
+        <div class="test-header">All Test Cases Passed</div>
+        <div class="test-case-label">Test Case 1</div>
+        <div class="test-case">Enter the postfix expression: 234+-
+Result : -5</div>
+        <div class="test-case-label">Test Case 2</div>
+        <div class="test-case">Enter the postfix expression: -456+5+
+Invalid postfix expression.</div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EXP 24 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c2">Exp 24</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Stack Application</div>
+        <div class="exp-title">Balanced Parenthesis Check Using Stack</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block c2">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Write a C program to check if parentheses in a given expression are balanced. Recognises (), {}, []. Output: "balanced" or "not balanced".</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">BalancedParenthesis.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include&lt;stdio.h&gt;
+#include&lt;conio.h&gt;
+#include&lt;string.h&gt;
+#define STACK_MAX_SIZE 30
+char arr[STACK_MAX_SIZE];
+int top = -1;
+void push(char element) {
+        if(top==STACK_MAX_SIZE -1 ) {
+                printf("Stack is overflow.\n");
+        }else{
+                 top = top + 1;
+                 arr[top] = element;
+        }
+}
+
+char pop() {
+        long int x;
+        if(top &lt; 0)
+        {
+                 printf("Stack is overflow.\n");
+                 return - 1;
+        }else{
+                 x = arr[top];
+                 top = top -1;
+                 return x;
+        }
+}
+
+int isempty() {
+        if(top == -1)
+        return 1;
+        else
+        return 0;
+}
+
+int isBalanced(char exp[]) {
+        int i,n;
+        char x;
+        n = strlen(exp);
+        for(i=0;i&lt;n;i++)
+                {
+                           if(exp[i]=='('||exp[i]=='{'||exp[i]=='[')
+                           {
+                                  push(exp[i]);
+                        }
+else if(exp[i]=='}'||exp[i]==']'||exp[i]==')')
+                           {
+                                  if(isempty())
+                                          return 0;
+                                  x=pop();
+                                  if((exp[i] == ')' &amp;&amp; x != '(')||(exp[i] == '}' &amp;&amp; x != '{')||
+                                          (exp[i] == ']' &amp;&amp; x != '[')) {
+                                          return 0;
+                                          }
+                           }
+          }
+          return isempty();
+}
+
+void main() {
+          char ch[80], temp;
+          printf("Enter an expression: ");
+          scanf("%s", ch);
+          if(isBalanced(ch) == 1) {
+                  printf("balanced\n");
+          } else {
+                  printf("not balanced\n");
+          }
+}</pre></div>
+        </div>
+      </div>
+      <div class="test-results">
+        <div class="test-header">All Test Cases Passed</div>
+        <div class="test-case-label">Test Case 1</div>
+        <div class="test-case">Enter an expression: 1+2*3+(3+4)
+Output: balanced</div>
+        <div class="test-case-label">Test Case 2</div>
+        <div class="test-case">Enter an expression: 1+2*(3+([4+5])
+Output: not balanced</div>
+      </div>
+    </div>
+  </article>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     TAB 5 — QUEUES (Exps 25–32)
+════════════════════════════════════════════════ -->
+<section id="t5" class="tab-panel">
+  <div class="panel-header">
+    <div class="panel-label">Unit 05</div>
+    <h2 class="panel-title">Queues &amp; Applications</h2>
+  </div>
+
+  <!-- EXP 25 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c5">Exp 25</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Queue</div>
+        <div class="exp-title">Queue Operations Using Static Array (Circular)</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block c5">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Write a program to implement queue operations using static arrays (MAX=10). Menu: Enqueue, Dequeue, Display, Is Empty, Size, Exit.</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">QueueUsingArray.c (Driver)</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include "QueueOperations.c"
+int main() {
+        int op, x;
+        while(1) {
+                printf("1.Enqueue 2.Dequeue 3.Display 4.Is Empty 5.Size 6.Exit\n");
+                printf("Enter your option : ");
+                scanf("%d",&amp;op);
+                switch(op) {
+                        case 1:
+                                  printf("Enter element : ");
+                                  scanf("%d",&amp;x);
+                                  enqueue(x);
+                                  break;
+                        case 2:
+                                  dequeue();
+                                  break;
+                        case 3:
+                                  display();
+                                  break;
+                        case 4:
+                                  isEmpty();
+                                  break;
+                        case 5:
+                                  size();
+                                  break;
+                        case 6: exit(0);
+                }
+        }
+        return 0;
+}</pre></div>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">QueueOperations.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#define MAX 10
+int queue[MAX];
+int front = -1, rear = -1;
+
+void enqueue(int x) {
+                if(((rear==MAX-1) &amp;&amp; (front==0)) || (rear+1==front)){
+                printf("Queue is overflow.\n");
+        }
+        else{
+                   if(rear==MAX-1){
+                            rear=-1;
+                   }
+                   else if(front==-1){
+                           front=0;
+                   }
+                   rear++;
+                   queue[rear]=x;
+                   printf("Successfully inserted.\n");
+        }
+}
+
+void dequeue() {
+                   if(front==-1){
+                   printf("Queue is underflow.\n");
+        }
+        else{
+                   printf("Deleted element = %d\n",queue[front]);
+                                      if(rear==front){
+rear=front=-1;
+                                   }
+                   else if(front ==MAX-1){
+                           front=0;
+                   }else{
+                            front++;
+                   }
+        }
+}
+
+void display() {
+                   int i;
+        if(front==-1&amp;&amp;rear==-1){
+                printf("Queue is empty.\n");
+        }
+                   else{
+                   printf("Elements in the queue : ");
+                   if(front&lt;=rear){
+                           for(i=front ;i&lt;=rear;i++){
+                                     printf("%d ",queue[i]);
+                           }
+                   }
+                   else{
+                           for(i=front;i&lt;=MAX-1;i++)
+                                   {
+                                             printf("%d ",queue[i]);
+                                     }
+                   }
+                   printf("\n");
+        }
+}
+
+void size() {
+        if(front == -1 &amp;&amp; rear == -1)
+                printf("Queue size : 0\n");
+                   else{
+                   if(front&lt;=rear){
+                   printf("Queue size : %d\n",rear-front+1);
+                   }
+                                             else{
+                                     printf("Queue size : %d\n",MAX-front+rear+1);
+                           }
+}
+}
+
+void isEmpty() {
+        if(front==-1&amp;&amp;rear==-1)
+                printf("Queue is empty.\n");
+                   else
+                   printf("Queue is not empty.\n");
+}</pre></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EXP 26 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c1">Exp 26</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Queue</div>
+        <div class="exp-title">Queue Using Linked Lists</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Write a program for queue operations using linked lists: Enqueue, Dequeue, Display, Is Empty, Size, Exit. Output: "Successfully inserted", "Deleted value: X", "Queue is underflow", "Elements: ...", "Queue is empty/not empty", "Queue size: N".</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">QueueUsingLL.c (Driver)</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include "QueueOperationsLL.c"
+int main() {
+        int op, x;
+        while(1) {
+                printf("1.Enqueue 2.Dequeue 3.Display 4.Is Empty 5.Size 6.Exit\n");
+                printf("Option: ");
+                scanf("%d",&amp;op);
+                switch(op) {
+                        case 1:
+                                  printf("element: ");
+                                  scanf("%d",&amp;x);
+                                  enqueue(x);
+                                  break;
+                        case 2:
+                                  dequeue();
+                                  break;
+                        case 3:
+                                  display();
+                                  break;
+                        case 4:
+                                  isEmpty();
+                                  break;
+                        case 5:
+                                  size();
+                                  break;
+                        case 6: exit(0);
+                }
+        }
+}</pre></div>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">QueueOperationsLL.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>struct queue {
+int data;
+struct queue*next;
+};
+typedef struct queue*Q;
+Q front=NULL,rear=NULL;
+void enqueue(int element){
+        Q temp=NULL;
+        temp=(Q)malloc(sizeof(struct queue));
+                if(temp==NULL){
+                 printf("queue is overflow\n");
+                 }
+        else{
+                 temp-&gt;data=element;
+                 temp-&gt;next=NULL;
+                 if(front==NULL){
+                         front=temp;
+                 }
+                 else{
+                           rear-&gt;next=temp;
+                 }
+                 rear=temp;
+                 printf("Successfully inserted\n");
+        }
+}
+        void dequeue(){
+                 Q temp=NULL;
+                 if(front==NULL){
+                 printf("Queue is underflow\n");
+        }
+        else{
+                 temp=front;
+                 if(front==rear){
+                         front=rear=NULL;
+                 }
+                 else{
+                         front=front-&gt;next;
+                 }
+                 printf("Deleted value: %d\n",temp-&gt;data);
+                 free(temp);
+        }
+        }
+void display(){
+        if(front==NULL){
+                 printf("Queue is empty\n");
+        }
+          else{
+                    Q temp=front;
+                    printf("Elements: ");
+                    while(temp!=NULL){
+                            printf("%d ",temp-&gt;data);
+                            temp=temp-&gt;next;
+                    }
+                    printf("\n");
+          }
+}
+void size(){
+        int count=0;
+          if(front==NULL){
+                  printf("Queue size: 0\n");
+          }
+          else{
+                    Q temp=front;
+                    while(temp!=NULL){
+                    temp=temp-&gt;next;
+                    count=count+1;
+                          }
+          printf("Queue size: %d\n",count);
+          }
+}
+
+void isEmpty(){
+        if(front==NULL){
+                    printf("Queue is empty\n");
+          }
+          else{
+                    printf("Queue is not empty\n");
+          }
+}</pre></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EXP 27 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c2">Exp 27</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Queue Application</div>
+        <div class="exp-title">Printer Queue System Simulation</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block c2">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Develop a C program to simulate a simple printer queue system. Note: Before exiting, all jobs must be done.</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">PrinterQueue.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+// Define a structure for a print job
+struct PrintJob {
+    int jobId;
+    struct PrintJob* next;
+};
+
+// Define a structure for the printer queue
+struct PrinterQueue {
+    struct PrintJob* front;
+     struct PrintJob* rear;
+};
+
+// Function to initialize an empty printer queue
+void initializeQueue(struct PrinterQueue* queue) {
+        queue-&gt;front=NULL;
+        queue-&gt;rear=NULL;
+}
+
+// Function to check if the queue is empty
+int isQueueEmpty(struct PrinterQueue* queue) {
+        return (queue-&gt;front==NULL);
+}
+
+// Function to enqueue a print job
+void enqueue(struct PrinterQueue* queue, int jobId) {
+        struct PrintJob*newJob=(struct PrintJob*)malloc(sizeof(struct PrintJob));
+        newJob-&gt;jobId=jobId;
+        newJob-&gt;next=NULL;
+        if(isQueueEmpty(queue)){
+                queue-&gt;front=queue-&gt;rear=newJob;
+        }else{
+                 queue-&gt;rear-&gt;next=newJob;
+                queue-&gt;rear=newJob;}
+        printf("Job %d added\n", jobId);
+}
+
+// Function to dequeue a print job
+void dequeue(struct PrinterQueue* queue) {
+        if(isQueueEmpty(queue)){
+                printf("No job to dequeue\n");
+                 return;
+        }
+        struct PrintJob*temp=queue-&gt;front;
+        queue-&gt;front=queue-&gt;front-&gt;next;
+        printf("Job %d removed from queue and sent to the printer\n",temp-&gt;jobId);
+        free(temp);
+        if(queue-&gt;front==NULL){
+        queue-&gt;rear=NULL;
+        }
+}
+
+int main() {
+    struct PrinterQueue printerQueue;
+    initializeQueue(&amp;printerQueue);
+    int choice, jobId;
+    do {
+        printf("Printer Queue System\n");
+        printf("1. Add a job to queue\n");
+        printf("2. Process the next job\n");
+        printf("3. Exit\n");
+        printf("Choice: ");
+        scanf("%d", &amp;choice);
+        switch (choice) {
+            case 1:
+                printf("Job ID: ");
+                scanf("%d", &amp;jobId);
+                enqueue(&amp;printerQueue, jobId);
+                break;
+            case 2:
+                dequeue(&amp;printerQueue);
+                break;
+            case 3:
+                printf("Exiting\n");
+                break;
+            default:
+                printf("Invalid choice\n");
+        }
+    } while (choice != 3);
+
+    // Cleanup: free remaining print jobs in the queue
+    while (!isQueueEmpty(&amp;printerQueue)) {
+        dequeue(&amp;printerQueue);
+    }
+        return 0;
+}</pre></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EXP 28 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c3">Exp 28</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Circular Queue</div>
+        <div class="exp-title">Circular Queue Using Arrays (MAX=6)</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block c3">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Design, Develop and Implement a menu driven Program for Circular QUEUE of Characters with max size MAX=6: Insert, Delete, Overflow/Underflow Demo, Display, Exit.</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">cQue.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include &lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;stdio_ext.h&gt;
+#define MAX 6
+
+int cq[MAX];
+int front = -1, rear = -1;
+
+void insert(int);
+void delete();
+void display();
+
+void insert(int item)
+{   if(front == (rear+1)%MAX) {
+        printf("~~~Circular Queue Overflow~~~\n");       }
+    else {
+                  if(front==-1)
+                          front=rear=0;
+                  else
+                          rear=(rear+1)%MAX;
+                  cq[rear]=item;
+    }
+}
+
+void delete()
+{   char item;
+    if(front == -1)
+    {   printf("~~~Circular Queue Underflow~~~\n");      }
+    else
+    {   item = cq[front];
+        printf("Deleted element from the queue is: %d\n",item );
+        if(front==rear)
+                          front=rear=-1;
+        else
+                          front=(front+1)%MAX;
+    }
+}
+
+void display ()
+{   int i ;
+    if(front == -1)
+    {   printf("~~~Circular Queue Empty~~~\n");      }
+    else
+    {   printf("Circular Queue contents are:\n");
+                  for(i=front;i!=rear;i=(i+1)%MAX)
+                          printf("%d ",cq[i]);
+                    printf("%d\n",cq[i]);
+        }
+}
+
+void main()
+{   int ch, item;
+    while(1)
+        {   printf("~~Main Menu~~");
+            printf("\n=&gt; 1. Insertion and Overflow Demo");
+            printf("\n=&gt; 2. Deletion and Underflow Demo");
+            printf("\n=&gt; 3. Display");
+            printf("\n=&gt; 4. Exit");
+            printf("\nEnter Your Choice: ");
+            scanf("%d", &amp;ch);
+            __fpurge(stdin);
+            switch(ch)
+            {   case 1: printf("Enter the element to be inserted: ");
+                        scanf("%d", &amp;item);
+                         insert(item);
+                         break;
+                 case 2: delete();
+                         break;
+                 case 3: display();
+                         break;
+                 case 4: exit(0);
+                 default: printf("Please enter a valid choice\n");
+            }
+        }
+}</pre></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EXP 29 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c4">Exp 29</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Circular Queue</div>
+        <div class="exp-title">Circular Queue Using Linked List</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block c4">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Write a program to implement circular queue using linked lists. Menu: Enqueue, Dequeue, Display, Is empty, Size, Exit.</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">CQueueLL.c (Driver)</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include "CQueueOperationsLL.c"
+int main() {
+          int op, x;
+          while(1) {
+                  printf("1.Enqueue 2.Dequeue 3.Display 4.Is empty 5.Size 6.Exit\n");
+                 printf("Enter your option : ");
+                 scanf("%d",&amp;op);
+                 switch(op) {
+                         case 1:
+                                    printf("Enter element : ");
+                                    scanf("%d",&amp;x);
+                                    enqueue(x);
+                                    break;
+                          case 2:
+                                    dequeue();
+                                    break;
+                          case 3:
+                                    display();
+                                    break;
+                          case 4:
+                                    isEmpty();
+                                    break;
+                          case 5:
+                                    size();
+                                    break;
+                          case 6: exit(0);
+                 }
+          }
+}</pre></div>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">CQueueOperationsLL.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>struct queue {
+        int data;
+        struct queue *next;
+};
+typedef struct queue *CircularQueue;
+CircularQueue front = NULL, rear = NULL;
+
+void dequeue() {
+        CircularQueue temp=NULL;
+        if(front==NULL){
+                printf("Circular queue is underflow.\n");
+        }
+        else{
+                temp=front;
+                if(front==rear){
+                        front=rear=NULL;
+                }
+                else{
+                        front=front-&gt;next;
+                        rear-&gt;next=front;
+                }
+                printf("Deleted value = %d\n",temp-&gt;data);
+                free(temp);
+        }
+}
+
+void size() {
+        int count =0;
+        if(front == NULL) {
+                printf("Circular queue size : 0\n");
+                return;
+        }
+        CircularQueue temp = front;
+        do {
+                temp = temp -&gt; next;
+                count = count + 1;
+        } while(temp != front);
+        printf("Circular queue size : %d\n",count);
+}
+
+void isEmpty() {
+        if(front == NULL ) {
+                printf("Circular queue is empty.\n");
+        } else {
+                printf("Circular queue is not empty.\n");
+        }
+}
+
+void enqueue(int element) {
+        CircularQueue temp=NULL;
+          temp=(CircularQueue)malloc(sizeof(struct queue));
+          if(temp==NULL){
+                  printf("Circular queue is overflow.\n");
+          }
+          else{
+                  temp-&gt;data=element;
+                  temp-&gt;next=NULL;
+                  if(front==NULL){
+                          front=temp;
+                  }
+                  else{
+                          rear-&gt;next=temp;
+                  }
+                  rear=temp;
+                  rear-&gt;next=front;
+                  printf("Successfully inserted.\n");
+          }
+}
+
+void display() {
+        if(front == NULL) {
+                 printf("Circular queue is empty.\n");
+          } else {
+                  CircularQueue temp = front;
+                  printf("Elements in the circular queue : ");
+                  do {
+                          printf("%d ", temp -&gt; data);
+                          temp = temp -&gt; next;
+                  } while(temp != front);
+                  printf("\n");
+          }
+}</pre></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EXP 30 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c5">Exp 30</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Stack Application</div>
+        <div class="exp-title">Convert Infix to Postfix &amp; Evaluate</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block c5">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Write a C program that uses a stack to convert an infix expression to postfix and then evaluate it. Only single-digit positive integers and +,-,*,/,% operators allowed.</p>
+          <p><strong>Output:</strong> Line 1 – postfix expression; Line 2 – result of evaluation.</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">EvaluateConverted.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;ctype.h&gt;
+#include&lt;string.h&gt;
+#define MAX 100
+char charstack[100];
+int chartop=-1;
+int intstack[MAX];
+int inttop=-1;
+void pushchar(char c){
+        if(chartop&lt;MAX-1){
+                charstack[++chartop]=c;
+        }
+}
+char popchar(){
+        if(chartop&gt;=0){
+                return charstack[chartop--];
+        }
+        return '\0';
+}
+char peekchar(){
+        if(chartop&gt;=0){
+                return charstack[chartop];
+        }
+        return '\0';
+}
+void pushint(int num){
+        if(inttop&lt;MAX-1){
+                intstack[++inttop]=num;
+        }
+}
+int popint(){
+        if(inttop&gt;=0){
+                return intstack[inttop--];
+        }
+        return 0;
+}
+int precedence(char op){
+        switch(op){
+                case '+':
+                case '-':
+                return 1;
+                case '*':
+                case '/':
+                case '%':
+                return 2;
+                default:
+                return 0;
+        }
+}
+void infixpostfix(char* infix,char* postfix){
+        int k=0;
+        for(int i=0;infix[i]!='\0';i++){
+                if(isdigit(infix[i])){
+                           postfix[k++]=infix[i];
+                }
+                else if(infix[i]=='('){
+                        pushchar(infix[i]);}
+                else if(infix[i]==')'){
+                        while(chartop!=-1&amp;&amp;peekchar()!='('){
+                                   postfix[k++]=popchar();
+                           }
+                           popchar();
+                }
+                else{
+while(chartop!=-1&amp;&amp;precedence(peekchar())&gt;=precedence(infix[i])){
+                                postfix[k++]=popchar();
+                           }
+                           pushchar(infix[i]);
+                }
+        }
+        while(chartop!=-1){
+                postfix[k++]=popchar();
+        }
+        postfix[k]='\0';
+}
+int evaluatepostfix(char* postfix){
+        for(int i=0;postfix[i]!='\0';i++){
+                if(isdigit(postfix[i])){
+                        pushint(postfix[i]-'0');
+                }
+                else{
+                           int val2=popint();
+                           int val1=popint();
+                           switch(postfix[i]){
+                                   case '+':pushint(val1+val2);
+                                  break;
+                                  case '-':pushint(val1-val2);
+                                  break;
+                                  case '*':pushint(val1*val2);
+                                  break;
+                                  case '/':pushint(val1/val2);
+                                  break;
+                                  case '%':pushint(val1%val2);
+                                  break;
+                           }
+                }
+        }
+        return popint();
+}
+int main(){
+            char infix[MAX],postfix[MAX];
+            printf("Infix expression: ");
+            scanf("%s",infix);
+            infixpostfix(infix,postfix);
+            printf("Postfix expression: %s\n",postfix);
+            int result=evaluatepostfix(postfix);
+            printf("Result: %d\n",result);
+            return 0;
+}</pre></div>
+        </div>
+      </div>
+      <div class="test-results">
+        <div class="test-header">All Test Cases Passed</div>
+        <div class="test-case-label">Test Case 1</div>
+        <div class="test-case">Infix expression: 2+3*4
+Postfix expression: 234*+
+Result: 14</div>
+        <div class="test-case-label">Test Case 2</div>
+        <div class="test-case">Infix expression: 8%3+6*(2-1)
+Postfix expression: 83%621-*+
+Result: 8</div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EXP 31 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c1">Exp 31</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Stack Application</div>
+        <div class="exp-title">Check String Symmetry Using Stack</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Implement a C program that uses a stack to determine whether a given string is symmetric (reads same forward and backward). Case-insensitive. Convert all chars to lowercase before checking.</p>
+          <p>Output: "&lt;string&gt; is symmetric" or "&lt;string&gt; is not symmetric"</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">StringSymmetry.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;string.h&gt;
+#include&lt;ctype.h&gt;
+#define MAX 100
+char stack[MAX];
+int top=-1;
+void push(char c){
+        if(top&lt;MAX-1){
+                stack[++top]=c;
+        }
+}
+char pop(){
+        if(top&gt;=0){
+                return stack[top--];
+        }
+        return '\0';
+}
+void tolowercase(char* str,char * lowerstr){
+        for(int i=0;str[i]!='\0';i++){
+                lowerstr[i]=tolower(str[i]);
+        }
+        lowerstr[strlen(str)]='\0';
+}
+int issymmetric(char* str){
+        int len=strlen(str);
+        for(int i=0;i&lt;len/2;i++){
+                push(str[i]);
+        }
+        int start=(len%2==0)?len/2:(len/2)+1;
+        for(int i=start;i&lt;len;i++)
+                {
+                        if(tolower(pop())!=tolower(str[i])){
+                                return 0;
+                        }
+                }
+        return 1;
+}
+int main(){
+        char str[MAX];
+        char lowerstr[MAX];
+        printf("String: ");
+        scanf("%s",str);
+        tolowercase(str,lowerstr);
+        if(issymmetric(str)){
+                printf("%s is symmetric\n",str);
+        }else{
+                printf("%s is not symmetric\n",str);
+        }
+}</pre></div>
+        </div>
+      </div>
+      <div class="test-results">
+        <div class="test-header">All Test Cases Passed</div>
+        <div class="test-case-label">Test Case 1</div>
+        <div class="test-case">String: Emualator
+Emualator is not symmetric</div>
+        <div class="test-case-label">Test Case 2</div>
+        <div class="test-case">String: Madam
+Madam is symmetric</div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EXP 32 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c2">Exp 32</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Queue Application</div>
+        <div class="exp-title">Check String Symmetry Using Queue</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block c2">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Implement a C program that uses a queue to determine whether a given string is symmetric. Case-insensitive. Convert to lowercase before checking.</p>
+          <p>Output: "&lt;string&gt; is symmetric" or "&lt;string&gt; is not symmetric"</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">StringSymmetryUsingQueue.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdbool.h&gt;
+#include &lt;ctype.h&gt;
+
+// Define the structure for queue node
+struct Node {
+     char data;
+     struct Node* next;
+};
+
+// Define the structure for the queue
+struct Queue {
+    struct Node *front, *rear;
+};
+struct Node* newNode(char data){
+        struct Node*temp=(struct Node*)malloc(sizeof(struct Node));
+        temp-&gt;data=data;
+        return temp;
+}
+struct Queue* createQueue(){
+        struct Queue* q=(struct Queue*)malloc(sizeof(struct Queue));
+        q-&gt;front=q-&gt;rear=NULL;
+        return q;
+}
+void enqueue(struct Queue*q,char data){
+        struct Node* temp=newNode(data);
+        if(q-&gt;rear==NULL){
+                q-&gt;front=q-&gt;rear=temp;
+                return;
+        }
+        q-&gt;rear-&gt;next=temp;
+        q-&gt;rear=temp;
+}
+char dequeue(struct Queue* q){
+        if(q-&gt;front==NULL){
+                printf("Queue is empty\n");
+                return -1;
+        }
+        struct Node*temp=q-&gt;front;
+        char data=temp-&gt;data;
+        q-&gt;front=q-&gt;front-&gt;next;
+        free(temp);
+        if(q-&gt;front==NULL){
+                q-&gt;rear=NULL;
+        }
+          return data;
+}
+bool isSymmetric(char *str){
+        struct Queue* q=createQueue();
+          int i=0;
+          while(str[i]){
+                  enqueue(q,tolower(str[i]));
+                  i++;
+          }
+          while(q-&gt;front!=NULL){
+                     char frontchar=dequeue(q);
+                     if(frontchar!=tolower(str[--i])){
+                             return false;
+                      }
+                 }
+return true;
+}
+
+int main() {
+      char str[100];
+      printf("String: ");
+      scanf("%s", str);
+      if (isSymmetric(str)) {
+          printf("%s is symmetric\n", str);
+      } else {
+          printf("%s is not symmetric\n", str);
+      }
+      return 0;
+}</pre></div>
+        </div>
+      </div>
+      <div class="test-results">
+        <div class="test-header">All Test Cases Passed</div>
+        <div class="test-case-label">Test Case 1</div>
+        <div class="test-case">String: abcdcba
+abcdcba is symmetric</div>
+        <div class="test-case-label">Test Case 2</div>
+        <div class="test-case">String: Alpha
+Alpha is not symmetric</div>
+      </div>
+    </div>
+  </article>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     TAB 6 — TREES & HASHING (Exps 33–37)
+════════════════════════════════════════════════ -->
+<section id="t6" class="tab-panel">
+  <div class="panel-header">
+    <div class="panel-label">Unit 06</div>
+    <h2 class="panel-title">Binary Search Trees &amp; Hashing</h2>
+  </div>
+
+  <!-- EXP 33 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c3">Exp 33</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Binary Search Tree</div>
+        <div class="exp-title">BST Insert &amp; Inorder / Preorder / Postorder Traversal</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block c3">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Write a program to create a BST and perform: Insert a node, In-order traversal, Pre-order traversal, Post-order traversal.</p>
+          <p>"Successfully inserted." or "Element already exists in BST."</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">BinarySearchTree.c (Driver)</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include "InsertAndTraversals.c"
+
+void main() {
+        int x, op;
+        BSTNODE root = NULL;
+        while(1) {
+                printf("1.Insert 2.Inorder Traversal 3.Preorder Traversal 4.Postorder Traversal 5.Exit\n");
+                printf("Enter your option : ");
+                scanf("%d", &amp;op);
+                switch(op) {
+                        case 1: printf("Enter an element to be inserted : ");
+                                       scanf("%d", &amp;x);
+                                       root = insertNodeInBST(root,x);
+                                       break;
+                        case 2:
+                                       if(root == NULL) {
+                                                  printf("Binary Search Tree is empty.\n");
+                                       }
+                                       else {
+                                                  printf("Elements of the BST (in-order traversal): ");
+                                                  inorderInBST(root);
+                                                  printf("\n");
+                                                  }
+                                       break;
+                        case 3:
+                                       if(root == NULL) {
+                                               printf("Binary Search Tree is empty.\n");
+                                       }
+                                       else {
+                                                  printf("Elements of the BST (pre-order traversal): ");
+                                                  preorderInBST(root);
+                                                  printf("\n");
+                                                  }
+                                       break;
+                        case 4:
+                                       if(root == NULL) {
+                                                  printf("Binary Search Tree is empty.\n");
+                                  }
+                                  else {
+                                             printf("Elements of the BST (post-order traversal): ");
+                                             postorderInBST(root);
+                                             printf("\n");
+                                             }
+                                  break;
+                        case 5:
+                                  exit(0);
+                }
+        }
+}</pre></div>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">InsertAndTraversals.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>struct node {
+        int data;
+        struct node *left, *right;
+};
+
+typedef struct node *BSTNODE;
+
+BSTNODE newNodeInBST(int item) {
+        BSTNODE temp = (BSTNODE)malloc(sizeof(struct node));
+        temp-&gt;data = item;
+        temp-&gt;left = temp-&gt;right = NULL;
+        return temp;
+}
+
+BSTNODE insertNodeInBST(BSTNODE node, int ele) {
+        if(node==NULL){
+                printf("Successfully inserted.\n");
+                return newNodeInBST(ele);
+        }
+        if(ele&lt;node-&gt;data)
+                node-&gt;left=insertNodeInBST(node-&gt;left,ele);
+        else if(ele&gt;node-&gt;data)
+                node-&gt;right=insertNodeInBST(node-&gt;right,ele);
+        else
+                printf("Element already exists in BST.\n");
+        return node;
+}
+void inorderInBST(BSTNODE root) {
+        if(root!=NULL){
+                inorderInBST(root-&gt;left);
+                printf("%d ",root-&gt;data);
+                inorderInBST(root-&gt;right);
+        }
+}
+void preorderInBST(BSTNODE root) {
+if(root!=NULL){
+        printf("%d ",root-&gt;data);
+        preorderInBST(root-&gt;left);
+        preorderInBST(root-&gt;right);
+}
+}
+void postorderInBST(BSTNODE root) {
+     if(root!=NULL){
+                 postorderInBST(root-&gt;left);
+                postorderInBST(root-&gt;right);
+                printf("%d ",root-&gt;data);
+          }
+}</pre></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EXP 34 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c4">Exp 34</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Binary Search Tree</div>
+        <div class="exp-title">BST — Insert &amp; Delete Node</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block c4">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Write a program to create a BST and perform Insert and Delete operations. Show inorder and preorder traversal before and after deletion.</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">BinarySearchTree.c (Insert &amp; Delete)</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+struct node {
+  int key;
+     struct node *left, *right;
+};
+
+// Creation
+struct node *newNode(int item) {
+  struct node *temp = (struct node *)malloc(sizeof(struct node));
+     temp-&gt;key = item;
+     temp-&gt;left = temp-&gt;right = NULL;
+     return temp;
+}
+
+// Inorder Traversal using recursion
+void inorder(struct node *root) {
+  if (root != NULL) {
+         // Traverse left
+         inorder(root-&gt;left);
+         // Traverse root
+         printf("%d ", root-&gt;key);
+         // Traverse right
+         inorder(root-&gt;right);
+     }
+}
+
+void preorder(struct node *root) {
+     if (root != NULL) {
+       // Traverse left
+        printf("%d ", root-&gt;key);
+         preorder(root-&gt;left);
+         // Traverse right
+         preorder(root-&gt;right);
+     }
+}
+// Find the inorder successor
+struct node *minValueNode(struct node *node) {
+  struct node *current = node;
+     // Find the leftmost leaf
+     while (current &amp;&amp; current-&gt;left != NULL)
+       current = current-&gt;left;
+     return current;
+}
+
+// Insert a node in BST
+struct node *insert(struct node *node, int key) {
+if(node==NULL)return newNode(key);
+         if(key&lt;node-&gt;key)node-&gt;left=insert(node-&gt;left,key);
+         else
+                 node-&gt;right=insert(node-&gt;right,key);
+         return node;
+}
+
+// Deleting a node
+struct node *deleteNode(struct node *root, int key) {
+         if(root==NULL)return root;
+         if(key&lt;root-&gt;key)
+                 root-&gt;left=deleteNode(root-&gt;left,key);
+         else if(key&gt;root-&gt;key)
+                 root-&gt;right=deleteNode(root-&gt;right,key);
+         else{
+                 if(root-&gt;left==NULL){
+                         struct node *temp=root-&gt;right;
+                          free(root);
+                          return temp;
+                 }
+                 else if(root-&gt;right==NULL){
+                         struct node*temp=root-&gt;left;
+                         free(root);
+                     return temp;
+                 }
+                 struct node*temp=minValueNode(root-&gt;right);
+                 root-&gt;key=temp-&gt;key;
+                 root-&gt;right=deleteNode(root-&gt;right,temp-&gt;key);
+         }
+         return root;
+}
+
+// Driver code
+int main() {
+  struct node *root = NULL;
+    int n,data;
+    printf("Enter how many nodes you want to insert in BST :");
+    scanf("%d",&amp;n);
+    for( int i =0 ; i &lt; n ; i++){
+        printf("Enter the value: ");
+        scanf("%d", &amp;data);
+        root = insert(root, data);
+    }
+
+    printf("Inorder traversal(Always gives ascending order): ");
+    inorder(root);
+    printf("\nPreorder traversal: ");
+    preorder(root);
+    printf("\nEnter the data to delete: ");
+    scanf("%d",&amp;data);
+
+    printf("After deleting %d\n",data);
+
+    root = deleteNode(root, data);
+    printf("Inorder traversal: ");
+    inorder(root);
+    printf("\nPreorder traversal: ");
+    preorder(root);
+}</pre></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EXP 35 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c5">Exp 35</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Hashing</div>
+        <div class="exp-title">Linear Probing Collision Resolution</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block c5">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Write a C program to implement Linear Probing (Hash Table size=10). Menu: Insert, Delete, Search, Print, Exit. Output: "Successfully inserted.", "Successfully deleted.", "Element found.", "Element not found.", "[index]=&gt;value" format for print.</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">HashingMain2.c (Driver)</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include "HashingLinearProbing.c"
+int main() {
+        int x, op, i = 0;
+        for (i = 0; i &lt; SIZE; i++)
+                HashTable[i] = -1;
+        while (1) {
+                printf("1.Insert 2.Delete 3.Search 4.Print 5.Exit\n");
+                printf("Enter your option : ");
+                 scanf("%d", &amp;op);
+                 switch (op) {
+                         case 1: printf("Enter an element to be inserted : ");
+                                        scanf("%d", &amp;x);
+                                        insert(x);
+                                        break;
+                         case 2:
+                                        printf("Enter an element to be deleted : ");
+                                        scanf("%d", &amp;x);
+                                        deleteElement(x);
+                                        break;
+                         case 3:
+                                        printf("Enter an element to be searched : ");
+                                        scanf("%d", &amp;x);
+                                        search(x);
+                                        break;
+                         case 4:
+                                        print();
+                                         break;
+                         case 5: exit(0);
+                 }
+        }
+}</pre></div>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">HashingLinearProbing.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#define SIZE 10
+int HashTable[SIZE];
+int hash(int x) {
+        return x % SIZE;
+}
+void insert(int x) {
+        int index=hash(x);
+        while(HashTable[index]!=-1){
+                index=(index+1)%SIZE;
+        }
+        HashTable[index]=x;
+        printf("Successfully inserted.\n");
+}
+void deleteElement(int x) {
+        int index=hash(x);
+        while(HashTable[index]!=-1){
+                if(HashTable[index]==x){
+                        HashTable[index]=-1;
+                           printf("Successfully deleted.\n");
+                           return;
+                }
+                index=(index+1)%SIZE;
+        }
+        printf("Element not found. So cannot delete the element.\n");
+}
+void search(int x) {
+        int index=hash(x);
+        while(HashTable[index]!=-1){
+                if(HashTable[index]==x){
+                        printf("Element found.\n");
+                        return;
+                }
+                index=(index+1)%SIZE;
+        }
+        printf("Element not found.\n");
+}
+void print() {
+        for(int i=0;i&lt;SIZE;i++){
+                if(HashTable[i]!=-1){
+                           printf("[%d]=&gt;%d ",i,HashTable[i]);
+                }
+        }
+        printf("\n");
+}</pre></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EXP 36 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c1">Exp 36</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Hashing</div>
+        <div class="exp-title">Separate Chaining Collision Resolution</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Write a C program to implement Separate Chaining (Hash Table size=10). Menu: Insert, Delete, Search, Print, Exit. Print format: "[index]=&gt; v1 v2 ..." per chain.</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">HashingMain4.c (Driver)</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include&lt;stdio.h&gt;
+#include&lt;conio.h&gt;
+#include&lt;stdlib.h&gt;
+#include "HashingSeperateChaining.c"
+int main() {
+        int x, op, i=0;
+        for(i=0;i&lt;SIZE;i++)
+                HashTable[i]=NULL;
+        while(1) {
+                printf("1.Insert 2.Delete 3.Search 4.Print 5.Exit\n");
+                 printf("Enter your option : ");
+                 scanf("%d", &amp;op);
+                 switch(op) {
+                         case 1: printf("Enter an element to be inserted : ");
+                                        scanf("%d", &amp;x);
+                                        insert(x);
+                                        break;
+                         case 2:
+                                        printf("Enter an element to be deleted : ");
+                                        scanf("%d", &amp;x);
+                                        deleteElement(x);
+                                        break;
+                         case 3:
+                                        printf("Enter an element to be searched : ");
+                                        scanf("%d", &amp;x);
+                                        search(x);
+                                        break;
+                         case 4:
+                                         print();
+                                         break;
+                         case 5: exit(0);
+                 }
+        }
+}</pre></div>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">HashingSeperateChaining.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#define SIZE 10
+struct node {
+        int data;
+        struct node * next;
+};
+struct node * HashTable[SIZE];
+
+int hash(int x) {
+        return x % SIZE;
+}
+
+struct node * newNode(int x) {
+        struct node * temp = (struct node *) malloc(sizeof(struct node *));
+        temp-&gt;data = x;
+        temp-&gt;next = NULL;
+        return temp;
+}
+void insert(int x) {
+        int index=hash(x);
+        struct node*newE1=newNode(x);
+        if(HashTable[index]==NULL){
+                  HashTable[index]=newE1;
+        }else{
+                  struct node*temp=HashTable[index];
+                  newE1-&gt;next=temp;
+                  HashTable[index]=newE1;
+        }
+}
+void deleteElement(int x) {
+        int index=hash(x);
+        struct node*current=HashTable[index];
+        struct node*prev=NULL;
+        while(current!=NULL&amp;&amp;current-&gt;data!=x){
+                prev=current;
+                current=current-&gt;next;
+        }
+        if(current==NULL){
+                  printf("Element not found. So cannot delete.\n");
+                  return;
+        }
+        if(prev==NULL){
+                HashTable[index]=current-&gt;next;
+        }else{
+                  prev-&gt;next=current-&gt;next;
+          }
+          free(current);
+          printf("Successfully deleted.\n");
+}
+void search(int x) {
+        int index=hash(x);
+        struct node*temp=HashTable[index];
+          while(temp!=NULL){
+                  if(temp-&gt;data==x){
+                          printf("Element found.\n");
+                           return;
+                  }
+                  temp=temp-&gt;next;
+          }
+          printf("Element not found.\n");
+}
+void print() {
+        for(int i=0;i&lt;SIZE;i++){
+                  struct node*temp=HashTable[i];
+                  if(temp!=NULL){
+                           printf("[%d]=&gt; ",i);
+                           while(temp!=NULL){
+                                   printf("%d ",temp-&gt;data);
+                                     temp=temp-&gt;next;
+                           }
+                  }
+          }
+          printf("\n");
+}</pre></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EXP 37 -->
+  <article class="exp-card">
+    <div class="exp-card-header">
+      <span class="exp-number c2">Exp 37</span>
+      <div class="exp-meta">
+        <div class="exp-topic-label">Hashing Application</div>
+        <div class="exp-title">Simple Cache Using Hashing (Linear Probing)</div>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="aim-block c2">
+        <div class="aim-label">Aim</div>
+        <div class="aim-text">
+          <p>Implement a C program to create a simple cache using hashing. Handles key-value pairs, collisions via linear probing. Menu: Insert key-value pair, Retrieve value for key, Exit.</p>
+          <p>Output: "Value for key X: value", "Key X not found in the cache", "Cache is full. Unable to insert."</p>
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-filename">Cache.c</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <div class="code-scroll"><pre>#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;string.h&gt;
+#define CACHE_SIZE 10
+typedef struct {
+int key;
+char value[256];
+} CacheItem;
+CacheItem cache[CACHE_SIZE];
+void initialize_cache() {
+        for(int i=0;i&lt;CACHE_SIZE;i++){
+                cache[i].key=-1;
+                strcpy(cache[i].value, "");
+        }
+}
+int hash(int key) {
+        return key%CACHE_SIZE;
+}
+void insert(int key,char *value){
+        int index=hash(key);
+        int original_index=index;
+        int found=0;
+        do{
+                if(cache[index].key==-1||cache[index].key==key){
+                        cache[index].key=key;
+                        strcpy(cache[index].value,value);
+                        found=1;
+                        break;
+                }
+                index=(index+1)%CACHE_SIZE;
+        }while(index!=original_index);
+        if(!found){
+                printf("Cache is full. Unable to insert.\n");
+        }
+}
+void retrieve(int key){
+        int index=hash(key);
+        int original_index=index;
+        int found=0;
+        do{
+                if(cache[index].key==key){
+                        printf("Value for key %d: %s\n",key,cache[index].value);
+                        found=1;
+                        break;
+                }
+                if(cache[index].key==-1){
+                        break;
+                }
+                index=(index+1)%CACHE_SIZE;
+        }while(index!=original_index);
+        if(!found){
+                printf("Key %d not found in the cache\n",key);
+        }
+}
+void display_menu() {
+        printf("Cache Menu:\n");
+        printf("1. Insert a key-value pair\n");
+        printf("2. Retrieve value for a key\n");
+        printf("3. Exit\n");
+        printf("Choice: ");
+}
+int main(){
+        initialize_cache();
+        int choice;
+        while(1){
+                display_menu();
+                scanf("%d",&amp;choice);
+                        switch(choice){
+                        case 1: {
+                                int key;
+                                char value[256];
+                                printf("Key: ");
+                                scanf("%d",&amp;key);
+                                printf("Value: ");
+                                scanf("%s",value);
+                                insert(key,value);
+                                break;
+                        }
+                        case 2: {
+                                int key;
+                                printf("Key for retrieval: ");
+                                scanf("%d",&amp;key);
+                                retrieve(key);
+                                break;
+                        }
+                        case 3:
+                        printf("Exiting\n");
+                        return 0;
+                        default:
+                        printf("Invalid choice\n");
+                        break;
+                        }
+        }
+        return 0;
+}</pre></div>
+        </div>
+      </div>
+      <div class="test-results">
+        <div class="test-header">All Test Cases Passed</div>
+        <div class="test-case-label">Test Case 1 Excerpt</div>
+        <div class="test-case">Key for retrieval: 10  →  Key 10 not found in the cache
+Insert key=10 value=010, key=20 value=020
+Key for retrieval: 10  →  Value for key 10: 010
+Key for retrieval: 20  →  Value for key 20: 020</div>
+      </div>
+    </div>
+  </article>
+
+</section>
+</main>
+
+<script>
+// ── TAB SWITCHING ──
+const tabs = document.querySelectorAll('.tab-btn');
+const panels = document.querySelectorAll('.tab-panel');
+
+tabs.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.dataset.tab;
+    tabs.forEach(t => t.classList.remove('active'));
+    panels.forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(target).classList.add('active');
+    // Scroll to top of content
+    document.querySelector('.main-content').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+// ── COPY TO CLIPBOARD ──
+function copyCode(btn) {
+  // Find the nearest pre element
+  const pre = btn.closest('.code-window').querySelector('pre');
+  if (!pre) return;
+  // Get raw text
+  const rawText = pre.textContent || pre.innerText;
+  navigator.clipboard.writeText(rawText).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.classList.remove('copied');
+    }, 2000);
+  }).catch(() => {
+    // Fallback for older browsers
+    const ta = document.createElement('textarea');
+    ta.value = rawText;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    const orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>
