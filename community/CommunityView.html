@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-       <!-- ============================================================
+    <!-- ============================================================
        CHARACTER ENCODING & COMPATIBILITY
        Must be first — before any content-sniffing can occur
   ============================================================ -->
@@ -148,8 +147,8 @@
        STYLESHEETS
        Order: base → components → fonts → icons
   ============================================================ -->
-  <link rel="stylesheet" href="./style.css">
-  <link rel="stylesheet" href=".?/pages/pages.css">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../pages/pages.css">
 
   <!-- Google Fonts – all weights in one optimized request -->
   <link
@@ -198,13 +197,116 @@
     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4416496491584206"
     crossorigin="anonymous"
   ></script>
-  <style>
-    .iframe-container .invert-pdf iframe {
-      filter: invert(1) hue-rotate(180deg);
-    }
-  </style>
-  <style>
-    .rule {
+<style>
+  .iframe-container .invert-pdf iframe{
+  filter: invert(1) hue-rotate(180deg);
+}
+</style>
+<style>
+  .nav-wrapper {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    gap: 16px;
+    justify-content: center;
+}
+
+/* Glassmorphism Navigation Bar */
+.mini-bar {
+    display: flex;
+    align-items: center;
+    background: var(--bg3);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 8px;
+    border-radius: 40px;
+    box-shadow: var(--box-shadow);
+    border: 1px solid rgba(255, 255, 255, 1);
+    gap: 48px;
+    
+}
+
+/* Individual Navigation Items */
+.nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+    padding: 0 14px;
+    border-radius: 30px;
+    cursor: pointer;
+    color: #999;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    overflow: hidden;
+    max-width: 48px; /* Restricts width to hide text when inactive */
+    text-decoration: none;
+}
+
+.nav-item i {
+    font-size: 22px;
+    min-width: 22px;
+}
+
+.nav-text {
+    font-size: 15px;
+    font-weight: 500;
+    margin-left: 10px;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
+    display: none;
+}
+
+/* Active State Styles */
+.nav-item.active {
+    background: #0a0a0a; /* Black pill */
+    color: #ffffff; /* White text/icon */
+    max-width: 130px; /* Expand to show text */
+    padding: 0 20px;
+    justify-content: flex-start;
+}
+
+.nav-item.active .nav-text {
+    display: block;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.nav-item:not(.active):hover {
+    color: #444;
+}
+
+/* Floating Action Button (FAB) */
+.fab2 {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: none;
+    /* Yellow to orange soft gradient */
+    background: linear-gradient(135deg, var(--text), var(--accent2));
+    
+    color: white;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 12px 24px var(--accent2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.fab2:hover {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 12px 24px var(--accent2);
+}
+
+.fab2:active {
+    transform: scale(0.95);
+}
+</style>
+<style>
+.rule {
       border: none;
       border-top: 1px solid var(--border);
       margin: 2.5rem 0;
@@ -418,186 +520,52 @@
       
     }
   </style>
-  <style>
-    .nav-wrapper {
-      display: flex;
-      flex-direction: row-reverse;
-      align-items: center;
-      gap: 16px;
-      justify-content: center;
-    }
-    
-    /* Glassmorphism Navigation Bar */
-    .mini-bar {
-      display: flex;
-      align-items: center;
-      background: var(--bg3);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      padding: 8px;
-      border-radius: 40px;
-      box-shadow: var(--box-shadow);
-      border: 1px solid rgba(255, 255, 255, 1);
-      gap: 48px;
-      
-    }
-    
-    /* Individual Navigation Items */
-    .nav-item {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 48px;
-      padding: 0 14px;
-      border-radius: 30px;
-      cursor: pointer;
-      color: #999;
-      transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-      overflow: hidden;
-      max-width: 48px;
-      /* Restricts width to hide text when inactive */
-      text-decoration: none;
-    }
-    
-    .nav-item i {
-      font-size: 22px;
-      min-width: 22px;
-    }
-    
-    .nav-text {
-      font-size: 15px;
-      font-weight: 500;
-      margin-left: 10px;
-      white-space: nowrap;
-      opacity: 0;
-      transform: translateX(-10px);
-      transition: all 0.3s ease;
-      display: none;
-    }
-    
-    /* Active State Styles */
-    .nav-item.active {
-      background: #0a0a0a;
-      /* Black pill */
-      color: #ffffff;
-      /* White text/icon */
-      max-width: 130px;
-      /* Expand to show text */
-      padding: 0 20px;
-      justify-content: flex-start;
-    }
-    
-    .nav-item.active .nav-text {
-      display: block;
-      opacity: 1;
-      transform: translateX(0);
-    }
-    
-    .nav-item:not(.active):hover {
-      color: #444;
-    }
-    
-    /* Floating Action Button (FAB) */
-    .fab2 {
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      border: none;
-      /* Yellow to orange soft gradient */
-      background: linear-gradient(135deg, var(--text), var(--accent2));
-      color: white;
-      font-size: 24px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      box-shadow: 0 12px 24px var(--accent2);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    
-    .fab2:hover {
-      transform: scale(1.05) translateY(-2px);
-      box-shadow: 0 12px 24px var(--accent2);
-    }
-    
-    .fab2:active {
-      transform: scale(0.95);
-    }
-    
-    @media(max-width: 767px) {
-      .mini-bar {
-        gap: 4px;
-        margin-top: 20px;
-      }
-      
-      .nav-item {
-        height: 32px;
-      }
-      
-      .nav-text {
-        font-size: 10px;
-      }
-      
-      .fab2 {
-        width: 32px;
-        height: 32px;
-        font-size: 12px;
-        margin-bottom: -20px;
-      }
-      
-      .nav-item i {
-        font-size: 11px;
-        min-width: 11px;
-      }
-    }
-  </style>
 </head>
-
 <body class="light-theme">
-  <header id="tab-header">
-    <nav class="nav-bar">
-      <a href="/" class="logo">
-        <img src="/assets/logo.webp" width="300px" loading="lazy" decoding="async" alt="Must Material" />
-      </a>
-      <div class="nav-btns">
-        <button onclick="switchTheme()"><i class="fa-solid fa-moon theme-icon google"></i></button>
-      </div>
-    </nav>
-  </header>
-  <main style="padding-top: 6vh;">
-    <div class="nav-wrapper">
-      <div class="mini-bar">
-        <a class="nav-item" data-icon="arrows-out" id="expand">
-          <i class="ph-bold ph-arrows-out"></i>
-          <span class="nav-text">Expand</span>
-        </a>
-        
-        <div class="nav-item" data-icon="circle-half" id="invertBtn" onclick="invert()">
-          <i class="ph-fill ph-circle-half"></i>
-          <span class="nav-text">Invert</span>
-        </div>
-        
-        <a class="nav-item" data-icon="bookmark-simple" id="download" download>
-          <i class="ph-bold ph-download-simple"></i>
-          <span class="nav-text">Saved</span>
-        </a>
-        
-        <div class="nav-item active" data-icon="paper-plane-tilt" id="shareBtn">
-          <i class="ph-fill ph-paper-plane-tilt"></i>
-          <span class="nav-text">Share</span>
-        </div>
-      </div>
-      
-      <button class="fab2" onclick="window.history.back()">
-        <i class="ph-bold ph-arrow-left"></i>
-      </button>
+  <header>
+  <nav class="nav-bar">
+    <a href="/" class="logo">
+      <img src="/assets/logo.webp" width="300px" loading="lazy" decoding="async" alt="Must Material" />
+    </a>
+    <div class="nav-btns">
+      <button onclick="switchTheme()"><i class="fa-solid fa-moon theme-icon google"></i></button>
     </div>
-    <div class="iframe-mid">
-      <div class="iframe-container">
-        <iframe id="pdfFrame" title="Study material PDF viewer" allow="autoplay" loading="lazy" style="position: sticky; "></iframe>
-      </div>
+  </nav>
+</header>
+<main style="padding-top: 6vh;">
+  <div class="nav-wrapper">
+        <div class="mini-bar">
+            <a class="nav-item" data-icon="arrows-out" id="expand">
+                <i class="ph-bold ph-arrows-out"></i>
+                <span class="nav-text">Expand</span>
+            </a>
+            
+            <div class="nav-item" data-icon="circle-half" id="invertBtn" onclick="invert()">
+                <i class="ph-fill ph-circle-half"></i>
+                <span class="nav-text">Invert</span>
+            </div>
+            
+            <a class="nav-item" data-icon="bookmark-simple" id="download" download>
+                <i class="ph-bold ph-download-simple"></i>
+                <span class="nav-text">Saved</span>
+            </a>
+            
+            <div class="nav-item active" data-icon="paper-plane-tilt" id="shareBtn">
+                <i class="ph-fill ph-paper-plane-tilt"></i>
+                <span class="nav-text">Share</span>
+            </div>
+        </div>
+
+        <button class="fab2" onclick="window.history.back()">
+            <i class="ph-bold ph-arrow-left"></i>
+        </button>
     </div>
-    <hr class="rule" />
+  <div class="iframe-mid">
+  <div class="iframe-container">
+    <iframe id="pdfFrame"width="100%" height="100%" style="position: sticky;"></iframe>
+  </div>
+  </div>
+<hr class="rule" />
     <section class="below-content">
       
       <!-- HOW TO USE -->
@@ -726,77 +694,81 @@
     </section>
   </main>
   <hr class="rule" />
-  <footer class="seqc-5" id="footer"></footer>
-  <!--IFrame Render-->
+  <footer id="footer"></footer>
   <script type="module">
-    const urlParams = new URLSearchParams(window.location.search);
-    const pdfUrl = urlParams.get('File');
-    const start = pdfUrl.indexOf("/d/") + 3;
-    const end = pdfUrl.indexOf("/preview");
-    const id = pdfUrl.substring(start, end);
-    const link = `https://drive.google.com/uc?export=download&id=${id}`;
-    document.getElementById('download').href = link;
-    document.getElementById('expand').href = pdfUrl;
-    document.getElementById('pdfFrame').src = pdfUrl;
+    // 1. Get the raw Cloudinary URL from the address bar
+const urlParams = new URLSearchParams(window.location.search);
+const rawPdfUrl = urlParams.get('File');
+const pdfUrl=`https://docs.google.com/gview?url=${rawPdfUrl}&embedded=true`
+// 2. Build the Google Docs iframe URL right here, safely
+if (rawPdfUrl) {
+    const iframe = document.getElementById('pdfFrame'); // Make sure this ID matches your HTML
+    iframe.src = pdfUrl;
+}
+    const link=`https://docs.google.com/uc?export=download&id=${rawPdfUrl}`;
+    document.getElementById('download').href=rawPdfUrl;
+    document.getElementById('expand').href=pdfUrl;
     //document.getElementById('pdfFrame').data = pdfUrl;
-    document.getElementById("shareBtn").addEventListener("click", async () => {
-      const shareData = {
-        title: "Must Material - PDF",
-        text: "Check out this material\n",
-        url: window.location.href // or your PDF link
-      };
-      
-      if (navigator.share) {
-        try {
-          await navigator.share(shareData);
-          console.log("Shared successfully");
-        } catch (err) {
-          console.log("Error sharing:", err);
-        }
-      } else {
-        alert("Sharing not supported on this browser");
-      }
-    });
+document.getElementById("shareBtn").addEventListener("click", async () => {
+  const shareData = {
+    title: "Must Material - PDF",
+    text: "Check out this material\n",
+    url: window.location.href  // or your PDF link
+  };
+
+  if (navigator.share) {
+    try {
+      await navigator.share(shareData);
+      console.log("Shared successfully");
+    } catch (err) {
+      console.log("Error sharing:", err);
+    }
+  } else {
+    alert("Sharing not supported on this browser");
+  }
+});
+ 
   </script>
-  <!--Invert function for iframe-->
-  <script>
-    let iframe = document.querySelector("iframe");
-    const invertbtn = document.querySelector('#invertBtn');
-    let b=document.body;
+ <script>
+ let iframe = document.querySelector("iframe");
+const invertbtn = document.querySelector('#invertBtn');
+let b=document.body;
+
     // Apply saved theme on page load
-    if (localStorage.getItem('pdfMode') === 'invert' || b.classList.contains('dark-theme')) {
-      iframe.style.filter = "invert(1) hue-rotate(180deg)";
-    } else {
-      iframe.style.filter = "invert(0) hue-rotate(0deg)";
-    }
     
-    function invert() {
-      if (localStorage.getItem('pdfMode') === 'invert') {
+
+if (localStorage.getItem('pdfMode') === 'invert' || b.classList.contains('dark-theme') ) {
+    iframe.style.filter = "invert(1) hue-rotate(180deg)";
+}else{
+    iframe.style.filter = "invert(0) hue-rotate(0deg)";
+}
+
+function invert() {
+    if (localStorage.getItem('pdfMode') === 'invert') {
         iframe.style.filter = "invert(0) hue-rotate(0deg)";
-        localStorage.setItem('pdfMode', 'normal');
-      } else {
+        localStorage.setItem('pdfMode','normal');
+    } else {
         iframe.style.filter = "invert(1) hue-rotate(180deg)";
-        localStorage.setItem('pdfMode', 'invert');
-      }
+        localStorage.setItem('pdfMode','invert');
     }
-  </script>
-  <!--navigation-->
-  <script>
-    // Select all navigation items
-    const navItems = document.querySelectorAll('.nav-item');
-    
-    navItems.forEach(item => {
-      item.addEventListener('click', () => {
+}</script> 
+<script src="../components/components.js"></script>
+<script src="../main.js"></script>
+ <script >// Select all navigation items
+const navItems = document.querySelectorAll('.nav-item');
+
+navItems.forEach(item => {
+    item.addEventListener('click', () => {
         // Remove active class from all items
         navItems.forEach(nav => {
-          nav.classList.remove('active');
-          
-          // Revert icon to outline style
-          const iconElement = nav.querySelector('i');
-          const iconName = nav.getAttribute('data-icon');
-          iconElement.className = `ph ph-${iconName}`;
+            nav.classList.remove('active');
+            
+            // Revert icon to outline style
+            const iconElement = nav.querySelector('i');
+            const iconName = nav.getAttribute('data-icon');
+            iconElement.className = `ph ph-${iconName}`;
         });
-        
+
         // Add active class to the clicked item
         item.classList.add('active');
         
@@ -804,12 +776,9 @@
         const activeIconElement = item.querySelector('i');
         const activeIconName = item.getAttribute('data-icon');
         activeIconElement.className = `ph-fill ph-${activeIconName}`;
-      });
     });
-  </script>
-  
-  <script src="../components/components.js"></script>
-  <script src="./main.js"></script>
-</body>
+});
 
-</html>
+</script>
+</body>
+ </html>

@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+       <!-- ============================================================
+       CHARACTER ENCODING & COMPATIBILITY
+       Must be first — before any content-sniffing can occur
+  ============================================================ -->
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+  <!-- ============================================================
+       VIEWPORT & MOBILE
+  ============================================================ -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Must Material">
+
+  <!-- ============================================================
+       PRIMARY SEO
+  ============================================================ -->
+  <title>Must Material</title>
+  <meta name="description" content="Must Material offers high-quality study notes, PDF downloads, and educational resources for students – all free in one place. Class 10 notes, tools and more.">
+  <meta name="keywords" content="Must Material, free study materials, class 10 notes, education tools, PDF downloader, student resources, must material, must learn, kits, kkr and ksr">
+  <meta name="author" content="Radha Krishna">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="canonical" href="https://mustmaterial.vercel.app/">
+
+  <!-- ============================================================
+       OPEN GRAPH (Facebook, LinkedIn, WhatsApp)
+  ============================================================ -->
+  <meta property="og:site_name" content="Must Material">
+  <meta property="og:title" content="Must Material">
+  <meta property="og:description" content="High-quality notes, PDFs and more for students – all free. Class 10 notes, education tools and top resources in one place.">
+  <meta property="og:image" content="https://mustmaterial.vercel.app/assets/icon.png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:alt" content="Must Material logo – free study resources for students">
+  <meta property="og:url" content="https://mustmaterial.vercel.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_IN">
+
+  <!-- ============================================================
+       TWITTER / X CARD
+  ============================================================ -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@mustmaterial">
+  <meta name="twitter:title" content="Must Material – Free Study Notes & Tools">
+  <meta name="twitter:description" content="Download notes, convert images, access top resources – 100% free for students.">
+  <meta name="twitter:image" content="https://mustmaterial.vercel.app/assets/icon.png">
+  <meta name="twitter:image:alt" content="Must Material – free study resources for students">
+
+  <!-- ============================================================
+       GOOGLE KNOWLEDGE PANEL (itemprop)
+  ============================================================ -->
+  <meta itemprop="name" content="Must Material">
+  <meta itemprop="description" content="Free study notes, PDF downloads, and educational resources for students.">
+  <meta itemprop="image" content="https://mustmaterial.vercel.app/assets/icon.png">
+
+  <!-- ============================================================
+       STRUCTURED DATA – Organization + WebSite (JSON-LD)
+       Enables Google Search Logo & Sitelinks Searchbox
+  ============================================================ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://mustmaterial.vercel.app/#organization",
+        "url": "https://mustmaterial.vercel.app/",
+        "name": "Must Material",
+        "alternateName": "MustMaterial",
+        "description": "Free study notes, PDF downloads, and educational resources for students.",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://mustmaterial.vercel.app/assets/icon.png",
+          "width": 512,
+          "height": 512
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Must Material",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://mustmaterial.vercel.app/assets/icon.png"
+          }
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://mustmaterial.vercel.app/#website",
+        "url": "https://mustmaterial.vercel.app/",
+        "name": "Must Material",
+        "description": "Free study notes, PDF downloads, and educational resources for students.",
+        "publisher": {
+          "@id": "https://mustmaterial.vercel.app/#organization"
+        },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://mustmaterial.vercel.app/search?q={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
+        },
+        "inLanguage": "en-IN"
+      }
+    ]
+  }
+  </script>
+
+  <!-- ============================================================
+       FAVICONS & PWA MANIFEST
+  ============================================================ -->
+  <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg">
+  <link rel="shortcut icon" href="/favicon/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+  <link rel="manifest" href="/favicon/site.webmanifest">
+
+  <!-- ============================================================
+       PERFORMANCE: DNS PREFETCH & PRECONNECT
+       (Before any font/icon/CSS requests)
+  ============================================================ -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
+  <!-- ============================================================
+       PERFORMANCE: PRELOAD CRITICAL ASSETS
+       (LCP image + above-the-fold CSS)
+  ============================================================ -->
+  <link rel="preload" as="image" href="/assets/logo.webp" fetchpriority="high">
+  <link rel="preload" as="style" href="style.css">
+  <link rel="preload" as="style" href="./pages.css">
+
+  <!-- ============================================================
+       STYLESHEETS
+       Order: base → components → fonts → icons
+  ============================================================ -->
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="./pages.css">
+
+  <!-- Google Fonts – all weights in one optimized request -->
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Audiowide&family=Caprasimo&family=Chango&family=Monoton&family=Oleo+Script:wght@400;700&family=Playwrite+CU+Guides&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sofia&display=swap"
+    media="print"
+    onload="this.media='all'"
+  >
+  <noscript>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Audiowide&family=Caprasimo&family=Chango&family=Monoton&family=Oleo+Script:wght@400;700&family=Playwrite+CU+Guides&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sofia&display=swap"
+    >
+  </noscript>
+
+  <!-- Google Material Symbols (handshake icon) -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  
+
+  <!-- Font Awesome 6 -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+    media="print"
+    onload="this.media='all'"
+  >
+  <noscript>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      crossorigin="anonymous"
+    >
+  </noscript>
+
+  <!-- Tailwind CSS (browser build – kept as-is per your setup) -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" defer></script>
+
+  <!-- ============================================================
+       GOOGLE ADSENSE (async – non-blocking)
+  ============================================================ -->
+  <script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4416496491584206"
+    crossorigin="anonymous"
+  ></script>
+  <style>
+  
+    .page-hero{background:var(--bg1);border-bottom:1px solidvar(--border);padding:clamp(3rem,8vw,6rem) clamp(1.25rem,4vw,2.5rem);text-align:center;position:relative;overflow:hidden;}
+    .page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% -10%,var(--accent4) 0%,transparent 65%);pointer-events:none;}
+    .hero-tag{font-family:var(--font-mono);font-size:0.7rem;letter-spacing:0.15em;color:var(--teal);text-transform:uppercase;font-weight:700;display:inline-block;margin-bottom:1rem;animation:fadeUp 0.5s 0.1s ease both;opacity:0;}
+    .page-hero h1{font-family:var(--font-display);font-size:clamp(2.2rem,5vw,3.6rem);line-height:1.1;letter-spacing:-0.022em;position:relative;animation:fadeUp 0.55s 0.2s ease both;opacity:0;}
+    .page-hero .meta{font-size:0.85rem;color:var(--ink);margin-top:1rem;animation:fadeUp 0.5s 0.3s ease both;opacity:0;}
+
+    /* PLEDGE CARDS */
+    .pledge-strip{background:var(--glass);border-bottom:1px solid rgba(42,124,116,0.2);padding:1.5rem clamp(1.25rem,4vw,2.5rem);}
+    .pledge-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.25rem;}
+    .pledge-item{display:flex;align-items:center;gap:0.75rem;}
+    .pledge-icon{font-size:1.3rem;}
+    .pledge-text{font-size:0.88rem;font-weight:600;color:var(--ink);}
+
+    .toc-card{background:var(--cards);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem 2rem;max-width:700px;margin:0 auto;}
+    .toc-card h3{font-family:var(--font-display);font-size:1.1rem;margin-bottom:1rem;}
+    .toc-card ol{padding-left:1.25rem;display:flex;flex-direction:column;gap:0.45rem;}
+    .toc-card ol a{color:var(--ink);font-size:0.9rem;text-decoration:none;transition:opacity var(--transition);}
+    .toc-card ol a:hover{opacity:0.75;text-decoration:underline;}
+
+    .page-layout{max-width:1100px;margin:0 auto;padding:clamp(3rem,6vw,5rem) clamp(1.25rem,4vw,2.5rem);display:grid;grid-template-columns:1fr 280px;gap:4rem;align-items:start;}
+    @media(max-width:900px){.page-layout{grid-template-columns:1fr;}}
+
+    .legal-body section{margin-bottom:3rem;scroll-margin-top:90px;}
+    .section-number{font-family:var(--font-mono);font-size:0.68rem;letter-spacing:0.12em;color:var(--ink);text-transform:uppercase;display:block;margin-bottom:0.4rem;}
+    .legal-body h2{font-family:var(--font-display);font-size:1.55rem;letter-spacing:-0.015em;margin-bottom:1rem;}
+    .legal-body p{color:var(--ink);font-size:0.97rem;margin-bottom:0.85rem;line-height:1.75;}
+    .legal-body ul{padding-left:1.5rem;display:flex;flex-direction:column;gap:0.55rem;margin-bottom:1rem;}
+    .legal-body li{color:var(--ink);font-size:0.95rem;line-height:1.7;}
+    .legal-body hr{border:none;border-top:1px solid var(--border);margin:0;}
+    .highlight-box{background:rgba(42,124,116,0.08);border-left:3px solid var(--bg2);border-radius:0 var(--radius) var(--radius) 0;padding:1.1rem 1.4rem;margin:1.25rem 0;}
+    .highlight-box p{margin:0;font-size:0.92rem;color:var(--text);}
+    .warning-box{background:rgba(212,118,59,0.07);border-left:3px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;padding:1.1rem 1.4rem;margin:1.25rem 0;}
+    .warning-box p{margin:0;font-size:0.92rem;}
+
+    table{width:100%;border-collapse:collapse;margin:1.25rem 0;font-size:0.9rem;}
+    th{background:var(--cream);font-weight:600;text-align:left;padding:0.75rem 1rem;border:1px solid var(--border);font-size:0.82rem;}
+    td{padding:0.7rem 1rem;border:1px solid var(--border);color:var(--ink);vertical-align:top;}
+    tr:nth-child(even) td{background: var(--ink3);}
+
+    .sidebar{position:sticky;top:84px;}
+    .sidebar-card{background:var(--cards);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1.25rem;}
+    .sidebar-card h4{font-family:var(--font-mono);font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text);margin-bottom:0.85rem;}
+    .sidebar-card p{font-size:0.875rem;color:var(--ink2);line-height:1.65;margin-bottom:0.75rem;}
+    .sidebar-card a{display:inline-block;font-size:0.875rem;font-weight:600;color:var(--text);text-decoration:none;}
+    .sidebar-card a:hover{text-decoration:underline;}
+    .sidebar-nav{list-style:none;display:flex;flex-direction:column;gap:0.3rem;}
+    .sidebar-nav a{display:block;font-size:0.875rem;color:var(--ink2);text-decoration:none;padding:0.3rem 0;border-left:2px solid var(--border);padding-left:0.75rem;transition:color var(--transition),border-color var(--transition);}
+    .sidebar-nav a:hover{color:var(--teal);border-left-color:var(--teal);}
+    .privacy-badge{background:var(--accent4);border:1px solid rgba(42,124,116,0.25);border-radius:var(--radius);padding:1rem;text-align:center;}
+    .privacy-badge .badge-icon{font-size:2rem;margin-bottom:0.5rem;}
+    .privacy-badge p{font-size:0.82rem;color:var(--teal);font-weight:500;line-height:1.5;}
+  </style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo">
+      <img src="/assets/logo.webp"  loading="lazy" decoding="async" alt="Must Material" style="width: 180px;"/>
+          
+    </a>
+    <ul class="nav-links">
+      <li><a onclick="switchTheme()"><i class="ph-fill ph-moon theme-icon other"></i></a></li>
+      <li><a href="../index.html" >Home</a></li>
+      <li><a href="./about.html" >About</a></li>
+      <li><a href="./terms.html" >Terms</a></li>
+      <li><a href="./contact.html">Contact</a></li>
+      <li><a href="./description.html" >Description</a></li>
+      <li><a href="./privacy-policy.html" class="active">privacy</a></li>
+      <li><a href="/Upload/upload.html" class="nav-cta">Upload</a></li>
+    </ul>
+    <ul class="nav-links" id="mini">
+      <li><a onclick="switchTheme()"><i class="ph-fill ph-moon theme-icon other"></i></a></li>
+      <li><a href="../Upload/upload.html" class="nav-cta">Upload</a></li>
+      <li class="last"><a class="hamburger" id="hamburger">
+  <i class="ph-bold ph-list"></i>
+</a></li>
+<!-- Mobile Menu -->
+    </ul>
+    <div class="menu" id="menu">
+  <a href="../index.html">Home</a>
+  <a href="./about.html">About Us</a>
+  <a href="./terms.html">Terms</a>
+  <a href="./contact.html">Contact</a>
+  <a href="./description.html">Description</a>
+  <a href="./privacy-policy.html">Privacy</a>
+</div>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <span class="hero-tag">Legal</span>
+  <h1>Privacy Policy</h1>
+  <p class="meta">Effective Date: July 5, 2025 &nbsp;·&nbsp; Last Updated: May 30, 2026</p>
+</section>
+
+<div class="pledge-strip">
+  <div class="pledge-inner">
+    <div class="pledge-item"><span class="pledge-icon"><i class="ph-fill ph-lock"></i></span><span class="pledge-text">We don't collect personal data</span></div>
+    <div class="pledge-item"><span class="pledge-icon"><i class="ph-fill ph-prohibit"></i></span><span class="pledge-text">No accounts or sign-ups</span></div>
+    <div class="pledge-item"><span class="pledge-icon"><i class="ph-fill ph-chart-line-up"></i></span><span class="pledge-text">No user tracking or profiling</span></div>
+    <div class="pledge-item"><span class="pledge-icon"><i class="ph-fill ph-currency-circle-dollar"></i></span><span class="pledge-text">No ads, no data selling</span></div>
+  </div>
+</div>
+
+<div style="background:var(--cream);border-bottom:1px solid var(--border);padding:1.75rem clamp(1.25rem,4vw,2.5rem);">
+  <div class="toc-card" style="max-width:700px;margin:0 auto;">
+    <h3>Table of Contents</h3>
+    <ol>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#data-collected">Information We Collect</a></li>
+      <li><a href="#data-not-collected">Information We Do NOT Collect</a></li>
+      <li><a href="#uploads">User-Uploaded Content</a></li>
+      <li><a href="#cookies">Cookies &amp; Analytics</a></li>
+      <li><a href="#third-party">Third-Party Services</a></li>
+      <li><a href="#children">Children's Privacy</a></li>
+      <li><a href="#rights">Your Rights</a></li>
+      <li><a href="#changes">Changes to This Policy</a></li>
+      <li><a href="#contact-section">Contact Us</a></li>
+    </ol>
+  </div>
+</div>
+
+<div class="page-layout">
+  <main class="legal-body">
+
+    <section id="overview">
+      <span class="section-number">01 — Overview</span>
+      <h2>Overview</h2>
+      <p>Must Material ("we", "our", or "the platform") is committed to protecting the privacy of all visitors. This Privacy Policy explains what information we collect (and more importantly, what we don't collect), how it is used, and your rights as a user.</p>
+      <div class="highlight-box">
+        <p><i class="ph-fill ph-lock"></i> Must Material is designed with privacy at its core. We require no sign-up, collect no personal data from visitors, and have no interest in tracking student activity.</p>
+      </div>
+      <hr />
+    </section>
+
+    <section id="data-collected">
+      <span class="section-number">02 — Data Collected</span>
+      <h2>Information We Collect</h2>
+      <p>Because Must Material does not require registration or login, we collect very minimal information. The limited data that may be collected is as follows:</p>
+      <table>
+        <thead>
+          <tr><th>Data Type</th><th>Why Collected</th><th>Retention</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Server access logs (IP address, browser type, page visited)</td><td>Standard server operation and security</td><td>Automatically deleted per host policy</td></tr>
+          <tr><td>Content submitted via Upload</td><td>Publishing study materials on the platform</td><td>Until removed by us or contributor</td></tr>
+          <tr><td>Contact form submissions</td><td>Responding to inquiries</td><td>As long as needed to resolve the query</td></tr>
+        </tbody>
+      </table>
+      <p>We do not sell, share, or monetize any of this information.</p>
+      <hr />
+    </section>
+
+    <section id="data-not-collected">
+      <span class="section-number">03 — Not Collected</span>
+      <h2>Information We Do NOT Collect</h2>
+      <p>To be completely transparent, Must Material does not collect or store any of the following:</p>
+      <ul>
+        <li>Names, email addresses, or any personal identifiers from visitors</li>
+        <li>User accounts, profiles, or login credentials</li>
+        <li>Location data, device identifiers, or browsing history</li>
+        <li>Payment information (the platform is entirely free)</li>
+        <li>Behavioral data, click patterns, or usage profiles</li>
+        <li>Any data from or about children specifically</li>
+      </ul>
+      <div class="highlight-box">
+        <p><i class="ph-fill ph-seal-check"></i> When you visit Must Material, you remain completely anonymous. We cannot identify who you are from your visit.</p>
+      </div>
+      <hr />
+    </section>
+
+    <section id="uploads">
+      <span class="section-number">04 — Uploads</span>
+      <h2>User-Uploaded Content</h2>
+      <p>Must Material allows students to submit study materials through our Upload feature. When you voluntarily submit materials, please be aware that:</p>
+      <ul>
+        <li>Submitted materials may be displayed publicly on the platform after peer review</li>
+        <li>We may attribute contributions with a badge or acknowledgment (without requiring identifying information)</li>
+        <li>Any personal information voluntarily included in a submitted document is your responsibility to manage</li>
+        <li>Submitted materials can be requested for removal by contacting us</li>
+      </ul>
+      <div class="warning-box">
+        <p><i class="ph-fill ph-warning-circle"></i> Please do not include sensitive personal information (such as your full name, contact details, or school ID) in study documents you upload.</p>
+      </div>
+      <hr />
+    </section>
+
+    <section id="cookies">
+      <span class="section-number">05 — Cookies</span>
+      <h2>Cookies &amp; Analytics</h2>
+      <p>Must Material currently does not use advertising cookies, third-party trackers, or behavioral analytics tools. The platform may use minimal technical cookies necessary for basic website operation (such as session continuity), if required by the hosting environment.</p>
+      <p>We do not use Google Analytics, Facebook Pixel, or similar user-tracking tools.</p>
+      <hr />
+    </section>
+
+    <section id="third-party">
+      <span class="section-number">06 — Third Party</span>
+      <h2>Third-Party Services</h2>
+      <p>Must Material is hosted on Vercel. As with any hosted service, Vercel's infrastructure may collect standard server logs as part of normal operations. Please refer to <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener" style="color:var(--teal);font-weight:500;">Vercel's Privacy Policy</a> for details on how they handle infrastructure-level data.</p>
+      <p>Any external links on Must Material lead to third-party websites. We are not responsible for the privacy practices of those sites. We encourage you to review their policies before engaging with them.</p>
+      <hr />
+    </section>
+
+    <section id="children">
+      <span class="section-number">07 — Children</span>
+      <h2>Children's Privacy</h2>
+      <p>Must Material is designed for students of all ages, including children. Because we do not collect any personal information from any visitor, our platform is inherently safe for use by minors.</p>
+      <p>We do not knowingly collect personal data from children under the age of 13 (or the applicable age in your jurisdiction). If a parent or guardian believes their child has submitted personal information to us, please contact us immediately and we will remove it.</p>
+      <hr />
+    </section>
+
+    <section id="rights">
+      <span class="section-number">08 — Your Rights</span>
+      <h2>Your Rights</h2>
+      <p>Although we collect very little data, you retain the following rights regarding any information you may have voluntarily shared with us:</p>
+      <ul>
+        <li><strong>Right to access</strong> — You can request information about any data we may hold about you</li>
+        <li><strong>Right to deletion</strong> — You can request removal of any data or content you submitted</li>
+        <li><strong>Right to correction</strong> — You can request correction of any inaccurate information</li>
+        <li><strong>Right to withdraw consent</strong> — You can withdraw any consent you've given us at any time</li>
+      </ul>
+      <p>To exercise any of these rights, please <a href="contact.html" style="color:var(--teal);font-weight:500;">contact us</a> and we will respond within a reasonable timeframe.</p>
+      <hr />
+    </section>
+
+    <section id="changes">
+      <span class="section-number">09 — Changes</span>
+      <h2>Changes to This Policy</h2>
+      <p>We may update this Privacy Policy from time to time. When we do, we will revise the "Last Updated" date at the top of this page. We encourage you to review this page periodically to stay informed about how we protect your privacy.</p>
+      <p>Continued use of Must Material after any changes constitutes your acceptance of the revised policy.</p>
+      <hr />
+    </section>
+
+    <section id="contact-section">
+      <span class="section-number">10 — Contact</span>
+      <h2>Contact Us</h2>
+      <p>If you have any questions, concerns, or requests regarding this Privacy Policy or how Must Material handles data, please reach out through our <a href="contact.html" style="color:var(--teal);font-weight:600;">Contact page</a>. We are committed to responding promptly and transparently.</p>
+    </section>
+
+  </main>
+
+  <aside class="sidebar">
+    <div class="privacy-badge">
+      <div class="badge-icon"><i class="ph-fill ph-shield"></i></div>
+      <p>Must Material is a privacy-first platform. We never sell or share your data.</p>
+    </div>
+    <div class="sidebar-card" style="margin-top:1.25rem;">
+      <h4>Quick Navigation</h4>
+      <ul class="sidebar-nav">
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#data-collected">Data Collected</a></li>
+        <li><a href="#data-not-collected">Not Collected</a></li>
+        <li><a href="#uploads">Uploads</a></li>
+        <li><a href="#cookies">Cookies</a></li>
+        <li><a href="#third-party">Third Party</a></li>
+        <li><a href="#children">Children's Privacy</a></li>
+        <li><a href="#rights">Your Rights</a></li>
+        <li><a href="#changes">Changes</a></li>
+        <li><a href="#contact-section">Contact</a></li>
+      </ul>
+    </div>
+    <div class="sidebar-card">
+      <h4>Other Legal Pages</h4>
+      <ul class="sidebar-nav">
+        <li><a href="terms.html">Terms of Use</a></li>
+        <li><a href="about.html">About Us</a></li>
+      </ul>
+    </div>
+    <div class="sidebar-card">
+      <h4>Privacy Questions?</h4>
+      <p>We're transparent about how we handle data — or don't. Get in touch with any questions.</p>
+      <a href="contact.html">Contact Us →</a>
+    </div>
+  </aside>
+</div>
+<footer id="footer"></footer>
+<script src="./pages.js"></script>
+<script src="../components/components.js"></script>
+<script src="../main.js"></script>
+</body>
+</html>

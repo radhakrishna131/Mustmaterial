@@ -1,2 +1,3 @@
 User-agent: *
 Allow: /
+sitemap: https://mustmaterial.vercel.app/sitemap.xml

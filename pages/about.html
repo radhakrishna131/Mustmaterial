@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <!-- ============================================================
+       CHARACTER ENCODING & COMPATIBILITY
+       Must be first — before any content-sniffing can occur
+  ============================================================ -->
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+  <!-- ============================================================
+       VIEWPORT & MOBILE
+  ============================================================ -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Must Material">
+
+  <!-- ============================================================
+       PRIMARY SEO
+  ============================================================ -->
+  <title>Must Material</title>
+  <meta name="description" content="Must Material offers high-quality study notes, PDF downloads, and educational resources for students – all free in one place. Class 10 notes, tools and more.">
+  <meta name="keywords" content="Must Material, free study materials, class 10 notes, education tools, PDF downloader, student resources, must material, must learn, kits, kkr and ksr">
+  <meta name="author" content="Radha Krishna">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="canonical" href="https://mustmaterial.vercel.app/">
+
+  <!-- ============================================================
+       OPEN GRAPH (Facebook, LinkedIn, WhatsApp)
+  ============================================================ -->
+  <meta property="og:site_name" content="Must Material">
+  <meta property="og:title" content="Must Material">
+  <meta property="og:description" content="High-quality notes, PDFs and more for students – all free. Class 10 notes, education tools and top resources in one place.">
+  <meta property="og:image" content="https://mustmaterial.vercel.app/assets/icon.png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:alt" content="Must Material logo – free study resources for students">
+  <meta property="og:url" content="https://mustmaterial.vercel.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_IN">
+
+  <!-- ============================================================
+       TWITTER / X CARD
+  ============================================================ -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@mustmaterial">
+  <meta name="twitter:title" content="Must Material – Free Study Notes & Tools">
+  <meta name="twitter:description" content="Download notes, convert images, access top resources – 100% free for students.">
+  <meta name="twitter:image" content="https://mustmaterial.vercel.app/assets/icon.png">
+  <meta name="twitter:image:alt" content="Must Material – free study resources for students">
+
+  <!-- ============================================================
+       GOOGLE KNOWLEDGE PANEL (itemprop)
+  ============================================================ -->
+  <meta itemprop="name" content="Must Material">
+  <meta itemprop="description" content="Free study notes, PDF downloads, and educational resources for students.">
+  <meta itemprop="image" content="https://mustmaterial.vercel.app/assets/icon.png">
+
+  <!-- ============================================================
+       STRUCTURED DATA – Organization + WebSite (JSON-LD)
+       Enables Google Search Logo & Sitelinks Searchbox
+  ============================================================ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://mustmaterial.vercel.app/#organization",
+        "url": "https://mustmaterial.vercel.app/",
+        "name": "Must Material",
+        "alternateName": "MustMaterial",
+        "description": "Free study notes, PDF downloads, and educational resources for students.",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://mustmaterial.vercel.app/assets/icon.png",
+          "width": 512,
+          "height": 512
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Must Material",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://mustmaterial.vercel.app/assets/icon.png"
+          }
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://mustmaterial.vercel.app/#website",
+        "url": "https://mustmaterial.vercel.app/",
+        "name": "Must Material",
+        "description": "Free study notes, PDF downloads, and educational resources for students.",
+        "publisher": {
+          "@id": "https://mustmaterial.vercel.app/#organization"
+        },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://mustmaterial.vercel.app/search?q={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
+        },
+        "inLanguage": "en-IN"
+      }
+    ]
+  }
+  </script>
+
+  <!-- ============================================================
+       FAVICONS & PWA MANIFEST
+  ============================================================ -->
+  <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg">
+  <link rel="shortcut icon" href="/favicon/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+  <link rel="manifest" href="/favicon/site.webmanifest">
+
+  <!-- ============================================================
+       PERFORMANCE: DNS PREFETCH & PRECONNECT
+       (Before any font/icon/CSS requests)
+  ============================================================ -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
+  <!-- ============================================================
+       PERFORMANCE: PRELOAD CRITICAL ASSETS
+       (LCP image + above-the-fold CSS)
+  ============================================================ -->
+  <link rel="preload" as="image" href="/assets/logo.webp" fetchpriority="high">
+  <link rel="preload" as="style" href="style.css">
+  <link rel="preload" as="style" href="./pages.css">
+
+  <!-- ============================================================
+       STYLESHEETS
+       Order: base → components → fonts → icons
+  ============================================================ -->
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="./pages.css">
+
+  <!-- Google Fonts – all weights in one optimized request -->
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Audiowide&family=Caprasimo&family=Chango&family=Monoton&family=Oleo+Script:wght@400;700&family=Playwrite+CU+Guides&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sofia&display=swap"
+    media="print"
+    onload="this.media='all'"
+  >
+  <noscript>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Audiowide&family=Caprasimo&family=Chango&family=Monoton&family=Oleo+Script:wght@400;700&family=Playwrite+CU+Guides&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sofia&display=swap"
+    >
+  </noscript>
+
+  <!-- Google Material Symbols (handshake icon) -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  
+
+  <!-- Font Awesome 6 -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+    media="print"
+    onload="this.media='all'"
+  >
+  <noscript>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      crossorigin="anonymous"
+    >
+  </noscript>
+
+  <!-- Tailwind CSS (browser build – kept as-is per your setup) -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" defer></script>
+
+  <!-- ============================================================
+       GOOGLE ADSENSE (async – non-blocking)
+  ============================================================ -->
+  <script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4416496491584206"
+    crossorigin="anonymous"
+  ></script><style>
+  
+   
+
+    /* HERO */
+    .page-hero {  border-bottom: 1px solid var(--border); padding: clamp(3.5rem,9vw,7rem) clamp(1.25rem,4vw,2.5rem) clamp(3rem,7vw,5.5rem); text-align: center; position: relative; overflow: hidden; }
+    .page-hero::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse 80% 60% at 50% -10%, var(--accent4) 0%, transparent 65%); pointer-events:none; }
+    .page-hero::after { content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:140px; height:2px; background: linear-gradient(90deg, transparent, var(--bg2), transparent); }
+    .hero-tag { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.15em; color: var(--text); text-transform: uppercase; font-weight: 700; display: inline-block; margin-bottom: 1.1rem; opacity: 0; animation: fadeUp 0.5s 0.1s ease both; }
+    .page-hero h1 { font-family: var(--font-display); font-size: clamp(2.4rem,5.5vw,4rem); line-height: 1.08; letter-spacing: -0.025em; position: relative; opacity: 0; animation: fadeUp 0.55s 0.2s ease both; }
+    .page-hero h1 em { font-style: italic; color: var(--text); }
+    .page-hero p { font-size: clamp(1rem,2vw,1.18rem); color: var(--muted); max-width: 580px; margin: 1.4rem auto 0; line-height: 1.7; opacity: 0; animation: fadeUp 0.55s 0.32s ease both; }
+
+    /* CONTENT */
+    .page-content { max-width: 1100px; margin: 0 auto; padding: clamp(3rem,7vw,5.5rem) clamp(1.25rem,4vw,2.5rem); }
+    .section { margin-bottom: clamp(3.5rem,7vw,5.5rem); }
+    .section-label { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 0.55rem; }
+    .section-title { font-family: var(--font-display); font-size: clamp(1.7rem,3.2vw,2.35rem); line-height: 1.12; letter-spacing: -0.018em; margin-bottom: 1.1rem; }
+
+    /* STORY LAYOUT */
+    .story-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .story-text p { color: var(--muted); font-size: 1.02rem; margin-bottom: 1rem; }
+    .story-text p:last-child { margin-bottom: 0; }
+    .story-visual { background: var(--cream); border: 1px solid var(--border); border-radius: 20px; padding: 2.5rem; display: flex; flex-direction: column; gap: 1.25rem; }
+    .story-stat { display: flex; flex-direction: column; }
+    .stat-number { font-family: var(--font-display); font-size: 2.6rem; color: var(--text); line-height: 1; }
+    .stat-label { font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-top: 0.2rem; }
+    .stat-divider { border: none; border-top: 1px solid var(--border); }
+    @media(max-width:760px){ .story-layout { grid-template-columns: 1fr; gap: 2rem; } }
+
+    /* VALUES */
+    .values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; }
+    .value-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem; transition: box-shadow var(--transition), transform var(--transition); }
+    .value-card:hover { box-shadow: 0 6px 24px rgba(13,13,13,0.10); transform: translateY(-3px); }
+    .value-icon { width: 44px; height: 44px; border-radius: 10px; display: grid; place-items: center; font-size: 1.2rem; margin-bottom: 1rem; }
+    .icon-orange { background: rgba(212,118,59,0.12); }
+    .icon-teal   { background: rgba(42,124,116,0.12); }
+    .icon-purple { background: rgba(100,80,180,0.10); }
+    .icon-gold   { background: rgba(200,160,50,0.12); }
+    .value-card h3 { font-family: var(--font-display); font-size: 1.15rem; margin-bottom: 0.5rem; }
+    .value-card p  { font-size: 0.9rem; color: var(--muted); line-height: 1.65; }
+
+    /* TEAM */
+    .founder-card { background: var(--cards); border: 1px solid var(--border); border-radius: 18px; padding: 2.25rem 2.5rem; display: flex; gap: 2rem; align-items: flex-start; max-width: 700px; }
+    .founder-avatar img{
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      
+    }
+    .founder-avatar { width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, var(--bg2), var(--accent4)); flex-shrink: 0; display: flex; justify-content: center;align-items: center; font-family: var(--font-display); font-size: 1.8rem; color: var(--ink); border: 1px solid var(--border);}
+    .founder-info h3 { font-family: var(--font-display); font-size: 1.35rem; margin-bottom: 0.25rem; }
+    .founder-role { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text); margin-bottom: 0.8rem; }
+    .founder-bio { font-size: 0.93rem; color: var(--muted); line-height: 1.7; }
+    @media(max-width:560px){ .founder-card { flex-direction: column; padding: 1.5rem; } }
+
+    /* MISSION BANNER */
+    .mission-banner { background: var(--glass); color: var(--ink); border: 1px solid var(--border);border-radius: 20px; padding: 3rem 2.5rem; text-align: center; position: relative; overflow: hidden; }
+    .mission-banner::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse 70% 80% at 50% 100%, var(--accent4) 0%, transparent 60%); }
+    .mission-banner .section-label { color:  var(--text); position: relative; }
+    .mission-banner h2 { font-family: var(--font-display); font-size: clamp(1.6rem,3vw,2.4rem); line-height: 1.2; position: relative; margin: 0.5rem 0 1rem; }
+    .mission-banner p { color: var(--ink2); max-width: 560px; margin: 0 auto 1.75rem; font-size: 1rem; position: relative; }
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; border-radius: 100px; font-family: var(--font-body); font-weight: 600; font-size: 0.9rem; padding: 0.7rem 1.6rem; cursor: pointer; border: none; transition: all var(--transition); }
+    .btn-primary { background: var(--bg2); color: var(--ink-rev); position: relative; }
+    .btn-primary:hover { background: var(--ink-rev); transform: translateY(-1px); }
+    .btn-ghost { background: var(--ink3); color: var(--ink); }
+    .btn-ghost:hover { background: rgba(255,255,255,0.22); }
+    .banner-actions { display: flex; gap: 0.85rem; justify-content: center; flex-wrap: wrap; position: relative; }
+
+    /* FOOTER */
+    .site-footer { background: var(--ink); color: var(--text1); padding: clamp(2.5rem,6vw,4rem) clamp(1.25rem,4vw,2.5rem) 1.5rem; margin-top: clamp(3rem,6vw,5rem); }
+    .footer-inner { max-width: 1100px; margin: 0 auto; }
+    .footer-top { display: grid; grid-template-columns: 2fr repeat(3,1fr); gap: 2.5rem; margin-bottom: 2.5rem; }
+    .footer-brand-name { font-family: var(--font-display); font-size: 1.45rem; color: #fff; margin-bottom: 0.6rem; }
+    .footer-brand-desc { font-size: 0.87rem; line-height: 1.65; }
+    .footer-col h4 { color: #fff; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; margin-bottom: 1rem; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.45rem; }
+    .footer-col ul a { color: rgba(255,255,255,0.45); text-decoration: none; font-size: 0.875rem; transition: color var(--transition); }
+    .footer-col ul a:hover { color: var(--accent-light); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.09); padding-top: 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; }
+    .footer-bottom p, .footer-bottom a { font-size: 0.8rem; color: rgba(255,255,255,0.35); text-decoration: none; }
+    .footer-bottom a:hover { color: var(--accent-light); }
+    .footer-links { display: flex; gap: 1.25rem; }
+    @media(max-width:760px){ .footer-top { grid-template-columns: 1fr 1fr; } }
+    @media(max-width:460px){ .footer-top { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body class="light-theme">
+
+<nav class="site-nav">
+  <div class="nav-inner">
+   <a href="../index.html" class="logo">
+  <img src="/assets/logo.webp" width="300px" loading="lazy" decoding="async" alt="Must Material" />
+  
+</a>
+    <ul class="nav-links">
+      <li><a onclick="switchTheme()"><i class="ph-fill ph-moon theme-icon other"></i></a></li>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="./about.html" class="active">About</a></li>
+      <li><a href="./terms.html">Terms</a></li>
+      <li><a href="./contact.html">Contact</a></li>
+      <li><a href="./description.html">Description</a></li>
+      <li><a href="./privacy-policy.html">privacy</a></li>
+      <li><a href="/Upload/upload.html" class="nav-cta">Upload</a></li>
+    </ul>
+    <ul class="nav-links" id="mini">
+      <li><a onclick="switchTheme()"><i class="ph-fill ph-moon theme-icon other"></i></a></li>
+      <li><a href="../Upload/upload.html" class="nav-cta">Upload</a></li>
+      <li class="last"><a class="hamburger" id="hamburger">
+          <i class="ph-bold ph-list"></i>
+        </a></li>
+      <!-- Mobile Menu -->
+    </ul>
+    <div class="menu" id="menu">
+      <a href="../index.html">Home</a>
+      <a href="./about.html">About Us</a>
+      <a href="./terms.html">Terms</a>
+      <a href="./contact.html">Contact</a>
+      <a href="./description.html">Description</a>
+      <a href="./privacy-policy.html">Privacy</a>
+    </div>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <span class="hero-tag">Our Story</span>
+  <h1>Built by a Student,<br><em>For Every Student</em></h1>
+  <p>Must Material started with a simple belief — quality education should be free, accessible, and built around what students actually need.</p>
+</section>
+
+<main class="page-content">
+
+  <!-- STORY -->
+  <div class="section story-layout">
+    <div class="story-text">
+      <span class="section-label">Who We Are</span>
+      <h2 class="section-title">A platform born from real student struggles</h2>
+      <p>Must Material was founded by Radha Krishna, a student who understood firsthand how difficult it can be to find reliable, organized study resources — especially for Indian curriculum boards and entrance exams.</p>
+      <p>What began as a personal collection of notes quickly grew into a full platform serving students across multiple classes, from 6th grade through B.Tech, covering EAPCET, board exams, and more.</p>
+      <p>Every resource on Must Material is curated, peer-verified, and made available completely free — no subscriptions, no paywalls, no sign-ups required.</p>
+    </div>
+    <div class="story-visual">
+      <div class="story-stat">
+        <span class="stat-number">100%</span>
+        <span class="stat-label">Free — Always, forever</span>
+      </div>
+      <hr class="stat-divider" />
+      <div class="story-stat">
+        <span class="stat-number">0</span>
+        <span class="stat-label">Data collected from students</span>
+      </div>
+      <hr class="stat-divider" />
+      <div class="story-stat">
+        <span class="stat-number">9+</span>
+        <span class="stat-label">Academic levels covered</span>
+      </div>
+      <hr class="stat-divider" />
+      <div class="story-stat">
+        <span class="stat-number">∞</span>
+        <span class="stat-label">Students we aim to reach</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- VALUES -->
+  <div class="section">
+    <span class="section-label">What Drives Us</span>
+    <h2 class="section-title">Our core values</h2>
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="value-icon icon-teal"><i class="ph-fill ph-book"></i></div>
+        <h3>Open Access</h3>
+        <p>Every note, PDF and resource on this platform is free with no registration, no personal data, no barriers — just learning.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon icon-teal"><i class="ph-fill ph-seal-check"></i></div>
+        <h3>Peer Verified</h3>
+        <p>Materials are reviewed and verified by fellow students to ensure accuracy and relevance for real exam preparation.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon icon-teal"><i class="ph-fill ph-target"></i></div>
+        <h3>Student First</h3>
+        <p>Every design decision, every resource, every feature — crafted specifically around the needs of students and their exam goals.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon icon-teal"><i class="ph-fill ph-student"></i></div>
+        <h3>Community Driven</h3>
+        <p>Students contribute their own notes and materials, earning recognition badges and helping thousands of peers succeed.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOUNDER -->
+  <div class="section">
+    <span class="section-label">The Team</span>
+    <h2 class="section-title">Meet the founder</h2>
+    <div class="founder-card">
+      <div class="founder-avatar"><img src="../assets/founder.webp" alt="R"></div>
+      <div class="founder-info">
+        <h3>Radha Krishna</h3>
+        <div class="founder-role">Founder &amp; Developer</div>
+        <p class="founder-bio">A student developer who created Must Material to solve a real problem — the lack of reliable, free, and organized study materials for Indian students. Radha Krishna built every part of this platform, from design to deployment, with a student-first mindset and the mission of making quality education accessible to all.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MISSION CTA -->
+  <div class="mission-banner">
+    <span class="section-label">Join Us</span>
+    <h2>Help build the learning resource every student deserves</h2>
+    <p>Upload your notes, share your knowledge, and earn recognition while helping thousands of students across India prepare better.</p>
+    <div class="banner-actions">
+      <a href="../Upload/upload.html" class="btn btn-primary">Upload Resources ↗</a>
+      <a href="contact.html" class="btn btn-ghost">Get in Touch</a>
+    </div>
+  </div>
+
+</main>
+
+<footer class="site-foote" id="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-name">Must Material</div>
+        <p class="footer-brand-desc">Free study materials, notes, PDFs and educational tools for students — built by a student, for students.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Study</h4>
+        <ul>
+          <li><a href="../Class10/10th.html">10th Class</a></li>
+          <li><a href="../Intermediate/inter2.html">Inter 2nd Year</a></li>
+          <li><a href="../Intermediate/Eapcet.html">EAPCET</a></li>
+          <li><a href="../Btech/College.html">B.Tech</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Platform</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="../Upload/upload.html">Upload</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Use</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Must Material. Made with ♥ for students everywhere.</p>
+      <div class="footer-links">
+        <a href="privacy-policy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+<script src="/main.js"></script>
+<script src="/components/components.js"></script>
+<script src="./pages.js"></script>
+</body>
+</html>

@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+       <!-- ============================================================
+       CHARACTER ENCODING & COMPATIBILITY
+       Must be first — before any content-sniffing can occur
+  ============================================================ -->
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+  <!-- ============================================================
+       VIEWPORT & MOBILE
+  ============================================================ -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Must Material">
+
+  <!-- ============================================================
+       PRIMARY SEO
+  ============================================================ -->
+  <title>Must Material</title>
+  <meta name="description" content="Must Material offers high-quality study notes, PDF downloads, and educational resources for students – all free in one place. Class 10 notes, tools and more.">
+  <meta name="keywords" content="Must Material, free study materials, class 10 notes, education tools, PDF downloader, student resources, must material, must learn, kits, kkr and ksr">
+  <meta name="author" content="Radha Krishna">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="canonical" href="https://mustmaterial.vercel.app/">
+
+  <!-- ============================================================
+       OPEN GRAPH (Facebook, LinkedIn, WhatsApp)
+  ============================================================ -->
+  <meta property="og:site_name" content="Must Material">
+  <meta property="og:title" content="Must Material">
+  <meta property="og:description" content="High-quality notes, PDFs and more for students – all free. Class 10 notes, education tools and top resources in one place.">
+  <meta property="og:image" content="https://mustmaterial.vercel.app/assets/icon.png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:alt" content="Must Material logo – free study resources for students">
+  <meta property="og:url" content="https://mustmaterial.vercel.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_IN">
+
+  <!-- ============================================================
+       TWITTER / X CARD
+  ============================================================ -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@mustmaterial">
+  <meta name="twitter:title" content="Must Material – Free Study Notes & Tools">
+  <meta name="twitter:description" content="Download notes, convert images, access top resources – 100% free for students.">
+  <meta name="twitter:image" content="https://mustmaterial.vercel.app/assets/icon.png">
+  <meta name="twitter:image:alt" content="Must Material – free study resources for students">
+
+  <!-- ============================================================
+       GOOGLE KNOWLEDGE PANEL (itemprop)
+  ============================================================ -->
+  <meta itemprop="name" content="Must Material">
+  <meta itemprop="description" content="Free study notes, PDF downloads, and educational resources for students.">
+  <meta itemprop="image" content="https://mustmaterial.vercel.app/assets/icon.png">
+
+  <!-- ============================================================
+       STRUCTURED DATA – Organization + WebSite (JSON-LD)
+       Enables Google Search Logo & Sitelinks Searchbox
+  ============================================================ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://mustmaterial.vercel.app/#organization",
+        "url": "https://mustmaterial.vercel.app/",
+        "name": "Must Material",
+        "alternateName": "MustMaterial",
+        "description": "Free study notes, PDF downloads, and educational resources for students.",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://mustmaterial.vercel.app/assets/icon.png",
+          "width": 512,
+          "height": 512
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Must Material",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://mustmaterial.vercel.app/assets/icon.png"
+          }
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://mustmaterial.vercel.app/#website",
+        "url": "https://mustmaterial.vercel.app/",
+        "name": "Must Material",
+        "description": "Free study notes, PDF downloads, and educational resources for students.",
+        "publisher": {
+          "@id": "https://mustmaterial.vercel.app/#organization"
+        },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://mustmaterial.vercel.app/search?q={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
+        },
+        "inLanguage": "en-IN"
+      }
+    ]
+  }
+  </script>
+
+  <!-- ============================================================
+       FAVICONS & PWA MANIFEST
+  ============================================================ -->
+  <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg">
+  <link rel="shortcut icon" href="/favicon/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+  <link rel="manifest" href="/favicon/site.webmanifest">
+
+  <!-- ============================================================
+       PERFORMANCE: DNS PREFETCH & PRECONNECT
+       (Before any font/icon/CSS requests)
+  ============================================================ -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
+  <!-- ============================================================
+       PERFORMANCE: PRELOAD CRITICAL ASSETS
+       (LCP image + above-the-fold CSS)
+  ============================================================ -->
+  <link rel="preload" as="image" href="/assets/logo.webp" fetchpriority="high">
+  <link rel="preload" as="style" href="style.css">
+  <link rel="preload" as="style" href="./pages.css">
+
+  <!-- ============================================================
+       STYLESHEETS
+       Order: base → components → fonts → icons
+  ============================================================ -->
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="./pages.css">
+
+  <!-- Google Fonts – all weights in one optimized request -->
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Audiowide&family=Caprasimo&family=Chango&family=Monoton&family=Oleo+Script:wght@400;700&family=Playwrite+CU+Guides&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sofia&display=swap"
+    media="print"
+    onload="this.media='all'"
+  >
+  <noscript>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Audiowide&family=Caprasimo&family=Chango&family=Monoton&family=Oleo+Script:wght@400;700&family=Playwrite+CU+Guides&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sofia&display=swap"
+    >
+  </noscript>
+
+  <!-- Google Material Symbols (handshake icon) -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  
+
+  <!-- Font Awesome 6 -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+    media="print"
+    onload="this.media='all'"
+  >
+  <noscript>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      crossorigin="anonymous"
+    >
+  </noscript>
+
+  <!-- Tailwind CSS (browser build – kept as-is per your setup) -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" defer></script>
+
+  <!-- ============================================================
+       GOOGLE ADSENSE (async – non-blocking)
+  ============================================================ -->
+  <script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4416496491584206"
+    crossorigin="anonymous"
+  ></script>
+  <style>
+    
+    .page-hero{background:var(--cream);border-bottom:1px solid var(--border);padding:clamp(3.5rem,9vw,7rem) clamp(1.25rem,4vw,2.5rem);text-align:center;position:relative;overflow:hidden;}
+    .page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 70% at 50% 0%,var(--accent4) 0%,transparent 60%);pointer-events:none;}
+    .hero-tag{font-family:var(--font-mono);font-size:0.7rem;letter-spacing:0.15em;color:var(--text);text-transform:uppercase;font-weight:700;display:inline-block;margin-bottom:1rem;animation:fadeUp 0.5s 0.1s ease both;opacity:0;}
+    .page-hero h1{font-family:var(--font-display);font-size:clamp(2.4rem,5.5vw,4.2rem);line-height:1.08;letter-spacing:-0.025em;position:relative;animation:fadeUp 0.55s 0.2s ease both;opacity:0;}
+    .page-hero h1 em{font-style:italic;color:var(--text);}
+    .page-hero p{font-size:clamp(1rem,2vw,1.2rem);color:var(--muted);max-width:620px;margin:1.4rem auto 0;line-height:1.7;animation:fadeUp 0.5s 0.3s ease both;opacity:0;}
+    .hero-pills{display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap;margin-top:2rem;animation:fadeUp 0.5s 0.4s ease both;opacity:0;}
+    .pill{display:inline-flex;align-items:center;gap:0.4rem;background:var(--white);border:1px solid var(--border);border-radius:100px;padding:0.4rem 1rem;font-size:0.82rem;font-weight:500;color:var(--muted);}
+    .pill span{font-size:0.9rem;}
+
+    .page-content{max-width:1100px;margin:0 auto;padding:clamp(3rem,7vw,5.5rem) clamp(1.25rem,4vw,2.5rem);}
+    .section{margin-bottom:clamp(3.5rem,7vw,5.5rem);}
+    .section-label{font-family:var(--font-mono);font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:0.55rem;}
+    .section-title{font-family:var(--font-display);font-size:clamp(1.7rem,3.2vw,2.35rem);line-height:1.12;letter-spacing:-0.018em;margin-bottom:1.25rem;}
+
+    /* CLASSES */
+    .classes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;}
+    .class-card{background:var(--cards);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;text-decoration:none;color:var(--ink);transition:box-shadow var(--transition),transform var(--transition),border-color var(--transition);display:flex;flex-direction:column;gap:0.4rem;}
+    .class-card:hover{box-shadow:0 6px 24px rgba(13,13,13,0.12);transform:translateY(-3px);border-color:var(--cards);}
+    .class-card.coming-soon{opacity:0.6;cursor:default;}
+    .class-card.coming-soon:hover{transform:none;box-shadow:none;border-color:var(--border);}
+    .class-badge{font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.2rem 0.6rem;border-radius:100px;display:inline-block;width:fit-content;}
+    .badge-live{background:rgba(42,124,116,0.12);color:var(--teal);}
+    .badge-soon{background:rgba(200,160,50,0.12);color:#9a7c10;}
+    .class-name{font-weight:600;font-size:1rem;}
+    .class-desc{font-size:0.82rem;color:var(--muted);}
+
+    /* FEATURES */
+    .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;}
+    .feature-card{background:var(--cards);border:1px solid var(--border);border-radius:16px;padding:2rem;transition:box-shadow var(--transition),transform var(--transition);}
+    .feature-card:hover{box-shadow:0 8px 32px rgba(13,13,13,0.10);transform:translateY(-3px);}
+    .feature-icon{font-size:1.8rem;margin-bottom:1rem;}
+    .feature-card h3{font-family:var(--font-display);font-size:1.25rem;margin-bottom:0.6rem;}
+    .feature-card p{font-size:0.9rem;color:var(--muted);line-height:1.7;}
+
+    /* HOW IT WORKS */
+    .steps-layout{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0;position:relative;}
+    .steps-layout::before{content:'';position:absolute;top:32px;left:16%;right:16%;height:2px;background:linear-gradient(90deg,var(--bg2),var(--accent4));z-index:0;}
+    .step{text-align:center;padding:0 1rem;position:relative;z-index:1;}
+    .step-num{width:64px;height:64px;border-radius:50%;background:var(--white);border:2px solid var(--bg2);display:grid;place-items:center;font-family:var(--font-display);font-size:1.4rem;color:var(--text);margin:0 auto 1.25rem;}
+    .step h4{font-weight:600;font-size:1rem;margin-bottom:0.4rem;}
+    .step p{font-size:0.875rem;color:var(--ink2);}
+    @media(max-width:660px){.steps-layout::before{display:none;}.steps-layout{gap:2rem;}}
+
+    /* STATS BAR */
+    .stats-bar{background:var(--cards);border-radius:20px;padding:2.5rem;display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;text-align:center;}
+    @media(max-width:680px){.stats-bar{grid-template-columns:1fr 1fr;gap:1.75rem;}}
+    .stat-num{font-family:var(--font-display);font-size:2.4rem;color:var(--text);line-height:1;}
+    .stat-label{font-size:0.85rem;font-weight: 600;color: var(--ink2);margin-top:0.3rem;}
+
+    /* CTA BANNER */
+    .cta-banner{background:var(--cards);border:1px solid var(--border);border-radius:20px;padding:3rem 2.5rem;text-align:center;}
+    .cta-banner h2{font-family:var(--font-display);font-size:clamp(1.7rem,3.5vw,2.5rem);margin-bottom:0.75rem;letter-spacing:-0.02em;}
+    .cta-banner p{color:var(--muted);max-width:520px;margin:0 auto 2rem;font-size:1rem;}
+    .cta-buttons{display:flex;gap:0.85rem;justify-content:center;flex-wrap:wrap;}
+    .btn{display:inline-flex;align-items:center;gap:0.5rem;text-decoration:none;border-radius:100px;font-family:var(--font-body);font-weight:600;font-size:0.9rem;padding:0.7rem 1.6rem;cursor:pointer;border:none;transition:all var(--transition);}
+    .btn-primary{background:var(--bg2);color:#fff;}
+    .btn-primary:hover{background:var(--ink-rev);transform:translateY(-1px);}
+    .btn-outline{background:transparent;color:var(--ink);border:1.5px solid var(--border);}
+    .btn-outline:hover{border-color:var(--text);color:var(--text);}
+  </style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo">
+      <img src="/assets/logo.webp" width="300px" loading="lazy" decoding="async" alt="Must Material" style="width: 180px;"/>
+          
+    </a>
+    <ul class="nav-links">
+      <li><a onclick="switchTheme()"><i class="ph-fill ph-moon theme-icon other"></i></a></li>
+      <li><a href="../index.html" >Home</a></li>
+      <li><a href="./about.html" >About</a></li>
+      <li><a href="./terms.html" >Terms</a></li>
+      <li><a href="./contact.html">Contact</a></li>
+      <li><a href="./description.html" class="active">Description</a></li>
+      <li><a href="./privacy-policy.html" >privacy</a></li>
+      <li><a href="/Upload/upload.html" class="nav-cta">Upload</a></li>
+    </ul>
+    <ul class="nav-links" id="mini">
+      <li><a onclick="switchTheme()"><i class="ph-fill ph-moon theme-icon other"></i></a></li>
+      <li><a href="../Upload/upload.html" class="nav-cta">Upload</a></li>
+      <li class="last"><a class="hamburger" id="hamburger">
+  <i class="ph-bold ph-list"></i>
+</a></li>
+<!-- Mobile Menu -->
+    </ul>
+    <div class="menu" id="menu">
+  <a href="../index.html">Home</a>
+  <a href="./about.html">About Us</a>
+  <a href="./terms.html">Terms</a>
+  <a href="./contact.html">Contact</a>
+  <a href="./description.html">Description</a>
+  <a href="./privacy-policy.html">Privacy</a>
+</div>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <span class="hero-tag">Platform Overview</span>
+  <h1>Everything you need<br>to <em>study smarter</em></h1>
+  <p>Must Material is a free, peer-verified educational platform offering organized study notes, PDFs, and resources for students from Class 6 through B.Tech — all in one place.</p>
+  <div class="hero-pills">
+    <span class="pill"><span><i class="ph-fill ph-books"></i></span> Free Study Notes</span>
+    <span class="pill"><span><i class="ph-fill ph-file-pdf"></i></span> PDF Downloads</span>
+    <span class="pill"><span><i class="ph-fill ph-seal-check"></i></span> Peer Verified</span>
+    <span class="pill"><span><i class="ph-fill ph-user-circle-minus"></i></span> No Sign-Up</span>
+    <span class="pill"><span><i class="ph-fill ph-device-mobile"></i></span> Mobile Friendly</span>
+  </div>
+</section>
+
+<main class="page-content">
+
+  <!-- OVERVIEW -->
+  <div class="section">
+    <div style="max-width:720px;">
+      <span class="section-label">What We Do</span>
+      <h2 class="section-title">Your complete learning companion</h2>
+      <p style="color:var(--ink2);font-size:1.02rem;line-height:1.8;margin-bottom:1rem;">Must Material is an online educational platform built specifically for Indian students. It provides organized, high-quality study materials for school, intermediate, entrance exams, and college — all completely free, with no login required.</p>
+      <p style="color:var(--ink2);font-size:1.02rem;line-height:1.8;">The platform is designed to bridge the gap between students and quality resources, making it possible for anyone — regardless of background — to access the same quality of preparation materials.</p>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="section">
+    <div class="stats-bar">
+      <div><div class="stat-num">100%</div><div class="stat-label">Free, forever</div></div>
+      <div><div class="stat-num">9+</div><div class="stat-label">Academic levels</div></div>
+      <div><div class="stat-num">0</div><div class="stat-label">Data collected</div></div>
+      <div><div class="stat-num">1</div><div class="stat-label">Student who built it</div></div>
+    </div>
+  </div>
+
+  <!-- CLASSES -->
+  <div class="section">
+    <span class="section-label">Curriculum Coverage</span>
+    <h2 class="section-title">Classes &amp; courses available</h2>
+    <div class="classes-grid">
+      <a href="../soon.html" class="class-card coming-soon">
+        <span class="class-badge badge-soon">Coming Soon</span>
+        <span class="class-name">Class 6</span>
+        <span class="class-desc">Middle school fundamentals</span>
+      </a>
+      <a href="../soon.html" class="class-card coming-soon">
+        <span class="class-badge badge-soon">Coming Soon</span>
+        <span class="class-name">Class 7</span>
+        <span class="class-desc">Middle school fundamentals</span>
+      </a>
+      <a href="../soon.html" class="class-card coming-soon">
+        <span class="class-badge badge-soon">Coming Soon</span>
+        <span class="class-name">Class 8</span>
+        <span class="class-desc">Upper primary</span>
+      </a>
+      <a href="../soon.html" class="class-card coming-soon">
+        <span class="class-badge badge-soon">Coming Soon</span>
+        <span class="class-name">Class 9</span>
+        <span class="class-desc">Secondary school</span>
+      </a>
+      <a href="../Class10/10th.html" class="class-card">
+        <span class="class-badge badge-live">Live ✓</span>
+        <span class="class-name">Class 10</span>
+        <span class="class-desc">Board exam preparation</span>
+      </a>
+      <a href="../soon.html" class="class-card coming-soon">
+        <span class="class-badge badge-soon">Coming Soon</span>
+        <span class="class-name">Inter 1st Year</span>
+        <span class="class-desc">Intermediate — Year 1</span>
+      </a>
+      <a href="../Intermediate/inter2.html" class="class-card">
+        <span class="class-badge badge-live">Live ✓</span>
+        <span class="class-name">Inter 2nd Year</span>
+        <span class="class-desc">Intermediate — Year 2</span>
+      </a>
+      <a href="../Intermediate/Eapcet.html" class="class-card">
+        <span class="class-badge badge-live">Live ✓</span>
+        <span class="class-name">EAPCET (A.P)</span>
+        <span class="class-desc">Engineering entrance exam</span>
+      </a>
+      <a href="../Btech/College.html" class="class-card">
+        <span class="class-badge badge-live">Live ✓</span>
+        <span class="class-name">B.Tech (A.P)</span>
+        <span class="class-desc">Engineering degree resources</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="section">
+    <span class="section-label">Platform Features</span>
+    <h2 class="section-title">What makes Must Material different</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon"><i class="ph-fill ph-lock-open"></i></div>
+        <h3>No Authentication</h3>
+        <p>Access any resource instantly — no account creation, no email verification, no personal data required. Students get straight to studying.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="ph-fill ph-seal-check"></i></div>
+        <h3>Peer-Verified Content</h3>
+        <p>Every uploaded material passes through a peer-review process before publication to ensure accuracy and exam relevance.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="ph-fill ph-device-mobile"></i></div>
+        <h3>Mobile-Friendly Design</h3>
+        <p>A clean, responsive interface that works beautifully on phones, tablets, and desktops — study anywhere, anytime.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="ph-fill ph-student"></i></div>
+        <h3>Community Contributions</h3>
+        <p>Students can upload their own verified notes and earn recognition badges — making the platform richer for everyone.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="ph-fill ph-download"></i></div>
+        <h3>PDF Downloads</h3>
+        <p>Download study materials in PDF format for offline study — no internet required once downloaded. Perfect for exam season.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="ph-fill ph-target"></i></div>
+        <h3>Exam-Focused Resources</h3>
+        <p>Materials are curated around real exam needs — board exams, EAPCET, and college-level content organized for targeted prep.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="section">
+    <span class="section-label">Getting Started</span>
+    <h2 class="section-title">How Must Material works</h2>
+    <div class="steps-layout" style="margin-top:2.5rem;">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h4>Choose Your Class</h4>
+        <p>Select your academic level from the homepage — Class 10, Inter, EAPCET or B.Tech.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h4>Browse Materials</h4>
+        <p>Explore organized study notes and PDFs by subject. No sign-up needed.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h4>Download &amp; Study</h4>
+        <p>Download PDFs for offline study or view materials directly in your browser.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h4>Contribute Back</h4>
+        <p>Share your own verified notes and earn a contributor badge while helping fellow students.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-banner">
+    <h2>Ready to start studying smarter?</h2>
+    <p>Access hundreds of free study materials — no account, no payment, no barriers. Just open and start learning.</p>
+    <div class="cta-buttons">
+      <a href="../Class10/10th.html" class="btn btn-primary">Browse Class 10 ↗</a>
+      <a href="../Intermediate/Eapcet.html" class="btn btn-outline">EAPCET Materials →</a>
+    </div>
+  </div>
+
+</main>
+<footer id="footer"></footer>
+<script src="./pages.js"></script>
+<script src="../components/components.js"></script>
+<script src="../main.js"></script>
+
+</body>
+</html>

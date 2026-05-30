@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+       <!-- ============================================================
+       CHARACTER ENCODING & COMPATIBILITY
+       Must be first — before any content-sniffing can occur
+  ============================================================ -->
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+  <!-- ============================================================
+       VIEWPORT & MOBILE
+  ============================================================ -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Must Material">
+
+  <!-- ============================================================
+       PRIMARY SEO
+  ============================================================ -->
+  <title>Must Material</title>
+  <meta name="description" content="Must Material offers high-quality study notes, PDF downloads, and educational resources for students – all free in one place. Class 10 notes, tools and more.">
+  <meta name="keywords" content="Must Material, free study materials, class 10 notes, education tools, PDF downloader, student resources, must material, must learn, kits, kkr and ksr">
+  <meta name="author" content="Radha Krishna">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="canonical" href="https://mustmaterial.vercel.app/">
+
+  <!-- ============================================================
+       OPEN GRAPH (Facebook, LinkedIn, WhatsApp)
+  ============================================================ -->
+  <meta property="og:site_name" content="Must Material">
+  <meta property="og:title" content="Must Material">
+  <meta property="og:description" content="High-quality notes, PDFs and more for students – all free. Class 10 notes, education tools and top resources in one place.">
+  <meta property="og:image" content="https://mustmaterial.vercel.app/assets/icon.png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:alt" content="Must Material logo – free study resources for students">
+  <meta property="og:url" content="https://mustmaterial.vercel.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_IN">
+
+  <!-- ============================================================
+       TWITTER / X CARD
+  ============================================================ -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@mustmaterial">
+  <meta name="twitter:title" content="Must Material – Free Study Notes & Tools">
+  <meta name="twitter:description" content="Download notes, convert images, access top resources – 100% free for students.">
+  <meta name="twitter:image" content="https://mustmaterial.vercel.app/assets/icon.png">
+  <meta name="twitter:image:alt" content="Must Material – free study resources for students">
+
+  <!-- ============================================================
+       GOOGLE KNOWLEDGE PANEL (itemprop)
+  ============================================================ -->
+  <meta itemprop="name" content="Must Material">
+  <meta itemprop="description" content="Free study notes, PDF downloads, and educational resources for students.">
+  <meta itemprop="image" content="https://mustmaterial.vercel.app/assets/icon.png">
+
+  <!-- ============================================================
+       STRUCTURED DATA – Organization + WebSite (JSON-LD)
+       Enables Google Search Logo & Sitelinks Searchbox
+  ============================================================ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://mustmaterial.vercel.app/#organization",
+        "url": "https://mustmaterial.vercel.app/",
+        "name": "Must Material",
+        "alternateName": "MustMaterial",
+        "description": "Free study notes, PDF downloads, and educational resources for students.",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://mustmaterial.vercel.app/assets/icon.png",
+          "width": 512,
+          "height": 512
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Must Material",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://mustmaterial.vercel.app/assets/icon.png"
+          }
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://mustmaterial.vercel.app/#website",
+        "url": "https://mustmaterial.vercel.app/",
+        "name": "Must Material",
+        "description": "Free study notes, PDF downloads, and educational resources for students.",
+        "publisher": {
+          "@id": "https://mustmaterial.vercel.app/#organization"
+        },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://mustmaterial.vercel.app/search?q={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
+        },
+        "inLanguage": "en-IN"
+      }
+    ]
+  }
+  </script>
+
+  <!-- ============================================================
+       FAVICONS & PWA MANIFEST
+  ============================================================ -->
+  <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg">
+  <link rel="shortcut icon" href="/favicon/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+  <link rel="manifest" href="/favicon/site.webmanifest">
+
+  <!-- ============================================================
+       PERFORMANCE: DNS PREFETCH & PRECONNECT
+       (Before any font/icon/CSS requests)
+  ============================================================ -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
+  <!-- ============================================================
+       PERFORMANCE: PRELOAD CRITICAL ASSETS
+       (LCP image + above-the-fold CSS)
+  ============================================================ -->
+  <link rel="preload" as="image" href="/assets/logo.webp" fetchpriority="high">
+  <link rel="preload" as="style" href="style.css">
+  <link rel="preload" as="style" href="./pages.css">
+
+  <!-- ============================================================
+       STYLESHEETS
+       Order: base → components → fonts → icons
+  ============================================================ -->
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="./pages.css">
+
+  <!-- Google Fonts – all weights in one optimized request -->
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Audiowide&family=Caprasimo&family=Chango&family=Monoton&family=Oleo+Script:wght@400;700&family=Playwrite+CU+Guides&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sofia&display=swap"
+    media="print"
+    onload="this.media='all'"
+  >
+  <noscript>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Audiowide&family=Caprasimo&family=Chango&family=Monoton&family=Oleo+Script:wght@400;700&family=Playwrite+CU+Guides&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sofia&display=swap"
+    >
+  </noscript>
+
+  <!-- Google Material Symbols (handshake icon) -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  
+
+  <!-- Font Awesome 6 -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+    media="print"
+    onload="this.media='all'"
+  >
+  <noscript>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      crossorigin="anonymous"
+    >
+  </noscript>
+
+  <!-- Tailwind CSS (browser build – kept as-is per your setup) -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" defer></script>
+
+  <!-- ============================================================
+       GOOGLE ADSENSE (async – non-blocking)
+  ============================================================ -->
+  <script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4416496491584206"
+    crossorigin="anonymous"
+  ></script>
+  <style>
+    .page-hero{background:var(--cream);border-bottom:1px solid var(--border);padding:clamp(3rem,8vw,6rem) clamp(1.25rem,4vw,2.5rem);text-align:center;position:relative;overflow:hidden;}
+    .page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% -10%,var(--accent4) 0%,transparent 65%);pointer-events:none;}
+    .hero-tag{font-family:var(--font-mono);font-size:0.7rem;letter-spacing:0.15em;color:var(--text);text-transform:uppercase;font-weight:700;display:inline-block;margin-bottom:1rem;animation:fadeUp 0.5s 0.1s ease both;opacity:0;}
+    .page-hero h1{font-family:var(--font-display);font-size:clamp(2.2rem,5vw,3.6rem);line-height:1.1;letter-spacing:-0.022em;position:relative;animation:fadeUp 0.55s 0.2s ease both;opacity:0;}
+    .page-hero .meta{font-size:0.85rem;color:var(--muted);margin-top:1rem;animation:fadeUp 0.5s 0.3s ease both;opacity:0;}
+
+    .toc-card{background:var(--cards);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem 2rem;max-width:680px;margin:0 auto;}
+    .toc-card h3{font-family:var(--font-display);font-size:1.1rem;margin-bottom:1rem;}
+    .toc-card ol{padding-left:1.25rem;display:flex;flex-direction:column;gap:0.45rem;}
+    .toc-card ol a{color:var(--text);font-size:0.9rem;text-decoration:none;transition:opacity var(--transition);}
+    .toc-card ol a:hover{opacity:0.75;text-decoration:underline;}
+
+    .page-layout{max-width:1100px;margin:0 auto;padding:clamp(3rem,6vw,5rem) clamp(1.25rem,4vw,2.5rem);display:grid;grid-template-columns:1fr 280px;gap:4rem;align-items:start;}
+    @media(max-width:900px){.page-layout{grid-template-columns:1fr;}}
+
+    .legal-body section{margin-bottom:3rem;scroll-margin-top:90px;}
+    .section-number{font-family:var(--font-mono);font-size:0.68rem;letter-spacing:0.12em;color:var(--text);text-transform:uppercase;display:block;margin-bottom:0.4rem;}
+    .legal-body h2{font-family:var(--font-display);font-size:1.55rem;letter-spacing:-0.015em;margin-bottom:1rem;}
+    .legal-body p{color:var(--muted);font-size:0.97rem;margin-bottom:0.85rem;line-height:1.75;}
+    .legal-body ul,
+    .legal-body ol{padding-left:1.5rem;display:flex;flex-direction:column;gap:0.55rem;margin-bottom:1rem;}
+    .legal-body li{color:var(--muted);font-size:0.95rem;line-height:1.7;}
+    .legal-body hr{border:none;border-top:1px solid var(--border);margin:0;}
+    .highlight-box{background: var(--accent4);border-left:3px solid var(--text);border-radius:0 var(--radius) var(--radius) 0;padding:1.1rem 1.4rem;margin:1.25rem 0;}
+    .highlight-box p{margin:0;font-size:0.92rem;}
+
+    .sidebar{position:sticky;top:84px;}
+    .sidebar-card{background:var(--ink-rev);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1.25rem;}
+    .sidebar-card h4{font-family:var(--font-mono);font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:0.85rem;}
+    .sidebar-card p{font-size:0.875rem;color:var(--muted);line-height:1.65;margin-bottom:0.75rem;}
+    .sidebar-card a{display:inline-block;font-size:0.875rem;font-weight:600;color:var(--text);text-decoration:none;}
+    .sidebar-card a:hover{text-decoration:underline;}
+    .sidebar-nav{list-style:none;display:flex;flex-direction:column;gap:0.3rem;}
+    .sidebar-nav a{display:block;font-size:0.875rem;color:var(--muted);text-decoration:none;padding:0.3rem 0;border-left:2px solid var(--border);padding-left:0.75rem;transition:color var(--transition),border-color var(--transition);}
+    .sidebar-nav a:hover{color:var(--text);border-left-color:var(--text);}
+
+    .site-footer{background:var(--ink);color:rgba(255,255,255,0.55);padding:clamp(2.5rem,6vw,4rem) clamp(1.25rem,4vw,2.5rem) 1.5rem;margin-top:clamp(2rem,5vw,4rem);}
+    .footer-inner{max-width:1100px;margin:0 auto;}
+    .footer-top{display:grid;grid-template-columns:2fr repeat(3,1fr);gap:2.5rem;margin-bottom:2.5rem;}
+    .footer-brand-name{font-family:var(--font-display);font-size:1.45rem;color:#fff;margin-bottom:0.6rem;}
+    .footer-brand-desc{font-size:0.87rem;line-height:1.65;}
+    .footer-col h4{color:#fff;font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:700;margin-bottom:1rem;}
+    .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.45rem;}
+    .footer-col ul a{color:rgba(255,255,255,0.45);text-decoration:none;font-size:0.875rem;transition:color var(--transition);}
+    .footer-col ul a:hover{color:var(--accent-light);}
+    .footer-bottom{border-top:1px solid rgba(255,255,255,0.09);padding-top:1.25rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;}
+    .footer-bottom p,.footer-bottom a{font-size:0.8rem;color:rgba(255,255,255,0.35);text-decoration:none;}
+    .footer-bottom a:hover{color:var(--accent-light);}
+    .footer-links{display:flex;gap:1.25rem;}
+    @media(max-width:760px){.footer-top{grid-template-columns:1fr 1fr;}}
+    @media(max-width:460px){.footer-top{grid-template-columns:1fr;}}
+  </style>
+  
+</head>
+<body class="light-theme">
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo">
+  <img src="/assets/logo.webp" width="300px" loading="lazy" decoding="async" alt="Must Material" style="width: 180px;"/>
+  
+</a>
+    <ul class="nav-links">
+      <li><a onclick="switchTheme()"><i class="ph-fill ph-moon theme-icon other"></i></a></li>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="./about.html">About</a></li>
+      <li><a href="./terms.html" class="active">Terms</a></li>
+      <li><a href="./contact.html">Contact</a></li>
+      <li><a href="./description.html">Description</a></li>
+      <li><a href="./privacy-policy.html">privacy</a></li>
+      <li><a href="../Upload/upload.html" class="nav-cta">Upload</a></li>
+    </ul>
+    <ul class="nav-links" id="mini">
+      <li><a onclick="switchTheme()"><i class="ph-fill ph-moon theme-icon other"></i></a></li>
+      <li><a href="../Upload/upload.html" class="nav-cta">Upload</a></li>
+      <li class="last"><a class="hamburger" id="hamburger">
+          <i class="ph-bold ph-list"></i>
+        </a></li>
+      <!-- Mobile Menu -->
+    </ul>
+    <div class="menu" id="menu">
+      <a href="../index.html">Home</a>
+      <a href="./about.html">About Us</a>
+      <a href="./terms.html">Terms</a>
+      <a href="./contact.html">Contact</a>
+      <a href="./description.html">Description</a>
+      <a href="./privacy-policy.html">Privacy</a>
+    </div>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <span class="hero-tag">Legal</span>
+  <h1>Terms of Use</h1>
+  <p class="meta">Effective Date: July 05, 2025 &nbsp;·&nbsp; Last Updated: May 30, 2026</p>
+</section>
+
+<div style="background:var(--cream);border-bottom:1px solid var(--border);padding:1.75rem clamp(1.25rem,4vw,2.5rem);">
+  <div class="toc-card" style="max-width:700px;margin:0 auto;">
+    <h3>Table of Contents</h3>
+    <ol>
+      <li><a href="#acceptance">Acceptance of Terms</a></li>
+      <li><a href="#use">Use of the Platform</a></li>
+      <li><a href="#content">User-Submitted Content</a></li>
+      <li><a href="#intellectual">Intellectual Property</a></li>
+      <li><a href="#disclaimer">Disclaimer of Warranties</a></li>
+      <li><a href="#limitation">Limitation of Liability</a></li>
+      <li><a href="#links">Third-Party Links</a></li>
+      <li><a href="#changes">Changes to Terms</a></li>
+      <li><a href="#contact-section">Contact Us</a></li>
+    </ol>
+  </div>
+</div>
+
+<div class="page-layout">
+  <main class="legal-body">
+    <section id="acceptance">
+      <span class="section-number">01 — Acceptance</span>
+      <h2>Acceptance of Terms</h2>
+      <p>By accessing or using Must Material (available at mustmaterial.vercel.app), you agree to be bound by these Terms of Use. If you do not agree with any part of these terms, please do not use the platform.</p>
+      <div class="highlight-box">
+        <p>Must Material is a free, open-access educational platform. No account or sign-up is required. These terms apply to all visitors and users of the platform.</p>
+      </div>
+      <hr />
+    </section>
+
+    <section id="use">
+      <span class="section-number">02 — Use</span>
+      <h2>Use of the Platform</h2>
+      <p>Must Material grants you a personal, non-exclusive, non-transferable, limited license to access and use the platform for personal, non-commercial educational purposes.</p>
+      <p>You agree not to:</p>
+      <ul>
+        <li>Use the platform for any unlawful or commercial purpose</li>
+        <li>Attempt to gain unauthorized access to the platform or its systems</li>
+        <li>Upload malicious, harmful, or inappropriate content</li>
+        <li>Reproduce, distribute or commercialize materials without authorization</li>
+        <li>Misrepresent the accuracy or source of any content you upload</li>
+        <li>Interfere with the performance or accessibility of the platform</li>
+      </ul>
+      <hr />
+    </section>
+
+    <section id="content">
+      <span class="section-number">03 — Content</span>
+      <h2>User-Submitted Content</h2>
+      <p>Must Material allows students to upload their own study notes and materials via the Upload feature. By submitting content to the platform, you:</p>
+      <ul>
+        <li>Confirm you have the right to share the content</li>
+        <li>Grant Must Material a non-exclusive license to display and distribute the content for educational purposes</li>
+        <li>Acknowledge that your contribution may be peer-reviewed before being published</li>
+        <li>Accept that contributors may receive recognition badges as appreciation</li>
+      </ul>
+      <p>Must Material reserves the right to remove any submitted content that violates these terms, is inaccurate, or is deemed inappropriate at our discretion.</p>
+      <hr />
+    </section>
+
+    <section id="intellectual">
+      <span class="section-number">04 — IP</span>
+      <h2>Intellectual Property</h2>
+      <p>All original content, design, layout, and branding elements of Must Material are the intellectual property of Must Material and its creator. You may not reproduce, modify, or distribute them without explicit permission.</p>
+      <p>Educational materials uploaded by students remain the property of their respective creators. Must Material does not claim ownership over user-submitted content.</p>
+      <hr />
+    </section>
+
+    <section id="disclaimer">
+      <span class="section-number">05 — Disclaimer</span>
+      <h2>Disclaimer of Warranties</h2>
+      <p>Must Material provides all content and services on an "as is" and "as available" basis without warranties of any kind, express or implied.</p>
+      <p>We do not guarantee the accuracy, completeness, or reliability of any study material on the platform. Always verify information with your official textbooks and teachers.</p>
+      <div class="highlight-box">
+        <p>Must Material is not responsible for exam results, academic outcomes, or decisions made based on content found on this platform.</p>
+      </div>
+      <hr />
+    </section>
+
+    <section id="limitation">
+      <span class="section-number">06 — Liability</span>
+      <h2>Limitation of Liability</h2>
+      <p>To the maximum extent permitted by applicable law, Must Material and its creator shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the platform.</p>
+      <p>Our total liability for any claim arising from use of Must Material shall not exceed the amount you paid to use the platform — which is zero, as Must Material is entirely free.</p>
+      <hr />
+    </section>
+
+    <section id="links">
+      <span class="section-number">07 — Links</span>
+      <h2>Third-Party Links</h2>
+      <p>The platform may contain links to external websites or resources. Must Material is not responsible for the content, accuracy, or practices of third-party sites. Visiting external links is at your own discretion and risk.</p>
+      <hr />
+    </section>
+
+    <section id="changes">
+      <span class="section-number">08 — Changes</span>
+      <h2>Changes to Terms</h2>
+      <p>We reserve the right to modify these Terms of Use at any time. Changes will be reflected on this page with an updated effective date. Continued use of the platform after changes constitutes your acceptance of the revised terms.</p>
+      <hr />
+    </section>
+
+    <section id="contact-section">
+      <span class="section-number">09 — Contact</span>
+      <h2>Contact Us</h2>
+      <p>If you have any questions about these Terms of Use, please reach out to us through our <a href="contact.html" style="color:var(--text);font-weight:600;">Contact page</a>. We're happy to clarify anything.</p>
+    </section>
+
+  </main>
+
+  <aside class="sidebar">
+    <div class="sidebar-card">
+      <h4>Quick Navigation</h4>
+      <ul class="sidebar-nav">
+        <li><a href="#acceptance">Acceptance</a></li>
+        <li><a href="#use">Use of Platform</a></li>
+        <li><a href="#content">User Content</a></li>
+        <li><a href="#intellectual">Intellectual Property</a></li>
+        <li><a href="#disclaimer">Disclaimer</a></li>
+        <li><a href="#limitation">Liability</a></li>
+        <li><a href="#links">Third-Party Links</a></li>
+        <li><a href="#changes">Changes</a></li>
+        <li><a href="#contact-section">Contact</a></li>
+      </ul>
+    </div>
+    <div class="sidebar-card">
+      <h4>Other Legal Pages</h4>
+      <ul class="sidebar-nav">
+        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+        <li><a href="about.html">About Us</a></li>
+      </ul>
+    </div>
+    <div class="sidebar-card">
+      <h4>Have Questions?</h4>
+      <p>If anything in these terms is unclear, we're happy to help explain.</p>
+      <a href="contact.html">Contact Us →</a>
+    </div>
+  </aside>
+</div>
+
+<footer id="footer"></footer>
+<script src="./pages.js"></script>
+<script src="/components/components.js"></script>
+<script src="../main.js"></script>
+</body>
+</html>
