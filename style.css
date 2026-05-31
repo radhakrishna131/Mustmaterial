@@ -204,10 +204,7 @@ header{
 .sec-2::before { content:''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% -10%, var(--accent4) 0%, transparent 65%); z-index: 0; pointer-events: none;}
  .sec-2::after { content:''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 140px; height: 2px; background: linear-gradient(90deg, transparent, var(--bg2), transparent); 
  }
- .hero-actions{
-   position: relative;
-   z-index: 10;
- }
+ 
 .sec-2-1{
   padding: 3vh 0vh;
   display: flex;
@@ -285,7 +282,7 @@ header{
   }
   .hero-actions {
     width: 100%;
-    display: flex; gap: 12px; 
+    display: flex; gap: 8px; 
   flex-wrap: nowrap; /* Changed to 'wrap' so buttons stack nicely on tiny screens */
   justify-content: center; /* Added to center the buttons */
   animation: fadeUp 0.6s 0.3s ease both;
@@ -1007,7 +1004,7 @@ iframe {
   }
   .badge, .hero h1,.hero-sub, .hero-stats,  .section-title, .section-sub{
     margin-left: 0;}
-  .hero-actions{margin: 20px 0;}
+  .hero-actions{margin: 0 0;}
   .hero h1{
     font-size: 36px;
   }
