@@ -1,60 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    
+    <!-- Core Landing Page (Highest Priority for Ads) -->
+    <url>
+        <loc>https://mustmaterial.vercel.app/</loc>
+        <lastmod>2026-05-31T00:00:00+00:00</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+    </url>
 
-  <!-- Home page -->
-  <url>
-    <loc>https://mustmaterial.vercel.app/</loc>
-    <lastmod>2025-07-21T15:31:00+00:00</lastmod>
-    <priority>1.00</priority>
-  </url>
-
-  <!-- Coming Soon / Placeholder -->
-  <url>
-    <loc>https://mustmaterial.vercel.app/coming%20soon.html</loc>
-    <lastmod>2025-07-21T15:31:00+00:00</lastmod>
-    <priority>0.80</priority>
-  </url>
-
-  <!-- 10th Grade Resources -->
-  <url>
-    <loc>https://mustmaterial.vercel.app/10th.html</loc>
-    <lastmod>2025-07-21T15:31:01+00:00</lastmod>
-    <priority>0.80</priority>
-  </url>
-
-  <!-- Intermediate 2nd Year -->
-  <url>
-    <loc>https://mustmaterial.vercel.app/inter2.html</loc>
-    <lastmod>2025-07-21T15:31:01+00:00</lastmod>
-    <priority>0.80</priority>
-  </url>
-
-  <!-- EAPCET Preparation -->
-  <url>
-    <loc>https://mustmaterial.vercel.app/Eapcet.html</loc>
-    <lastmod>2025-07-21T15:31:01+00:00</lastmod>
-    <priority>0.80</priority>
-  </url>
-
-  <!-- 10th Telugu Version -->
-  <url>
-    <loc>https://mustmaterial.vercel.app/10thtelugu.html</loc>
-    <lastmod>2025-07-21T15:31:01+00:00</lastmod>
-    <priority>0.64</priority>
-  </url>
-
-  <!-- Model Papers / Resources -->
-  <url>
-    <loc>https://mustmaterial.vercel.app/model.html</loc>
-    <lastmod>2025-07-21T15:31:01+00:00</lastmod>
-    <priority>0.64</priority>
-  </url>
-
-  <!-- Intermediate 2nd Year (English) -->
-  <url>
-    <loc>https://mustmaterial.vercel.app/inter2English.html</loc>
-    <lastmod>2025-07-21T15:31:02+00:00</lastmod>
-    <priority>0.64</priority>
-  </url>
-
+    <!-- Main Categories / Classes (Great for Targeted Ad Groups) -->
+    <url>
+        <loc>https://mustmaterial.vercel.app/class10/10th.html</loc>
+        <lastmod>2026-05-31T00:00:00+00:00</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://mustmaterial.vercel.app/Intermediate/Eapcet.html</loc>
+        <lastmod>2026-05-31T00:00:00+00:00</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+     <url>
+        <loc>https://mustmaterial.vercel.app/Intermediate/inter2.html</loc>
+        <lastmod>2026-05-31T00:00:00+00:00</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://mustmaterial.vercel.app/Btech/College.html</loc>
+        <lastmod>2026-05-31T00:00:00+00:00</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://mustmaterial.vercel.app/Btech/Codes/ds-lab.html</loc>
+        <lastmod>2026-05-31T00:00:00+00:00</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://mustmaterial.vercel.app/viewer
+        html</loc>
+        <lastmod>2026-05-31T00:00:00+00:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://mustmaterial.vercel.app/community/browserMaterials.html</loc>
+        <lastmod>2026-05-31T00:00:00+00:00</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.8</priority>
+    </url>
+     <url>
+     <loc>https://mustmaterial.vercel.app/community/CommunityView.html</loc>
+     <lastmod>2026-05-31T00:00:00+00:00</lastmod>
+     <changefreq>yearly</changefreq>
+     <priority>0.8</priority>
+ </url>
+    <!-- Engagement & Auxiliary Pages (Lower Priority for Direct Ads, but good for site trust) -->
+    <url>
+        <loc>https://mustmaterial.vercel.app/Upload/upload.html</loc>
+        <lastmod>2026-05-31T00:00:00+00:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://mustmaterial.vercel.app/pages/about.html</loc>
+        <lastmod>2026-05-31T00:00:00+00:00</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+    <loc>https://mustmaterial.vercel.app/pages/privacy-policy.html</loc>
+    <lastmod>2026-05-31T00:00:00+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
+    <loc>https://mustmaterial.vercel.app/pages/terms.html</loc>
+    <lastmod>2026-05-31T00:00:00+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
+        <loc>https://mustmaterial.vercel.app/pages/contact.html</loc>
+        <lastmod>2026-05-31T00:00:00+00:00</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+    <loc>https://mustmaterial.vercel.app/pages/description.html</loc>
+    <lastmod>2026-05-31T00:00:00+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+</url>
+ <url>
+     <loc>https://mustmaterial.vercel.app/soon.html</loc>
+     <lastmod>2026-05-31T00:00:00+00:00</lastmod>
+     <changefreq>yearly</changefreq>
+     <priority>0.4</priority>
+ </url>
 </urlset>
