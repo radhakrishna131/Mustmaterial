@@ -202,6 +202,36 @@
       background: var(--bg3);
       margin: 0;
     }
+    #tab-upload{
+      display: block; 
+      text-align:center;
+    }
+    .upload-section{
+      max-width:500px;
+      margin:0 auto
+    }
+    .upload-icon{
+      font-size:48px;
+      margin-bottom:20px;
+    }
+    .upload-heading{
+      font-family: var(--font-display);
+      font-size:26px;
+      font-weight:800;
+      margin-bottom:12px;
+      color: var(--text);
+    }
+    .upload-sub{
+      font-size:14px;
+      color:var(--ink2);
+      margin-bottom:32px;
+    }
+    #upload-form{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+      text-align:left;
+    }
     /* Styles for the new Tab Buttons */
     .tab-controls {
       display: flex;
@@ -213,9 +243,9 @@
     .tab-btn {
       padding: 12px 24px;
       border-radius: 8px;
-      border: 1px solid var(--glass-border, #ccc);
+      border: 1px solid var(--ink);
       background: transparent;
-      color: var(--text2, #666);
+      color: var(--ink);
       font-family: 'DM Sans', sans-serif;
       font-weight: bold;
       cursor: pointer;
@@ -224,20 +254,48 @@
 
     /* Active tab style */
     .tab-btn.active {
-      background: var(--glass, rgba(255,255,255,0.1));
-      color: var(--text); /* Change this to match your theme's primary color */
-      border-color:  var(--text);
+      background: var(--ink);
+      color: var(--ink-rev); /* Change this to match your theme's primary color */
+      
     }
     #up-detail,#up-name{
-      padding:12px;border-radius:8px;background:var(--glass);border:1px solid var(--border-color);color:var(--text2);font-family:'DM Sans',sans-serif;
+      padding:12px;border-radius:8px;background:var(--glass);border:1px solid var(--border-color);color:var(--ink);font-family:'DM Sans',sans-serif;
+    }
+    #up-subject{
+      padding:12px;
+      border-radius:8px;
+      background:var(--glass);
+      border:1px solid var(--border-color);
+      color:var(--ink);
+      font-family: var(--font-body);
+    }
+    #up-type{
+      padding:12px;
+      border-radius:8px;
+      background:var(--glass);
+      border: 1px solid var(--border-color);
+      color:var(--ink);
+      font-family: var(--font-body);
     }
     #up-subject:focus-within,#up-detail:focus-within { border-color: var(--text) }
-    .data-type{
-    background: var(--glass);color: var(--text2);padding: 4px 8px; border-radius: 4px; font-size: 11px; text-transform: uppercase;}
-     .data-name{
+    .data-type.data-name{
     background: var(--glass);color: var(--text);padding: 4px 8px; border-radius: 4px; font-size: 11px; text-transform: uppercase;}
     .item{
       color: var(--text);
+      font-size:14px;
+    }
+    .upload-submit{
+      width:100%;
+      padding:13px;
+      background: var(--ink);
+      color: var(--ink-rev);
+      border-radius:var(--radius);
+    }
+    .upload-submit:hover{
+      background: var(--bg2);
+    }
+    .community-btn{
+      background: var(--text); color: white; padding: 10px 16px; text-decoration: none; border-radius: var(--radius-sm); font-size: 14px; font-weight: bold; transition: 0.3s;
     }
   </style>
 </head>
@@ -261,18 +319,18 @@
     <button id="btn-browse" class="tab-btn" onclick="openTab('browse')">Browse Materials</button>
   </div>
 
-  <div id="tab-upload" style="display: block; text-align:center;">
-    <div style="max-width:500px;margin:0 auto">
-      <div style="font-size:48px;margin-bottom:20px;">📤</div>
-      <h2 style="font-family:'Syne',sans-serif;font-size:26px;font-weight:800;margin-bottom:12px;color: var(--text);">Upload a Resource</h2>
-      <p style="font-size:14px;color:var(--c-muted);margin-bottom:32px;color: var(--text2)">Share notes, PYQs, or syllabi. All uploads are reviewed by our moderation team before going live.</p>
+  <div id="tab-upload">
+    <div class="upload-section">
+      <div class="upload-icon"><i class="ph-fill ph-cloud-arrow-up"></i></div>
+      <h2 class="upload-heading"style="">Upload a Resource</h2>
+      <p class="upload-sub">Share notes, PYQs, or syllabi. All uploads are reviewed by our moderation team before going live.</p>
       
-      <form id="upload-form" style="display:flex;flex-direction:column;gap:16px;text-align:left;">
-          <input type="text" id="up-subject" placeholder="Resource Title (e.g., OS Notes)" required style="padding:12px;border-radius:8px;background:var(--glass);border:1px solid var(--border-color);color:var(--text2);font-family:'DM Sans',sans-serif;">
+      <form id="upload-form">
+          <input type="text" id="up-subject" placeholder="Resource Title (e.g., OS Notes)" required style="">
           <input type="text" name="name" id="up-name" placeholder="Enter your short name...">
           <input type="text" id="up-detail" placeholder="Details (e.g., B.Tech · CSE · Sem 1)">
           
-          <select id="up-type" required style="padding:12px;border-radius:8px;background:var(--glass);border:1px solid var(--border-color);color:var(--text2);font-family:'DM Sans',sans-serif;">
+          <select id="up-type" required style="">
               <option value="Material">Material</option>
               <option value="Manual">Manual</option>
               <option value="syllabus">Syllabus</option>
@@ -282,22 +340,22 @@
 
           <div class="box">
             <label for="fileInput" class="upload-box" title="Click to choose files">
-              <div class="upload-inside">
-                <span class="material-symbols-outlined">upload</span>
-                <div class="item"style="font-size:14px;color: var(--text2)">Click to select PDFs</div>
+              <div class="upload-inside upload-icon">
+                <i class="ph-fill ph-cloud-arrow-up"></i>
+                <div class="item" >Click to select PDFs</div>
               </div>
             </label>
           </div>
 
           <input id="fileInput" type="file" accept="application/pdf" multiple style="display:none" />
           
-          <button type="submit" class="cta-primary" style="width:100%;padding:13px;">Submit Resource</button>
+          <button type="submit" class="upload-submit" >Submit Resource</button>
       </form>
     </div>
   </div>
 
   <div id="tab-browse" style="display: none; max-width: 100%; margin: 0 auto;">
-    <h2 style="font-family:'Syne',sans-serif;font-weight:800;" class="mb-6 p-2 text-center text-4xl text-[var(--text)]">Community Resources</h2>
+    <h2 style="font-family: var(--serif);font-weight:800;" class="mb-6 p-2 text-center text-4xl text-[var(--text)]">Community <em style="color: var(--ink);">Resources</em></h2>
     <p style="font-size:14px;color:var(--text2);margin-bottom:32px;margin-top: 10px;text-align:center;">Find notes, syllabi, and PYQs uploaded by others.</p>
     <div style="display: flex;
     justify-content: center;

@@ -135,6 +135,18 @@ uploadForm.addEventListener('submit', async (e) => {
 const materialsList = document.getElementById('materials-list');
 let currentMaterials = []; 
 let currentFilter = 'All';
+function showList() {
+  const input = document.getElementById("langInput");
+  input.focus();
+
+  // Some browsers open suggestions on ArrowDown
+  input.dispatchEvent(
+    new KeyboardEvent("keydown", {
+      key: "ArrowDown",
+      bubbles: true
+    })
+  );
+}
 function showSkeleton() {
   const container = document.getElementById("materials-list");
   if (!container) return; // Prevent errors if container doesn't exist
@@ -169,7 +181,7 @@ function renderMaterials() {
 
   // Handle empty state if no documents match the filter
   if (filteredData.length === 0) {
-    container.innerHTML = "<p style='text-align: center; margin-top: 20px; color: var(--text2)'>No materials found for this filter.</p>";
+    container.innerHTML = "<p style='text-align: center; margin-top: 20px; color: var(--ink)'>No materials found for this filter.</p>";
     return;
   }
 
@@ -178,10 +190,10 @@ function renderMaterials() {
     const card = document.createElement('div');
             card.className=`resourse-card`
             card.style.cssText = `
-                background: var(--glass); 
+                background: var(--cards); 
                 border: 1px solid var(--border-color); 
                 padding: 16px; 
-                border-radius: 8px; 
+                border-radius: var(--radius); 
                 display: flex; 
                 justify-content: space-between; 
                 align-items: center;
@@ -191,14 +203,14 @@ min-height: 150 px;
             
             card.innerHTML = `
                 <div style="font-weight: 800;">
-                    <h4 style="margin: 0 0 4px 0; font-family:'Syne',sans-serif;color: var(--text);">${data.title}</h4>
+                    <h4 style="margin: 0 0 4px 0; font-family: var(--font-body);color: var(--text);">${data.title}</h4>
                     <p style="margin: 0 0 8px 0; font-size: 13px; color: var(--text2);">${data.details}</p>
                     <span class="data-type"style="">${data.type}</span><br>
                  <span class="data-name"style="">~${data.name}</span>
                 </div>
                 
                 
-                <a href="../community/CommunityView.html?File=${data.fileUrl}" style="background: var(--text); color: white; padding: 10px 16px; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: bold; transition: 0.3s;">
+                <a href="../community/CommunityView.html?File=${data.fileUrl}" style="" class="community-btn">
                     View PDF
                 </a>
             `;

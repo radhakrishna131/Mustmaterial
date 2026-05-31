@@ -304,6 +304,32 @@
 .fab2:active {
     transform: scale(0.95);
 }
+ @media(max-width: 767px) {
+      .mini-bar {
+        gap: 4px;
+        margin-top: 20px;
+      }
+      
+      .nav-item {
+        height: 32px;
+      }
+      
+      .nav-text {
+        font-size: 10px;
+      }
+      
+      .fab2 {
+        width: 32px;
+        height: 32px;
+        font-size: 12px;
+        margin-bottom: -20px;
+      }
+      
+      .nav-item i {
+        font-size: 11px;
+        min-width: 11px;
+      }
+    }
 </style>
 <style>
 .rule {
@@ -438,7 +464,7 @@
     }
     
     .--class-links-dot.live {
-      background: var(--accent4);
+      background: var(--bg2);
     }
     
     .--class-links-dot.coming {
@@ -532,7 +558,8 @@
     </div>
   </nav>
 </header>
-<main style="padding-top: 6vh;">
+<main>
+  <div class="view">
   <div class="nav-wrapper">
         <div class="mini-bar">
             <a class="nav-item" data-icon="arrows-out" id="expand">
@@ -692,6 +719,7 @@
         
       </div>
     </section>
+    </div>
   </main>
   <hr class="rule" />
   <footer id="footer"></footer>
