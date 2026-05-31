@@ -292,10 +292,8 @@ header{
     font-family: var(--sans); font-size: 14px; font-weight: 500;
     padding: 11px 26px; border-radius: 100px;
     text-decoration: none; transition: all 0.2s;
-    display: inline-flex; align-items: center; gap: 8px;
-    position: relative;
-    z-index: 10;
-    
+     gap: 8px;
+    text-align: center;display: inline-flex; align-items: center;
   }
   .hero-btn-primary:hover { background: var(--bg2); transform: translateY(-1px); }
   .hero-btn-secondary {
