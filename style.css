@@ -286,14 +286,14 @@ header{
   .hero-actions {
     width: 100%;
     display: flex; gap: 12px; 
-  flex-wrap: wrap; /* Changed to 'wrap' so buttons stack nicely on tiny screens */
+  flex-wrap: nowrap; /* Changed to 'wrap' so buttons stack nicely on tiny screens */
   justify-content: center; /* Added to center the buttons */
   animation: fadeUp 0.6s 0.3s ease both;
   }
   .hero-btn-primary {
     background: var(--ink); color: var(--ink-rev);
     font-family: var(--sans); font-size: 14px; font-weight: 500;
-    padding: 13px 28px; border-radius: 100px;
+    padding: 11px 26px; border-radius: 100px;
     text-decoration: none; transition: all 0.2s;
     display: inline-flex; align-items: center; gap: 8px;
     position: relative;
