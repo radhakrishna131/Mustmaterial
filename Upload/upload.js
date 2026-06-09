@@ -23,7 +23,7 @@ const detailsInput = document.getElementById('up-detail');
 const typeSelect = document.getElementById('up-type');
 const  userName = document.getElementById('up-name');
 const fileInput = document.getElementById('fileInput');
-const submitBtn = document.querySelector('.cta-primary');
+const submitBtn = document.querySelector('.upload-submit');
 const popup = document.getElementById('thankyouPopup');
 
 // ---------------------------------------------------------
