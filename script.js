@@ -143,7 +143,10 @@ const path = window.location.pathname.toLowerCase();
 if (path.includes("class10")) {
   loadMaterials("X");
 }
-else if (path.includes("inter2")) {
+else if(path.includes("interfirstyear")) {
+  loadMaterials("InterFirstYear");
+}
+else if (path.includes("inter2")){
   loadMaterials("inter2");
 }
 else if (path.includes("college")) {
