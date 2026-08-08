@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-       <!-- ============================================================
+  <!-- ============================================================
        CHARACTER ENCODING & COMPATIBILITY
        Must be first — before any content-sniffing can occur
   ============================================================ -->
@@ -141,14 +141,14 @@
   ============================================================ -->
   <link rel="preload" as="image" href="/assets/logo.webp" fetchpriority="high">
   <link rel="preload" as="style" href="../style.css">
- 
+  <link rel="preload" as="style" href="../pages/pages.css">
 
   <!-- ============================================================
        STYLESHEETS
        Order: base → components → fonts → icons
   ============================================================ -->
   <link rel="stylesheet" href="../style.css">
- 
+  <link rel="stylesheet" href="../pages/pages.css">
 
   <!-- Google Fonts – all weights in one optimized request -->
   <link
@@ -165,8 +165,18 @@
   </noscript>
 
   <!-- Google Material Symbols (handshake icon) -->
-  <script src="https://unpkg.com/@phosphor-icons/web"></script>
-  
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=handshake"
+    media="print"
+    onload="this.media='all'"
+  >
+  <noscript>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=handshake"
+    >
+  </noscript>
 
   <!-- Font Awesome 6 -->
   <link
@@ -198,47 +208,43 @@
     crossorigin="anonymous"
   ></script>
 </head>
-
 <body class="light-theme">
   <header id="tab-header">
-  <nav class="nav-bar">
-    <a href="/" class="logo">
-      <img src="/assets/logo.webp" width="300px" loading="lazy" decoding="async" alt="Must Material" />
-    </a>
-    <div class="nav-btns">
-      <button onclick="switchTheme()"><i class="fa-solid fa-moon theme-icon google"></i></button>
-    </div>
-  </nav>
-</header>
+   <nav class="nav-bar">
+     <a href="/" class="logo">
+       <img src="/assets/logo.webp" width="300px" loading="lazy" decoding="async" alt="Must Material" />
+     </a>
+     <div class="nav-btns">
+       <button onclick="switchTheme()"><i class="fa-solid fa-moon theme-icon google"></i></button>
+     </div>
+   </nav>
+ </header>
   <section class="part-1">
     <div class="part-1-1">
       <div class="part-1-1-1">
         <div class="part-1-1-1-1">
-          <h1>Bachelor of Technology</h1>
-          <h1> [ B Tech ]</h1>
+          <h1>Second</h1>
+          <h1>Year</h1>
         </div>
       </div>
-      <div class="part-1-1-2">
-        <div class="subject-btn">
-          <a href="./BtechFirstYear.html">
-            <h1>First</h1>
-            <h1>year</h1>
-          </a>
-        </div>
-        <div class="subject-btn">
-          <a href="./BtechSecondYear.html">
-            <h1>Second</h1>
-            <h1>year</h1>
-          </a>
-        </div>
+      <div class="filter-container" >
+  <button onclick="applyFilter('All')">All</button>
+  <button onclick="applyFilter('Notes')">Notes</button>
+  <button onclick="applyFilter('Material')">Material</button>
+  <button onclick="applyFilter('Manual')">Manual</button>
+  <button onclick="applyFilter('Syllabus')">Syllabus</button>
+</div>
+
+
+      <div class="materials-grid" id="materialsContainer">
+        
       </div>
     </div>
   </section>
     <!--sec-5||footer-->
-  <footer class="sec-5" id="footer">
-  </footer>
+  <section class="sec-5" id="footer"></section>
   <script src="../main.js"></script>
-  <script type="module" src="../script.js"></script>
+  <script type="module" src="../filter.js"></script>
   <script src="../components/components.js"></script>
 </body>
 </html>

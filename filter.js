@@ -125,8 +125,10 @@ if (path.includes("class10")) {
   loadMaterials("inter2");
 } else if (path.includes("inter2")) {
   loadMaterials("inter2");
-} else if (path.includes("college")) {
+} else if (path.includes("btechfirstyear")) {
   loadMaterials("btech");
+} else if (path.includes("btechsecondyear")) {
+  loadMaterials("btech2");
 } else if (path.includes("kits.html")) {
   loadMaterials("sem1");
 }
