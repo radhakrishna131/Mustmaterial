@@ -1197,11 +1197,14 @@ iframe {
 }
 @media(min-width: 992px){
   .part-1-1,
-  .part-1,
+  .part-1{
+    min-height: 225vh;
+    height: 100%;
+  }
   .sec-3,
   .sec-3-1
   {
-    min-height: 225vh;
+    min-height: 150vh;
     height: 100%;
   }
  
@@ -1235,10 +1238,13 @@ iframe {
 }
 @media(min-width: 1200px){
   .part-1-1,
-  .part-1,
+  .part-1{
+    min-height: 225vh;
+    height: 100%;
+  }
   .sec-3,
   .sec-3-1{
-    min-height: 225vh;
+    min-height: 150vh;
     height: 100%;
   }
   .nav-wrapper{
