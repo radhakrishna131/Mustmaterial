@@ -79,84 +79,143 @@ function showSkeleton() {
 function render() {
   const container = document.getElementById("materialsContainer");
   if (!container) return;
+  
   container.innerHTML = "";
   
-  // 1. Separate into direct items and folder items
-  const directItems = allMaterials.filter(d => !d.folderName || d.folderName.trim() === "");
-  const folderItems = allMaterials.filter(d => d.folderName && d.folderName.trim() !== "");
+  // ─────────────────────────────────────────────
+  // 1. Separate direct materials and folder items
+  // ─────────────────────────────────────────────
+  const directItems = allMaterials.filter(
+    d => !d.folderName || d.folderName.trim() === ""
+  );
   
-  //trying
-  const filteredData = allMaterials.filter((data) => {
-  if (currentFilter === 'All') return true;
+  const folderItems = allMaterials.filter(
+    d => d.folderName && d.folderName.trim() !== ""
+  );
   
-  // Checks the "Type" field in your Firestore document (e.g., Notes, Syllabus)
-  return data.Type && data.Type.toLowerCase() === currentFilter.toLowerCase();
-});
-
-  // 2. Apply Type filter to direct items only
-  const filteredDirect = directItems.filter(d => {
-    if (currentFilter === "All") return true;
-    return d.Type && d.Type.toLowerCase() === currentFilter.toLowerCase();
-  });
+  // ─────────────────────────────────────────────
+  // 2. Apply Type filter
+  // ─────────────────────────────────────────────
+  function matchesFilter(data) {
+    if (currentFilter === "All") {
+      return true;
+    }
+    
+    return (
+      data.Type &&
+      data.Type.toLowerCase().trim() ===
+      currentFilter.toLowerCase().trim()
+    );
+  }
   
-  // 3. Collect unique folder names (preserve order of first appearance)
+  const filteredDirect = directItems.filter(matchesFilter);
+  
+  const filteredFolderItems = folderItems.filter(matchesFilter);
+  
+  // ─────────────────────────────────────────────
+  // 3. Get unique folders AFTER filtering
+  // ─────────────────────────────────────────────
   const seenFolders = new Set();
   const uniqueFolders = [];
-  folderItems.forEach(d => {
-    const name = d.folderName.trim();
+  
+  filteredFolderItems.forEach(data => {
+    const name = data.folderName.trim();
+    
     if (!seenFolders.has(name)) {
       seenFolders.add(name);
       uniqueFolders.push(name);
     }
   });
   
-  // 4. Nothing to show?
-  if (filteredDirect.length === 0 && uniqueFolders.length === 0) {
-    container.innerHTML = "<p style='text-align:center;margin-top:20px;'>No materials found for this filter.</p>";
+  // ─────────────────────────────────────────────
+  // 4. Nothing found
+  // ─────────────────────────────────────────────
+  if (
+    filteredDirect.length === 0 &&
+    uniqueFolders.length === 0
+  ) {
+    container.innerHTML = `
+      <p style="text-align:center;margin-top:20px;">
+        No materials found for this filter.
+      </p>
+    `;
     return;
   }
   
-  // 5. Render direct items (same markup as filter.js)
+  // ─────────────────────────────────────────────
+  // 5. Render direct materials
+  // ─────────────────────────────────────────────
   filteredDirect.forEach(data => {
     const div = document.createElement("div");
+    
     div.className = "subject-btn";
     div.style.marginBottom = "20px";
+    
     div.innerHTML = `
-      <img src="${data.img || ''}" alt="" style="width:50px;">
-      <a href="${data.link || '#'}">
-        <h1>${data.title || ''}</h1>
-        <h1>[ ${data.subTitle || ''} ]</h1>
+      <img 
+        src="${data.img || ""}" 
+        alt="" 
+        style="width:50px;"
+      >
+
+      <a href="${data.link || "#"}">
+        <h1>${data.title || ""}</h1>
+        <h1>[ ${data.subTitle || ""} ]</h1>
       </a>
     `;
+    
     container.appendChild(div);
   });
   
-  // 6. Render folder cards
+  // ─────────────────────────────────────────────
+  // 6. Render filtered folders
+  // ─────────────────────────────────────────────
   uniqueFolders.forEach(folderName => {
+    
     const encodedFolder = encodeURIComponent(folderName);
     const encodedCategory = encodeURIComponent(pageCategory);
-    const href = `folder.html?folder=${encodedFolder}&category=${encodedCategory}`;
+    
+    const href =
+      `folder.html?folder=${encodedFolder}&category=${encodedCategory}`;
     
     const div = document.createElement("div");
+    
     div.className = "subject-btn btech-folder-card";
     div.style.marginBottom = "20px";
     div.style.cursor = "pointer";
+    
     div.innerHTML = `
       <div class="folder-icon-wrap">
-        <i class="fa-solid fa-folder-open" style="font-size:28px;color:var(--text);"></i>
+        <i 
+          class="fa-solid fa-folder-open"
+          style="font-size:28px;color:var(--text);"
+        ></i>
       </div>
-      <a href="${href}" style="text-decoration:none;text-align:center;">
-        <h1 style="font-size:20px;">${folderName}</h1>
-        <h1 style="font-size:14px;opacity:0.7;">Open folder</h1>
+
+      <a 
+        href="${href}"
+        style="text-decoration:none;text-align:center;"
+      >
+        <h1 style="font-size:20px;">
+          ${folderName}
+        </h1>
+
+        <h1 style="font-size:14px;opacity:0.7;">
+          Open folder
+        </h1>
       </a>
     `;
-    // Make whole card clickable
-    div.addEventListener("click", () => { window.location.href = href; });
+    
+    div.addEventListener("click", () => {
+      window.location.href = href;
+    });
+    
     container.appendChild(div);
   });
   
-  console.log("B.Tech materials:", allMaterials);
-  console.log("Folders:", uniqueFolders);
+  console.log("Current filter:", currentFilter);
+  console.log("Filtered direct:", filteredDirect);
+  console.log("Filtered folders:", uniqueFolders);
 }
 
 // ── Firebase listener ─────────────────────────────────────────

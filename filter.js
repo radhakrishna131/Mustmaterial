@@ -129,6 +129,4 @@ if (path.includes("class10")) {
   loadMaterials("btech");
 } else if (path.includes("btechsecondyear")) {
   loadMaterials("btech2");
-} else if (path.includes("kits.html")) {
-  loadMaterials("sem1");
-}
+} 
