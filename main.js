@@ -1,3 +1,4 @@
+
 let body = document.body;
 const themeIcon = document.querySelector('.theme-icon');
 
@@ -8,6 +9,7 @@ if (localStorage.getItem('theme') === 'dark') {
     if (themeIcon.classList.contains('google')) {
         themeIcon.classList.remove('fa-moon');
         themeIcon.classList.add('fa-sun');
+        //themeIcon.setAttribute("data-lucide","sun");
         
     }if(themeIcon.classList.contains('other')){
        themeIcon.classList.remove('ph-moon');
@@ -20,6 +22,7 @@ if (localStorage.getItem('theme') === 'dark') {
     if (themeIcon.classList.contains('google')) {
         themeIcon.classList.remove('fa-sun');
         themeIcon.classList.add('fa-moon');
+       // themeIcon.setAttribute("data-lucide","moon");
     }
     else if(themeIcon.classList.contains('other')){
         themeIcon.classList.remove('ph-sun');
@@ -33,8 +36,9 @@ function switchTheme(){
         body.classList.add('dark-theme');
         
         if (themeIcon.classList.contains('google')) {
-            themeIcon.classList.remove('fa-moon');
-            themeIcon.classList.add('fa-sun');
+            //themeIcon.classList.remove('fa-moon');
+            //themeIcon.classList.add('fa-sun');
+           // themeIcon.setAttribute("data-lucide","sun");
             
         }
         else if(themeIcon.classList.contains('other')){
@@ -47,8 +51,9 @@ function switchTheme(){
         body.classList.remove('dark-theme');
         body.classList.add('light-theme');
         if (themeIcon.classList.contains('google')) {
-            themeIcon.classList.remove('fa-sun');
-            themeIcon.classList.add('fa-moon');
+           // themeIcon.classList.remove('fa-sun');
+          //  themeIcon.classList.add('fa-moon');
+         // themeIcon.setAttribute("data-lucide","moon");
         }
         else if(themeIcon.classList.contains('other')){
             themeIcon.classList.remove('ph-sun');
