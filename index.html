@@ -198,6 +198,7 @@
 
   <!-- Tailwind CSS (browser build – kept as-is per your setup) -->
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" defer></script>
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
   <!-- ============================================================
        GOOGLE ADSENSE (async – non-blocking)
@@ -357,11 +358,11 @@
   </ul>
           <div class="nav-btns">
             <button id="last" style="margin-top: 0;"><a class="hamburger" id="hamburger">
-    <i class="fa fa-list"></i>
+    <i class="ph ph-squares-four"></i>
   </a></button>
-            <button onclick="switchTheme()"><i class="fa-solid fa-moon theme-icon btn-1 google"></i></button>
+            <button onclick="switchTheme()"><i class="ph-fill ph-moon theme-icon btn-1 other"></i></button>
             
-            <button id="btn-2"><a href="/Upload/upload.html"><i class="fa-solid fa-add theme-icon"></i></a></button>
+            <button id="btn-2"><a href="/Upload/upload.html"><i class="ph-fill ph-cloud-arrow-up theme-icon"></i></a></button>
           </div>
           <div class="menu" id="menu">
  <a href="#classes">Classes</a>
@@ -506,6 +507,8 @@
   <script src="./main.js"></script>
   <script src="components/components.js"></script>
   <script src="../pages/pages.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>lucide.createIcons()</script>
 </body>
 
 </html>

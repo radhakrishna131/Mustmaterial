@@ -381,11 +381,11 @@ header{
 /* section-4*/
 .sec-4{
   background: var(--bg3);
-  min-height: 60vh;
+  min-height: 30vh;
   height: 100%;
 }
 .sec-4-1{
-  min-height: 60vh;
+  min-height: 30vh;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -496,12 +496,12 @@ header{
 /*--Subjects Section---*/
 .part-1 {
   background: var(--bg3);
-  min-height: 100vh; /* ensures it fills screen at least once */
+  min-height: 60vh; /* ensures it fills screen at least once */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start; /* start at top, not center */
-  padding: 0 0 5rem 0;/* add breathing space */
+  padding: 5rem 0 5rem 0;/* add breathing space */
   overflow: hidden;
   height: 100%;
 }
@@ -808,45 +808,49 @@ header{
   }
   .resource-card:hover { background: var(--glass-hover); border-color: var(--ink); transform: translateY(-1px); }
   
-iframe {
-  box-shadow: var(--bx2);
+.view {
   width: 100%;
-  aspect-ratio: 1 / 1.414;
-  border: 2px solid var(--border-color);
-  border-radius: 12px;
-  background: var(--bg3);
-  overflow-x: hidden;
+  padding: 90px 0 70px;
 }
-.iframe-mid{
+
+/* Viewer area */
+.iframe-mid {
+  width: 100%;
   display: flex;
   justify-content: center;
-  height: 100%;
-  max-height: 120vh;
-  padding: 50px 0 0px 0;
+  align-items: flex-start;
+  padding: 40px 20px 60px;
   overflow: hidden;
 }
+
+/* PDF container */
 .iframe-container {
-  width: 90%;
-  height: 100%;
-  max-width: 900px;
-  max-height: 400vh;
-  /* Adjust as needed */
-  aspect-ratio: 1 / 1.414; /* Standard A4 paper ratio */
-  margin: 0 0;
+  width: min(90%, 900px);
+  height: min(78vh, 1100px);
+  min-height: 500px;
+  
+  position: relative;
   overflow: hidden;
+  
+  border-radius: 12px;
 }
+
+/* PDF iframe */
 .iframe-container iframe {
+  display: block;
+  
   width: 100%;
   height: 100%;
+  
   border: 2px solid var(--border-color);
-  background: var(--bg1);
+  border-radius: 12px;
+  
+  background: var(--bg3);
+  box-shadow: var(--bx2);
+  
   overflow: hidden;
 }
 
-
-.view{
-  padding: 100px 0 72px;
-}
 /*--animations--*/
 @keyframes fadeIn {
       from {opacity:0; transform: translateY(12px);}
@@ -864,7 +868,21 @@ iframe {
   0% { left: -150px; }
   100% { left: 100%; }
 }
-
+@media(max-width: 480px){
+   .view {
+    padding-top: 60px;
+  }
+  
+  .iframe-mid {
+    padding: 15px 0 60px;
+  }
+  
+  .iframe-container {
+    width: 96%;
+    height: 65vh;
+    min-height: 400px;
+  }
+}
 @media (max-width:420px){
       .card{padding:12px}
       .upload-box .material-symbols-outlined{ min-width: 270px; min-height: 180px; font-size:40px }
@@ -881,11 +899,11 @@ iframe {
   }*/
   .sec-4{
     background: var(--bg3);
-    min-height: 70vh;
+    min-height: 40vh;
     height: 100%;
   }
   .sec-4-1{
-    min-height: 70vh;
+    min-height: 40vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -906,7 +924,7 @@ iframe {
 
 .part-1 {
   background: var(--bg3);
-  min-height: 100vh; /* ensures it fills screen at least once */
+  min-height: 60vh; /* ensures it fills screen at least once */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1039,11 +1057,11 @@ iframe {
   border: 1px solid var(--border-color);
   }
   .sec-2{
-    min-height: 100vh;
+    min-height: 50vh;
     height: 100%;
   }
   .sec-2-1{
-    min-height: 100vh;
+    min-height: 50vh;
     height: 100%;
     padding: 4vh 0vh;
     display: flex;
@@ -1054,7 +1072,7 @@ iframe {
     background: var(--bg3);
 }
   .sec-3{
-  min-height: 295vh;
+  min-height: 65vh;
   height: 100%;
   }
   .hero-btn-primary{
@@ -1081,7 +1099,7 @@ iframe {
     transition: transform 0.3s ease;
   }
   .sec-4, .sec-4-1{
-    min-height: 140vh;
+    min-height: 40vh;
     height: 100%;
   }
   .sec-4-1-2{
@@ -1126,11 +1144,11 @@ iframe {
   /*subjects*/
   .part-1{
     background: var(--bg3);
-    min-height: 70vh;
+    min-height: 60vh;
     height: 100%;
   }
   .part-1-1{
-    min-height: 70vh;
+    min-height: 60vh;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -1148,7 +1166,7 @@ iframe {
     display: flex;
     flex-direction: row;
     column-gap: 8px;
-    font-size: 16px;
+    font-size: 20px;
     margin-top: 50px;
     margin-bottom: 0;
     text-align: center;
@@ -1180,17 +1198,26 @@ iframe {
     font-size: 20px;
   }
    /* -------------view.html-------*/
-  .iframe-container{
-    padding: 10px;
-    overflow: hidden;
-    width: 95%;
-    max-width: 1200px;
-  }
-  .iframe-mid{
-    margin: 20px 0 90px 0;
-    padding: 0 0;
-    overflow: hidden;
-  }
+  .view {
+  padding: 70px 0 50px;
+}
+
+.iframe-mid {
+  padding: 20px 0 70px;
+}
+
+.iframe-container {
+  width: 94%;
+  height: 68vh;
+  min-height: 450px;
+  
+  border-radius: 10px;
+}
+
+.iframe-container iframe {
+  border-radius: 10px;
+  border-width: 1px;
+}
 .box{
   height: 40vh;
 }
@@ -1198,13 +1225,13 @@ iframe {
 @media(min-width: 992px){
   .part-1-1,
   .part-1{
-    min-height: 225vh;
+    min-height: 60vh;
     height: 100%;
   }
   .sec-3,
   .sec-3-1
   {
-    min-height: 150vh;
+    min-height: 40vh;
     height: 100%;
   }
  
@@ -1212,64 +1239,70 @@ iframe {
     margin-top: 3rem;
   }
   .sec-2-1{
-    min-height: 185vh;
+    min-height: 55vh;
     height: 100%;
   }
   .sec-4,
   .sec-4-1{
-    min-height: 150vh;
+    min-height: 40vh;
     height: 100%;
    }
   .sec-5{
-    min-height: 62vh;
+    min-height: 25vh;
     height: 100%;
   }
-  .iframe-container,.iframe{
-    min-height: 500vh;
-    height: 100%;
-    aspect-ratio: 1.414/1;
-    
-  }
-  .iframe-mid{
-    max-height: 900vh;
-    height: 100%;
-    
-  }
+  .view {
+  padding-top: 80px;
+}
+
+.iframe-mid {
+  padding: 30px 15px 50px;
+}
+
+.iframe-container {
+  width: 92%;
+  height: 70vh;
+  min-height: 500px;
+}
 }
 @media(min-width: 1200px){
   .part-1-1,
   .part-1{
-    min-height: 225vh;
+    min-height: 60vh;
     height: 100%;
   }
   .sec-3,
   .sec-3-1{
-    min-height: 150vh;
+    min-height: 40vh;
     height: 100%;
   }
   .nav-wrapper{
     margin-top: 5rem;
   }
   .sec-2-1{
-    min-height: 185vh;
+    min-height: 55vh;
     height: 100%;
   }
   .sec-4,
   .sec-4-1{
-    min-height: 150vh;
+    min-height: 40vh;
     height: 100%;
   }
   .sec-5{
-    min-height: 62vh;
+    min-height: 25vh;
     height: 100%;
   }
-   .iframe-container,.iframe{
-    min-height: 200vh;
-    aspect-ratio: 1.414/1;
-    
-  }
-  .iframe-mid{
-    max-height: 500vh;
-    
-  }
+   .view {
+  padding-top: 100px;
+}
+
+.iframe-mid {
+  padding-top: 50px;
+}
+
+.iframe-container {
+  width: min(80%, 900px);
+  height: 80vh;
+  max-height: 1100px;
+}
 }
