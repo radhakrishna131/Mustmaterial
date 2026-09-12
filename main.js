@@ -1,6 +1,12 @@
-
 let body = document.body;
 const themeIcon = document.querySelector('.theme-icon');
+
+const script = document.createElement("script");
+
+script.src = "https://unpkg.com/@phosphor-icons/web";
+script.defer = true;
+
+document.head.appendChild(script);
 
 // Apply saved theme on page load
 if (localStorage.getItem('theme') === 'dark') {
