@@ -215,7 +215,7 @@
        <img src="/assets/logo.webp" width="300px" loading="lazy" decoding="async" alt="Must Material" />
      </a>
      <div class="nav-btns">
-       <button onclick="switchTheme()"><i class="fa-solid fa-moon theme-icon google"></i></button>
+       <button onclick="switchTheme()"><i class="ph-fill ph-moon theme-icon other"></i></button>
      </div>
    </nav>
  </header>
@@ -227,24 +227,27 @@
           <h1>Year</h1>
         </div>
       </div>
-      <div class="filter-container" >
-  <button onclick="applyFilter('All')">All</button>
-  <button onclick="applyFilter('Notes')">Notes</button>
-  <button onclick="applyFilter('Material')">Material</button>
-  <button onclick="applyFilter('Manual')">Manual</button>
-  <button onclick="applyFilter('Syllabus')">Syllabus</button>
-</div>
 
+      <!-- Filter buttons: call applyBtechFilter (defined in btech-folder.js) -->
+      <div class="filter-container">
+        <button onclick="applyBtechFilter('All')">All</button>
+        <button onclick="applyBtechFilter('Notes')">Notes</button>
+        <button onclick="applyBtechFilter('Material')">Material</button>
+        <button onclick="applyBtechFilter('Manual')">Manual</button>
+        <button onclick="applyBtechFilter('Syllabus')">Syllabus</button>
+      </div>
 
       <div class="materials-grid" id="materialsContainer">
-        
       </div>
     </div>
   </section>
-    <!--sec-5||footer-->
+
+  <!--sec-5||footer-->
   <section class="sec-5" id="footer"></section>
+
   <script src="../main.js"></script>
-  <script type="module" src="../filter.js"></script>
+  <!-- btech-folder.js replaces filter.js for this page only -->
+  <script type="module" src="btech-folder.js"></script>
   <script src="../components/components.js"></script>
 </body>
 </html>
